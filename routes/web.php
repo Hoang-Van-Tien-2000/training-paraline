@@ -3,6 +3,9 @@
 use Illuminate\Support\Facades\Route;
 use Illuminate\Support\Facades\Auth;
 use App\Http\Controllers\AuthController;
+use App\Http\Controllers\AdminController;
+use App\Http\Controllers\TeamController;
+use App\Http\Controllers\EmployeeController;
 /*
 |--------------------------------------------------------------------------
 | Web Routes
@@ -34,5 +37,13 @@ Route::get('/admin/logout',[AuthController::class,'logout'])->name('admin.logout
 Route::group(['prefix' => '/admin','as'=>'admin.','middleware' => 'checkLogin'], function () {
     // Quản trị
     Route::get('/', [AdminController::class,'index'])->name('admin');
-    Route::resource('/category', CategoryController::class);
+    // Quản lý Teams
+    Route::get('/team/add', [TeamController::class,'add'])->name('team.add');
+    Route::post('/team/add_confirm', [TeamController::class,'addConfirm'])->name('team.add_confirm');
+    Route::post('/team/add_save', [TeamController::class,'addConfirmSave'])->name('team.add_save');
+    Route::get('/team/search', [TeamController::class,'search'])->name('team.search');
+    // Quản lý Employee
+    Route::get('/employee/add', [EmployeeController::class,'add'])->name('employee.add');
+    Route::get('/employee/search', [EmployeeController::class,'search'])->name('employee.search');
+    
 });

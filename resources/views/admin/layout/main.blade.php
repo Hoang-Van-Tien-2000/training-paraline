@@ -31,7 +31,7 @@
       <!-- Main CSS-->
       <link href="{{asset('backend/css/theme.css')}}" rel="stylesheet" media="all">
    </head>
-   <body class="animsition">
+   <body >
       <div class="page-wrapper">
           @yield('main-content') 
             <!-- END PAGE CONTAINER-->

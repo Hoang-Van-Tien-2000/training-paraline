@@ -133,8 +133,8 @@
                               <div class="account-dropdown__body">
                               </div>
                               <div class="account-dropdown__footer">
-                                 <a href="">Search </a>
-                                 <a href="">Create</a>
+                                 <a href="{{route('admin.team.search')}}">Search </a>
+                                 <a href="{{route('admin.team.add')}}">Create</a>
                               </div>
                            </div>
                         </div>
@@ -151,8 +151,8 @@
                               <div class="account-dropdown__body">
                               </div>
                               <div class="account-dropdown__footer">
-                                 <a href="">Search </a>
-                                 <a href="">Create</a>
+                                 <a href=" {{ route('admin.employee.search')}} ">Search </a>
+                                 <a href=" {{route('admin.employee.add')}} ">Create</a>
                               </div>
                            </div>
                         </div>
