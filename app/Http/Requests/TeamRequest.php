@@ -28,11 +28,11 @@ class TeamRequest extends FormRequest
             ];
     }
     
-    public function messages()
-    {
-        return [
-            'name.max' => "(*) Team có độ dài nhiều nhất :max ký tự",
-            'name.required' =>"(*) Team không được để trống ",
-        ];
-    }    
+    // public function messages()
+    // {
+    //     return [
+    //         'name.max' => "(*) Team có độ dài nhiều nhất :max ký tự",
+    //         'name.required' =>"(*) Team không được để trống ",
+    //     ];
+    // }    
 }

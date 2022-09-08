@@ -33,10 +33,9 @@
    </head>
    <body >
       <div class="page-wrapper">
-          @yield('main-content') 
+         @yield('main-content') 
             <!-- END PAGE CONTAINER-->
          </div>
-      </div>
       <!-- Jquery JS-->
       <script src="{{asset('backend/vendor/jquery-3.2.1.min.js')}}"></script>
       <!-- Bootstrap JS-->

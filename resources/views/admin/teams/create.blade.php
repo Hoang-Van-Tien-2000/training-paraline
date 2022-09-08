@@ -18,7 +18,7 @@
                            @csrf
                            <div class="form-group">
                            <label for="name">Name *</label>
-                           <input type="text" class="form-control" name="name" value="{{Session::get('team')}} " id="name" aria-describedby="name">
+                           <input type="text" class="form-control" name="name" value="{{Session::get('add')}} " id="name" aria-describedby="name">
                            @error('name')
                            <small class="form-text text-danger"> {{ $message }}</small>
                            @enderror
@@ -26,7 +26,7 @@
                            <button type="submit" class="btn btn-primary  float-right">Confirm</button>
                         </form>
                         {{-- <button type="reset" class="btn btn-light ">Reset</button> --}}
-                        <a href="{{Session::forget('team')}}" class="btn btn-light">Reset</a>
+                        <a href="{{Session::forget('add')}}" class="btn btn-light">Reset</a>
 
                   </div>
                </div>

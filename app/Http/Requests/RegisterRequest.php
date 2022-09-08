@@ -30,16 +30,16 @@ class RegisterRequest extends FormRequest
         
         ];
     }
-    public function messages()
-    {
-        return [
-            'password.min' => "(*) Mật khẩu có độ dài ít nhất :min ký tự",
-            'password.required' =>"(*) Mật khẩu không được để trống ",
-            'password.confirmed' =>"(*) Mật khẩu không khớp",
-            'name.required' =>"(*) Tên không được để trống ",
-            'email.required' =>"(*) Email không được để trống ",
-            'email.email' => "(*) Email không đúng định dạng",
-            'email.unique' => "(*) Email không được trùng"
-        ];
-    }
+    // public function messages()
+    // {
+    //     return [
+    //         'password.min' => "(*) Mật khẩu có độ dài ít nhất :min ký tự",
+    //         'password.required' =>"(*) Mật khẩu không được để trống ",
+    //         'password.confirmed' =>"(*) Mật khẩu không khớp",
+    //         'name.required' =>"(*) Tên không được để trống ",
+    //         'email.required' =>"(*) Email không được để trống ",
+    //         'email.email' => "(*) Email không đúng định dạng",
+    //         'email.unique' => "(*) Email không được trùng"
+    //     ];
+    // }
 }

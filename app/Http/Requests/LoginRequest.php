@@ -29,13 +29,13 @@ class LoginRequest extends FormRequest
         ];
     }
     
-    public function messages()
-    {
-        return [
-            'password.min' => "(*) Mật khẩu có độ dài ít nhất :min ký tự",
-            'password.required' =>"(*) Mật khẩu không được để trống ",
-            'email.required' =>"(*) Email không được để trống ",
-            'email.email' => "(*) Email không đúng định dạng",
-        ];
-    }    
+    // public function messages()
+    // {
+    //     return [
+    //         'password.min' => "(*) Mật khẩu có độ dài ít nhất :min ký tự",
+    //         'password.required' =>"(*) Mật khẩu không được để trống ",
+    //         'email.required' =>"(*) Email không được để trống ",
+    //         'email.email' => "(*) Email không đúng định dạng",
+    //     ];
+    // }    
 }

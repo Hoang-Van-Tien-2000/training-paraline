@@ -19,11 +19,8 @@ use App\Http\Controllers\EmployeeController;
 
 Route::get('/', function () {
     return view('admin.home');
-});
-
+})->middleware('checkLogin');
 Auth::routes();
-//Route::get('/home', [App\Http\Controllers\HomeController::class, 'index'])->name('home');
-
 // Đăng Ký 
 Route::get('/admin/register', [AuthController::class,'register'])->name('admin.register');
 Route::post('/admin/postRegister',[AuthController::class,'postRegister'])->name('admin.postRegister');
@@ -41,9 +38,13 @@ Route::group(['prefix' => '/admin','as'=>'admin.','middleware' => 'checkLogin'],
     Route::get('/team/add', [TeamController::class,'add'])->name('team.add');
     Route::post('/team/add_confirm', [TeamController::class,'addConfirm'])->name('team.add_confirm');
     Route::post('/team/add_save', [TeamController::class,'addConfirmSave'])->name('team.add_save');
+    Route::get('/team/edit/{id}', [TeamController::class,'edit'])->name('team.edit');
+    Route::post('/team/edit_confirm/{id}', [TeamController::class,'editConfirm'])->name('team.edit_confirm');
+    Route::post('/team/edit_save/{id}', [TeamController::class,'editConfirmSave'])->name('team.edit_save');
     Route::get('/team/search', [TeamController::class,'search'])->name('team.search');
+    Route::get('/team/delete/{id}', [TeamController::class,'delete'])->name('team.delete');
     // Quản lý Employee
     Route::get('/employee/add', [EmployeeController::class,'add'])->name('employee.add');
     Route::get('/employee/search', [EmployeeController::class,'search'])->name('employee.search');
-    
+    Route::post('/employee/add_confirm', [EmployeeController::class,'addConfirm'])->name('employee.add_confirm');
 });

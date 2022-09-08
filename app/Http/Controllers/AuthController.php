@@ -42,7 +42,7 @@ class AuthController extends Controller
         if (Auth::attempt($data, $request->has('remember'))) {
             return redirect('/admin');
         }
-        return redirect()->back()->with('msg','(*)  Email hoặc mật khẩu không chính xác');
+        return redirect()->back()->with('msg','(*)  Email or password is incorrect');
     }
     public function logout()
     {
