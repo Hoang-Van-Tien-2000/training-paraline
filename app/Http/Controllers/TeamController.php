@@ -3,15 +3,14 @@
 namespace App\Http\Controllers;
 
 use App\Http\Requests\TeamRequest;
-use App\Services\TeamService;
 use Illuminate\Http\Request;
-use App\Models\Team;
+use App\Repositories\TeamRepository;
 
 class TeamController extends Controller
 {
-    public function __construct(TeamService $teamService)
+    public function __construct(TeamRepository $teamRepository)
     {
-        $this->teamService = $teamService;
+        $this->teamRepository = $teamRepository;
     }
     
     public function add(){
@@ -20,45 +19,43 @@ class TeamController extends Controller
 
     public function addConfirm(TeamRequest $request)
     { 
-        $request->session()->put('add', $request->name);
+        $request->session()->put('addTeam', $request->name);
         return view('admin.teams.create_confirm');
     }
     
     public function addConfirmSave(TeamRequest $request)
-    { 
-        $data = $request->all();
-        $team = $this->teamService->saveTeamData($data);
-        return redirect()->route('admin.team.search')->with('status','Create succesfull !');
+    {
+        $this->teamRepository->create($request->all());
+        return redirect()->route('admin.team.search')->with('status', config('messages.create'));
     }
     
-    public function search(Request $request)
+    public function seachByName(Request $request)
     {
-        $teams = $this->teamService->getSearchTeam($request->input('keyword'));
+        $teams = $this->teamRepository->seachByName($request->input('keyword'));
         return view('admin.teams.search', compact('teams'));
     }
 
     public function edit($id)
     {
-        $team = $this->teamService->getById($id);
+        $team = $this->teamRepository->getById($id);
         return view('admin.teams.edit', compact('team')); 
     }
     
     public function editConfirm(TeamRequest $request, $id)
     { 
-        $request->session()->put('edit', $request->name);
+        $request->session()->put('editTeam', $request->name);
         return view('admin.teams.edit_confirm'); 
     }
 
     public function editConfirmSave(TeamRequest $request, $id)
-    { 
-        $data = $request->only(['name']);        
-        $team = $this->teamService->updateTeam($data, $id);
-        return redirect()->route('admin.team.search')->with('status','Update succesfull !!');
+    {       
+        $this->teamRepository->updateData($request->only(['name']), $id);
+        return redirect()->route('admin.team.search')->with('status', config('messages.update'));
     }
 
     public function delete($id){
-        $this->teamService->deleteTeam($id);
-        return redirect()->route('admin.team.search')->with('status','Delete succesfull !');
+        $this->teamRepository->delete($id);
+        return redirect()->route('admin.team.search')->with('status', config('messages.delete'));
     }
     
 }

@@ -41,7 +41,7 @@ Route::group(['prefix' => '/admin','as'=>'admin.','middleware' => 'checkLogin'],
     Route::get('/team/edit/{id}', [TeamController::class,'edit'])->name('team.edit');
     Route::post('/team/edit_confirm/{id}', [TeamController::class,'editConfirm'])->name('team.edit_confirm');
     Route::post('/team/edit_save/{id}', [TeamController::class,'editConfirmSave'])->name('team.edit_save');
-    Route::get('/team/search', [TeamController::class,'search'])->name('team.search');
+    Route::get('/team/search', [TeamController::class,'seachByName'])->name('team.search');
     Route::get('/team/delete/{id}', [TeamController::class,'delete'])->name('team.delete');
     // Quản lý Employee
     Route::get('/employee/add', [EmployeeController::class,'add'])->name('employee.add');

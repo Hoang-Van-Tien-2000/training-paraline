@@ -2,33 +2,80 @@
 
 namespace App\Repositories;
 
+use Exception;
+use Illuminate\Database\Eloquent\Model;
+
+/**
+* Interface BaseRepositoryInterface
+*
+* @package App\Repositories
+*/
 interface RepositoryInterface
 {
-    /**
-     * Retrieve all data of repository
-     */
-    public function all();
+/**
+* Find all records that match a given conditions
+*
+* @param array $conditions
+*
+* @return Model[]
+*/
+public function find(array $conditions = []);
 
-    /**
-     * Find data by id
-     * @param $id
-     * @param array $columns
-     */
-    public function find($id, $columns = ['*']);
+/**
+* Find a specific record that matches a given conditions
+*
+* @param array $conditions
+*
+* @return Model
+*/
+public function findOne(array $conditions);
 
-    public function findOrFail($id);
+/**
+* Find a specific record by its ID
+*
+* @param int $id
+*
+* @return Model
+*/
+public function findById(int $id);
 
-    public function paginate($limit = null, $columns = ['*']);
+/**
+* Create a record
+*
+* @param array $attributes
+*
+* @return Model
+*/
+public function create(array $attributes);
 
-    /**
-     * Save a new entity in repository
-     * @param array $input
-     */
-    public function create(array $input);
+/**
+* Update a record
+*
+* @param Model $model
+* @param array $attributes
+*
+* @return bool
+*/
+public function update(array $attributes = [], Model $model);
 
-    public function update(array $input, $id);
+/**
+* Save a given record
+*
+* @param Model $model
+*
+* @return boolean
+*/
+public function save(Model $model);
 
-    public function delete($id);
+/**
+* Delete the record from the database.
+*
+* @param Model $model
+*
+* @return bool
+*
+* @throws Exception
+*/
+public function delete(Model $model);
 
-    public function select($columns = ['*']);
 }

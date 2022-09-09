@@ -2,20 +2,24 @@
 
 namespace App\Repositories;
 
-use App\Repositories\BaseRepository;
 use App\Models\User;
-use Symfony\Component\HttpFoundation\Response;
 use Illuminate\Support\Facades\Auth;
 
-class UserRepository extends BaseRepository
+class UserRepository 
 {
     public function model()
     {
         return User::class;
     }
-    
+
     public function register($data)
     {
-        return $this->model->create($data);
+        $data = array_merge($data, ['password' => bcrypt($data['password'])]);
+        return User::create($data);
+    }
+
+    public function logout()
+    {
+        return Auth::logout();
     }
 }    

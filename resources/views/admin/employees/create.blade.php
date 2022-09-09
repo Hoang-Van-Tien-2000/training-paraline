@@ -10,18 +10,19 @@
                             <div class="card-header">
                                 <strong>Employee - Create </strong>
                             </div>
-							<form action="{{route('admin.employee.add_confirm')}}" method="POST" enctype="multipart/form-data" class="form-horizontal">
-								@csrf
-                            <div class="card-body card-block">
+                            <form action="{{route('admin.employee.add_confirm')}}" method="POST"
+                                enctype="multipart/form-data" class="form-horizontal">
+                                @csrf
+                                <div class="card-body card-block">
                                     <div class="row form-group">
                                         <div class="col col-md-3">
                                             <label for="file-input" class=" form-control-label">Avatar * </label>
                                         </div>
                                         <div class="col-12 col-md-9">
                                             <input type="file" id="file-input" name="Avatar" class="form-control-file">
-											@error('Avatar')
-											<small class="form-text text-danger"> {{ $message }}</small>
-											@enderror
+                                            @error('Avatar')
+                                            <small class="form-text text-danger"> {{ $message }}</small>
+                                            @enderror
                                         </div>
                                     </div>
                                     <div class="row form-group">
@@ -30,13 +31,13 @@
                                         </div>
                                         <div class="col-3 col-md-3">
                                             <select nam="Team" id="SelectLm" class="form-control-sm form-control">
-											@foreach($teams as $team)
-												<option value=" {{$team->id}} ">{{$team->name}}</option>
-											@endforeach
-											@error('Team')
-											<small class="form-text text-danger"> {{ $message }}</small>
-											@enderror
-											</select>
+                                                @foreach($teams as $team)
+                                                    <option value=" {{$team->id}} ">{{$team->name}}</option>
+                                                @endforeach
+                                                @error('Team')
+                                                <small class="form-text text-danger"> {{ $message }}</small>
+                                                @enderror
+                                            </select>
                                         </div>
                                     </div>
                                     <div class="row form-group">
@@ -45,10 +46,10 @@
                                         </div>
                                         <div class="col-4 col-md-4">
                                             <input type="text" id="text-input" name="FirstName" class="form-control">
-											@error('FirstName')
-											<small class="form-text text-danger"> {{ $message }}</small>
-											@enderror
-										</div>
+                                            @error('FirstName')
+                                            <small class="form-text text-danger"> {{ $message }}</small>
+                                            @enderror
+                                        </div>
                                     </div>
                                     <div class="row form-group">
                                         <div class="col col-md-3">
@@ -57,9 +58,9 @@
                                         <div class="col-4 col-md-4">
                                             <input type="text" id="text-input" name="LastName" class="form-control">
                                             @error('LastName')
-											<small class="form-text text-danger"> {{ $message }}</small>
-											@enderror
-										</div>
+                                            <small class="form-text text-danger"> {{ $message }}</small>
+                                            @enderror
+                                        </div>
                                     </div>
                                     <div class="row form-group">
                                         <div class="col col-md-3">
@@ -76,9 +77,9 @@
                                                         value="2" class="form-check-input">Female
                                                 </label>
                                             </div>
-											@error('Gender')
-												<small class="form-text text-danger"> {{ $message }}</small>
-											@enderror
+                                            @error('Gender')
+                                            <small class="form-text text-danger"> {{ $message }}</small>
+                                            @enderror
                                         </div>
                                     </div>
 
@@ -88,10 +89,10 @@
                                         </div>
                                         <div class="col-4 col-md-4">
                                             <input type="date" id="text-input" name="Birthday" class="form-control">
-											@error('Birthday')
-											<small class="form-text text-danger"> {{ $message }}</small>
-											@enderror
-										</div>
+                                            @error('Birthday')
+                                            <small class="form-text text-danger"> {{ $message }}</small>
+                                            @enderror
+                                        </div>
                                     </div>
                                     <div class="row form-group">
                                         <div class="col col-md-3">
@@ -100,9 +101,9 @@
                                         <div class="col-4 col-md-4">
                                             <input type="text" id="text-input" name="Address" class="form-control">
                                             @error('Address')
-											<small class="form-text text-danger"> {{ $message }}</small>
-											@enderror
-										</div>
+                                            <small class="form-text text-danger"> {{ $message }}</small>
+                                            @enderror
+                                        </div>
                                     </div>
                                     <div class="row form-group">
                                         <div class="col col-md-3">
@@ -111,9 +112,9 @@
                                         <div class="col-4 col-md-4">
                                             <input type="text" id="text-input" name="Salary" class="form-control">
                                             @error('Salary')
-											<small class="form-text text-danger"> {{ $message }}</small>
-											@enderror
-										</div>
+                                            <small class="form-text text-danger"> {{ $message }}</small>
+                                            @enderror
+                                        </div>
                                     </div>
                                     <div class="row form-group">
                                         <div class="col col-md-3">
@@ -122,14 +123,14 @@
                                         <div class="col-3 col-md-3">
                                             <select name="Position" id="SelectLm" class="form-control-sm form-control">
                                                 <option value="1">Manager</option>
-												<option value="2">Team leader</option>
-												<option value="3">BSE</option>
-												<option value="4">DEV</option>
-												<option value="5">Tester</option>
+                                                <option value="2">Team leader</option>
+                                                <option value="3">BSE</option>
+                                                <option value="4">DEV</option>
+                                                <option value="5">Tester</option>
                                             </select>
-											@error('Position')
-											<small class="form-text text-danger"> {{ $message }}</small>
-											@enderror
+                                            @error('Position')
+                                            <small class="form-text text-danger"> {{ $message }}</small>
+                                            @enderror
                                         </div>
                                     </div>
                                     <div class="row form-group">
@@ -137,15 +138,16 @@
                                             <label for="selectSm" class="form-control-label">Type of word * </label>
                                         </div>
                                         <div class="col-3 col-md-3">
-                                            <select name="TypeOfWord" id="SelectLm" class="form-control-sm form-control">
+                                            <select name="TypeOfWord" id="SelectLm"
+                                                    class="form-control-sm form-control">
                                                 <option value="1">Fulltime</option>
-												<option value="2">Partime</option>
-												<option value="3">Probationary Staff</option>
-												<option value="4">Intern</option>
+                                                <option value="2">Partime</option>
+                                                <option value="3">Probationary Staff</option>
+                                                <option value="4">Intern</option>
                                             </select>
-											@error('TypeOfWord')
-											<small class="form-text text-danger"> {{ $message }}</small>
-											@enderror
+                                            @error('TypeOfWord')
+                                            <small class="form-text text-danger"> {{ $message }}</small>
+                                            @enderror
                                         </div>
                                     </div>
                                     <div class="row form-group">
@@ -163,21 +165,19 @@
                                                         value="1" class="form-check-input">Retired
                                                 </label>
                                             </div>
-											@error('Status')
-											<small class="form-text text-danger"> {{ $message }}</small>
-											@enderror
+                                            @error('Status')
+                                            <small class="form-text text-danger"> {{ $message }}</small>
+                                            @enderror
                                         </div>
                                     </div>
-                            </div>
-							<div class="card-footer">
-								<button type="submit" value="Confirm" class="btn btn-primary btn-sm float-right">
-									<i class="fa fa-dot-circle-o"></i> Confirm
-								</button>
-								<button type="reset" class="btn btn-danger btn-sm ">
-									<i class="fa fa-ban"></i> Reset
-								</button>
-							</div>
-						</form>
+                                </div>
+                                <div class="card-footer">
+                                    <button type="submit" value="Confirm" class="btn btn-primary btn-sm float-right">
+                                        <i class="fa fa-dot-circle-o"></i> Confirm
+                                    </button>
+                                    <a href="{{Session::forget('addEmployee')}}" class="btn btn-info">Reset</a>
+                                </div>
+                            </form>
                         </div>
                     </div>
                 </div>

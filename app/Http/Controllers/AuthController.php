@@ -4,16 +4,15 @@ namespace App\Http\Controllers;
 
 use App\Http\Requests\RegisterRequest;
 use App\Http\Requests\LoginRequest;
-use Illuminate\Http\Request;
-use App\Models\User;
 use Illuminate\Support\Facades\Auth;
-use App\Services\UserService;
+use App\Repositories\UserRepository;
+
 
 class AuthController extends Controller
 {
-    public function __construct(UserService $userService)
+    public function __construct(UserRepository $userRepository)
     {
-        $this->userService = $userService;
+        $this->userRepository = $userRepository;
     }
     
     public function register()
@@ -23,7 +22,7 @@ class AuthController extends Controller
     
     public function postRegister(RegisterRequest $request)
     {
-        $user = $this->userService->registerUser($request->all());  
+        $user = $this->userRepository->register($request->all());
         auth()->login($user);
         return redirect()->to('/admin');
     } 
@@ -31,7 +30,8 @@ class AuthController extends Controller
     public function login()
     {
         return view('auth.login');
-    }   
+    }
+
     public function postLogin(LoginRequest $request)
     {
         $params = $request->all();
@@ -42,11 +42,12 @@ class AuthController extends Controller
         if (Auth::attempt($data, $request->has('remember'))) {
             return redirect('/admin');
         }
-        return redirect()->back()->with('msg','(*)  Email or password is incorrect');
+        return redirect()->back()->with('msg',  config('messages.incorrect'));
     }
+
     public function logout()
     {
-        $this->userService->logoutUser();
+        $this->userRepository->logout();
         return redirect()->route('admin.login');
     } 
 }

@@ -2,145 +2,85 @@
 
 namespace App\Repositories;
 
-use Illuminate\Database\Eloquent\Collection;
 use Illuminate\Database\Eloquent\Model;
-use Illuminate\Database\Eloquent\ModelNotFoundException;
+use App\Repositories\RepositoryInterface;
+use Illuminate\Support\Facades\Auth;
 
-
-abstract class BaseRepository implements RepositoryInterface
+/**
+ * Class AbstractRepository
+ *
+ * @package Kenini\Repository
+ */
+class BaseRepository implements RepositoryInterface
 {
-    public $model;
-
-    public function __construct()
-    {
-        $this->makeModel();
-    }
-
-    public function getAll()
-    {
-        return $this->model->all();
-    }
-
     /**
-     * Retrieve all data of repository
-     * @return Collection|Model[] `
+     * @var Model
      */
-    public function all()
-    {
-        return $this->model->all();
-    }
+    protected $model;
 
     /**
-     * Retrieve all data of repository, paginated
-     * @param null $limit
-     * @param array $columns
-     * @return
-     */
-    public function paginate($limit = null, $columns = ['*'])
-    {
-        $limit = is_null($limit) ? config('repository.pagination.limit', 10) : $limit;
-
-        return $this->model->paginate($limit, $columns);
-    }
-
-    /**
-     * Find data by id
-     * @param $id
-     * @param array $columns
-     * @return
-     */
-    public function find($id, $columns = ['*'])
-    {
-        return $this->model->findOrFail($id, $columns);
-    }
-
-    public function findWithoutRedirect($id, $columns = ['*'])
-    {
-        return $this->model->find($id, $columns);
-    }
-
-    public function findOrFail($id)
-    {
-        try {
-            $result = $this->model->findOrFail($id);
-        } catch (\Exception $e) {
-            throw new ModelNotFoundException(__('messages.not_found'), 0);
-        }
-
-        return $result;
-    }
-
-    public function findOrFailWithTrashed($id, $columns = ['*'])
-    {
-        return $this->model->withTrashed()->findOrFail($id);
-    }
-
-    /**
-     * Save a new entity in repository
-     * @param array $input
-     * @return
-     */
-    public function create(array $input)
-    {
-        return $this->model->create($input);
-    }
-
-    /**
-     * Update a entity in repository by id
-     * @param array $input
-     * @param $id
-     * @return BaseRepository
-     */
-    public function update(array $input, $id)
-    {
-        $model = $this->model->findOrFail($id);
-        $model->fill($input);
-        $model->save();
-
-        return $model;
-    }
-
-    /**
-     * Delete a entity in repository by id
+     * AbstractRepository constructor.
      *
-     * @param $id
-     *
-     * @return int
+     * @param Model $model
      */
-    public function delete($id)
+    public function __construct(Model $model)
     {
-        return $this->model->destroy($id);
+        $this->model = $model;
     }
 
-    public function multipleDelete(array $ids)
+    /**
+     * @inheritdoc
+     */
+    public function find(array $conditions = [])
     {
-        return $this->model->destroy(array_values($ids));
+        return $this->model->where($conditions)->get();
     }
 
-    public function latest($id)
+    /**
+     * @inheritdoc
+     */
+    public function findOne(array $conditions)
     {
-        return $this->model->latest('id');
+        return $this->model->where($conditions)->first();
     }
 
-    abstract public function model();
-
-    public function makeModel()
+    /**
+     * @inheritdoc
+     */
+    public function findById(int $id)
     {
-        $this->model = app()->make($this->model());
+        return $this->model->findOrFail($id);
     }
 
-    public function updateOrCreate(array $arrayFind, $arrayCreate = ['*'])
+    /**
+     * @inheritdoc
+     */
+    public function create(array $attributes)
     {
-        return $this->model->updateOrCreate($arrayFind, $arrayCreate);
+        return $this->model->create($attributes);
     }
 
-    public function insertMany($data)
+    /**
+     * @inheritdoc
+     */
+    public function update(array $attributes = [] , Model $model)
     {
-        return count($data) > 0 ? $this->model->insert($data) : null;
+        return $model->update($attributes);
     }
 
-    public function select($columns = ['*'])
+    /**
+     * @inheritdoc
+     */
+    public function save(Model $model)
     {
-        return $this->model->select($columns)->get();
+        return $model->save();
+    }
+
+    /**
+     * @inheritdoc
+     */
+    public function delete(Model $model)
+    {
+        return $model->delete();
     }
 }

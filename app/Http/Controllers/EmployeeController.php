@@ -3,28 +3,26 @@
 namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
-use App\Services\TeamService;
+use App\Repositories\TeamRepository;
 use App\Http\Requests\EmployeeRequest;
+use App\Repositories\EmployeeRepository;
 
 class EmployeeController extends Controller
 {
-    public function __construct(TeamService $teamService)
+    public function __construct(TeamRepository $teamRepository, EmployeeRepository $employeeRepository)
     {
-        $this->teamService = $teamService;
+        $this->employeeRepository = $employeeRepository;
+        $this->teamRepository = $teamRepository;
     }
     
     public function add(){
-        $teams = $this->teamService->getAllTeam();
+        $teams = $this->teamRepository->getAll();
         return view('admin.employees.create', compact('teams'));
     }
 
     public function addConfirm(EmployeeRequest $request)
     { 
-        $data = [
-        'firstname' => $request->FirstName,
-        'lastname' => $request ->LastName 
-        ];
-        $request->session()->put('addEmployee', $data);
+        $request->session()->put('addEmployee',  $request->input());
         return view('admin.employees.create_confirm');
     }
 
