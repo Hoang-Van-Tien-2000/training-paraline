@@ -2,85 +2,55 @@
 
 namespace App\Repositories;
 
-use Illuminate\Database\Eloquent\Model;
-use App\Repositories\RepositoryInterface;
 use Illuminate\Support\Facades\Auth;
 
-/**
- * Class AbstractRepository
- *
- * @package Kenini\Repository
- */
+
 class BaseRepository implements RepositoryInterface
 {
-    /**
-     * @var Model
-     */
-    protected $model;
 
-    /**
-     * AbstractRepository constructor.
-     *
-     * @param Model $model
-     */
-    public function __construct(Model $model)
+    protected $_model;
+
+    public function getModel()
     {
-        $this->model = $model;
+        return app()->make($this->_model);
     }
 
-    /**
-     * @inheritdoc
-     */
-    public function find(array $conditions = [])
+    public function findById($id)
     {
-        return $this->model->where($conditions)->get();
+        return $this->getModel()->findOrFail($id);
     }
 
-    /**
-     * @inheritdoc
-     */
-    public function findOne(array $conditions)
-    {
-        return $this->model->where($conditions)->first();
-    }
-
-    /**
-     * @inheritdoc
-     */
-    public function findById(int $id)
-    {
-        return $this->model->findOrFail($id);
-    }
-
-    /**
-     * @inheritdoc
-     */
     public function create(array $attributes)
     {
-        return $this->model->create($attributes);
+        $attributes['ins_id'] = Auth::id();
+        $attributes['ins_datetime'] = date("Y-m-d H:i:s");
+
+        return $this->getModel()->create($attributes);
     }
 
-    /**
-     * @inheritdoc
-     */
-    public function update(array $attributes = [] , Model $model)
+    public function update(array $attributes, $id)
     {
-        return $model->update($attributes);
+        $model = $this->getModel()->find($id);
+        if (empty($model)) {
+            return false;
+        }
+
+        $attributes['upd_id'] = Auth::id();
+        $attributes['upd_datetime'] = date("Y-m-d H:i:s");
+        $model->name = $attributes['name'];
+        $model->update();
+        return $model;
     }
 
-    /**
-     * @inheritdoc
-     */
-    public function save(Model $model)
+    public function delete($id)
     {
-        return $model->save();
-    }
-
-    /**
-     * @inheritdoc
-     */
-    public function delete(Model $model)
-    {
-        return $model->delete();
+        $model = $this->getModel()->find($id);
+        if(empty($model))
+        {
+            return false;
+        }
+        $model->del_flag = config('constant.DELETED_ON');
+        $model->update();
+        return $model;
     }
 }

@@ -2,43 +2,38 @@
 
 namespace App\Repositories;
 
-use App\Repositories\BaseRepository;
 use App\Models\Employee;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Session;
 
 class EmployeeRepository extends  BaseRepository
 {
-    public function __construct(Employee $employee)
+    public function __construct()
     {
-        $this->employee = $employee;
+        $this->_model = Employee::class;
     }
 
-    public function model()
-    {
-        return Employee::class;
-    }
 
     public function getAll()
     {
-        return $this->employee->select('id', 'name')->where('del_flag', config('constant.DELETED_OFF'))->get();
+        return $this->getModel()->select('id', 'name')->where('del_flag', config('constant.DELETED_OFF'))->get();
     }
 
-    public function seachByName($data)
+    public function searchByName($data)
     {
         if (empty($data)) {
-            return $this->employee->select('id', 'name')->where('del_flag', config('constant.DELETED_OFF'))->Paginate(2);
+            return $this->getModel()->select('id', 'name')->where('del_flag', config('constant.DELETED_OFF'))->Paginate(2);
         }
-        return $this->employee->select('id', 'name')->where('del_flag', config('constant.DELETED_OFF'))
+        return $this->getModel()->select('id', 'name')->where('del_flag', config('constant.DELETED_OFF'))
             ->where('name', 'like', $data)->Paginate(2);
     }
 
     public function getById($id)
     {
-        return $this->employee->where('id', $id)->first();
+        return $this->getModel()->where('id', $id)->first();
     }
 
-    public function create(array $data)
+    public function create( $data)
     {
         Session::forget('addTeam');
         $data['ins_id'] = Auth::id();
@@ -50,7 +45,7 @@ class EmployeeRepository extends  BaseRepository
     public function updateData($data, $id)
     {
         Session::forget('editEmployee');
-        $employee = $this->employee->find($id);
+        $employee = $this->getModel()->find($id);
         if (empty($team)) {
             return; 
         }
@@ -62,7 +57,7 @@ class EmployeeRepository extends  BaseRepository
 
     public function delete($id)
     {
-        $employee = $this->teamemployee->find($id);
+        $employee = $this->getModel()->find($id);
         if(empty($employee))
         {
             return; 

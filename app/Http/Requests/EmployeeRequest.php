@@ -11,7 +11,7 @@ class EmployeeRequest extends FormRequest
      *
      * @return bool
      */
-    public function authorize()
+    public function authorize(): bool
     {
         return true;
     }
@@ -21,20 +21,20 @@ class EmployeeRequest extends FormRequest
      *
      * @return array
      */
-    public function rules()
+    public function rules(): array
     {
             return [
-                'Avatar'=> 'required|mimes:png,gif,jpeg,txt,pdf,doc|max:2048',
-                //'Team' => 'required',
-                'FirstName' => 'required|max:129',
-                'LastName' => 'required|max:129',
-                'Gender' => 'required',
-                'Birthday' => 'required',
-                'Address' => 'required|max:256',
-                'Salary' =>'required|min:0',
-                'Position' => 'required',
-                'TypeOfWord' => 'required',
-                'Status'=> 'required'
+                'avatar'=> 'required|mimes:png,gif,jpeg,txt,pdf,doc|max:2048',
+                //'team_id' => 'required',
+                'first_name' => 'required|max:129',
+                'last_name' => 'required|max:129',
+                'gender' => 'required',
+                'birthday' => 'required',
+                'address' => 'required|max:256',
+                'salary' =>'required|min:0',
+                'position' => 'required',
+                'type_of_word' => 'required',
+                'status'=> 'required'
             ];
     }  
 }

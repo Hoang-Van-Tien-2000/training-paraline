@@ -9,11 +9,6 @@
                         <div class="card">
                             <div class="card-header">Team - Create</div>
                             <div class="card-body">
-                                @if (session('status'))
-                                    <div class="alert alert-success" role="alert">
-                                        {{ session('status') }}
-                                    </div>
-                                @endif
                                 <form action="{{route('admin.team.add_confirm')}}" method="post">
                                     @csrf
                                     <div class="form-group">

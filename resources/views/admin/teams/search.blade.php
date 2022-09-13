@@ -9,20 +9,25 @@
                         <div class="card">
                             <div class="card-header">Team - Search</div>
                             <div class="card-body">
-                                @if (session('status'))
+                                @if (session('message'))
                                     <div class="alert alert-success" role="alert">
-                                        {{ session('status') }}
+                                        {{ session('message') }}
+                                    </div>
+                                @endif
+                                @if (session('error'))
+                                    <div class="alert alert-danger" role="alert">
+                                        {{ session('error') }}
                                     </div>
                                 @endif
                                 <form action="">
                                     <div class="form-group">
                                         <label for="keyword">Name </label>
                                         <input type="text" class="form-control" name="keyword"
-                                            value="" id="keyword">
+                                               value="" id="keyword">
                                     </div>
                                     <input type="reset" value="Reset" class="btn btn-light">
                                     <input type="submit" name="btn-search " value="Search"
-                                        class="btn btn-primary float-right">
+                                           class="btn btn-primary float-right">
                                 </form>
 
                             </div>
@@ -41,7 +46,7 @@
                                         <th>Action</th>
                                     </tr>
                                     </thead>
-                                    {{-- <tbody> --}}
+                                     <tbody>
                                     @if(count($teams)>0)
                                         @foreach($teams as $team)
                                             <tr class="tr-shadow">
@@ -51,14 +56,15 @@
                                                 <td> {{$team ->name}}</td>
                                                 <td>
                                                     <a href="{{route('admin.team.edit', $team ->id)}}"
-                                                    class="btn btn-primary" data-toggle="tooltip" title="Edit">Edit
+                                                       class="btn btn-primary" data-toggle="tooltip" title="Edit">Edit
                                                     </a>
                                                     {{-- <button type="button" title="Delete" class="btn btn-danger" data-toggle="modal" data-target="#exampleModal">
                                                     Delete
                                                     </button>   --}}
                                                     <form class="d-inline-block"
-                                                        onsubmit="return confirm('Bạn có chắc chắn muốn xóa')"
-                                                        action="{{route('admin.team.delete', $team->id)}}" method="GET">
+                                                          onsubmit="return confirm('Bạn có chắc chắn muốn xóa')"
+                                                          action="{{route('admin.team.delete', $team->id)}}"
+                                                          method="GET">
                                                         <input type="submit" value="Xóa" class="btn btn-danger">
                                                     </form>
                                                 </td>
@@ -66,7 +72,6 @@
                                             <div>
 
                                             </div>
-
                                             @endforeach
                                             </tbody>
                                 </table>

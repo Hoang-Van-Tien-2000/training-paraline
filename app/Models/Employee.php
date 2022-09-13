@@ -9,11 +9,33 @@ class Employee extends Model
 {
     use HasFactory;
 
-    protected $table = 'm_teams';
+    protected $table = 'm_employees';
     protected $fillable = [
-        'team_id', 'email', 'first_name', 'last_name', 'upd_datetime', 'password',
-        'gender', 'birthday', 'address', 'avatar', 'salary', 'position', 'status', 'type_of_work',
-        'ins_id', 'upd_id', 'ins_datetime', 'upd_datetime', 'del_flag'
+        'team_id',
+        'email',
+        'first_name',
+        'last_name',
+        'upd_datetime',
+        'password',
+        'gender',
+        'birthday',
+        'address',
+        'avatar',
+        'salary',
+        'position',
+        'status',
+        'type_of_work',
+        'ins_id',
+        'upd_id',
+        'ins_datetime',
+        'upd_datetime',
+        'del_flag'
     ];
-    
+    public $timestamps = false;
+
+    public function team()
+    {
+        return $this->belongsTo(Team::class);
+    }
+
 }

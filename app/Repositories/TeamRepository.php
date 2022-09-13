@@ -2,74 +2,58 @@
 
 namespace App\Repositories;
 
-use App\Repositories\BaseRepository;
 use App\Models\Team;
-use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Session;
 
-class TeamRepository extends  BaseRepository
+class TeamRepository extends BaseRepository
 {
-    public function __construct(Team $team)
-    {
-        $this->team = $team;
-    }
 
-    public function model()
+    public function __construct()
     {
-        return Team::class;
+        $this->_model = Team::class;
     }
 
     public function getAll()
     {
-        return $this->team->select('id', 'name')->where('del_flag', config('constant.DELETED_OFF'))->get();
+        return $this->getModel()->select('id', 'name')->where('del_flag', config('constant.DELETED_OFF'))->get();
     }
 
-    public function seachByName($data)
+    public function searchByName($conditions)
     {
-        if (empty($data)) {
-            return $this->team->select('id', 'name')->where('del_flag', config('constant.DELETED_OFF'))->Paginate(2);
+        if (empty($conditions)) {
+            return $this->getModel()->select('id', 'name')->Paginate(config('constant.PER_PAGE'));
         }
-        return $this->team->select('id', 'name')->where('del_flag', config('constant.DELETED_OFF'))
-            ->where('name', 'like', $data)->Paginate(2);
+        return $this->getModel()->select('id', 'name')->where('name', 'like', $conditions)->Paginate(2);
     }
 
     public function getById($id)
     {
-        return $this->team->where('id', $id)->first();
+        return $this->getModel()->where('id', $id)->first();
     }
 
-    public function create(array $data)
+    public function findById($id)
+    {
+        return $this->getModel()->findOrFail($id);
+    }
+
+    /**
+     * @param array $attributes
+     * @return mixed
+     */
+    public function create(array $attributes)
     {
         Session::forget('addTeam');
-        $data['ins_id'] = Auth::id();
-        $data['ins_datetime'] = date("Y-m-d H:i:s");
-        
-        return $this->team->create($data);
+        return parent::create($attributes);
     }
 
-    public function updateData($data, $id)
+    public function update($attributes, $id)
     {
         Session::forget('editTeam');
-        $team = $this->team->find($id);
-        if (empty($team)) {
-            return; 
-        }
-
-        $team->name = $data['name'];
-        $team->update();
-        return $team;
+        return parent::update($attributes, $id);
     }
 
     public function delete($id)
     {
-        $team = $this->team->find($id);
-        if(empty($team))
-        {
-            return; 
-        }
-        
-        $team->del_flag = config('constant.DELETED_ON');
-        $team->update();
-        return $team;
+        return parent::delete($id);
     }
 }
