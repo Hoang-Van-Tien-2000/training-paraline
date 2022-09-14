@@ -70,11 +70,11 @@
                                             <div class="form-check-inline form-check">
                                                 <label for="inline-radio1" class="form-check-label pr-5">
                                                     <input type="radio" id="inline-radio1" name="gender"
-                                                           value="1" class="form-check-input">Male
+                                                           value="{{config('constant.GENDER_MALE')}}" class="form-check-input">Male
                                                 </label>
                                                 <label for="inline-radio3" class="form-check-label">
                                                     <input type="radio" id="inline-radio3" name="gender"
-                                                           value="2" class="form-check-input">Female
+                                                           value="{{config('constant.GENDER_FEMALE')}}" class="form-check-input">Female
                                                 </label>
                                             </div>
                                             @error('gender')
@@ -122,11 +122,11 @@
                                         </div>
                                         <div class="col-3 col-md-3">
                                             <select name="position" id="SelectLm" class="form-control-sm form-control">
-                                                <option value="1">Manager</option>
-                                                <option value="2">Team leader</option>
-                                                <option value="3">BSE</option>
-                                                <option value="4">DEV</option>
-                                                <option value="5">Tester</option>
+                                                <option value="{{ config('constant.POSITION_MANAGER') }}">Manager</option>
+                                                <option value="{{ config('constant.POSITION_TEAM_LEADER') }}">Team leader</option>
+                                                <option value="{{ config('constant.POSITION_BSE') }}">BSE</option>
+                                                <option value="{{ config('constant.POSITION_DEV') }}">DEV</option>
+                                                <option value="{{ config('constant.POSITION_TESTER') }}">Tester</option>
                                             </select>
                                             @error('position')
                                             <small class="form-text text-danger"> {{ $message }}</small>
@@ -138,12 +138,12 @@
                                             <label for="selectSm" class="form-control-label">Type of word * </label>
                                         </div>
                                         <div class="col-3 col-md-3">
-                                            <select name="type_of_word" id="SelectLm"
+                                            <select name="type_of_work" id="SelectLm"
                                                     class="form-control-sm form-control">
-                                                <option value="1">Fulltime</option>
-                                                <option value="2">Partime</option>
-                                                <option value="3">Probationary Staff</option>
-                                                <option value="4">Intern</option>
+                                                <option value="{{ config('constant.TYPE_OF_WORK_FULL_TIME') }}">Full Time</option>
+                                                <option value="{{ config('constant.TYPE_OF_WORK_PART_TIME') }}">Part Time</option>
+                                                <option value="{{ config('constant.TYPE_OF_WORK_PROBATIONARY_STAFF') }}">Probationary Staff</option>
+                                                <option value="{{ config('constant.TYPE_OF_WORK_INTERN') }}">Intern</option>
                                             </select>
                                             @error('type_of_word')
                                             <small class="form-text text-danger"> {{ $message }}</small>
@@ -158,11 +158,11 @@
                                             <div class="form-check-inline form-check">
                                                 <label for="inline-radio1" class="form-check-label pr-5">
                                                     <input type="radio" id="inline-radio1 " name="status"
-                                                           value="0" class="form-check-input">On working
+                                                           value="{{ config('constant.STATUS_ON_WORKING') }}" class="form-check-input">On working
                                                 </label>
                                                 <label for="inline-radio3" class="form-check-label">
-                                                    <input type="radio" id="inline-radio3" name="Status"
-                                                           value="1" class="form-check-input">Retired
+                                                    <input type="radio" id="inline-radio3" name="status"
+                                                           value="{{ config('constant.STATUS_RETIRED') }}" class="form-check-input">Retired
                                                 </label>
                                             </div>
                                             @error('status')
@@ -175,7 +175,7 @@
                                     <button type="submit" value="Confirm" class="btn btn-primary btn-sm float-right">
                                         <i class="fa fa-dot-circle-o"></i> Confirm
                                     </button>
-                                    <a href="{{Session::forget('addEmployee')}}" class="btn btn-info">Reset</a>
+                                    <a href="{{Session::forget('addEmployee','avatar')}}" class="btn btn-info">Reset</a>
                                 </div>
                             </form>
                         </div>

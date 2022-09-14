@@ -33,13 +33,13 @@ class EmployeeRepository extends  BaseRepository
         return $this->getModel()->where('id', $id)->first();
     }
 
-    public function create( $data)
+    public function create(array $attributes)
     {
-        Session::forget('addTeam');
-        $data['ins_id'] = Auth::id();
-        $data['ins_datetime'] = date("Y-m-d H:i:s");
-        
-        return $this->employee->create($data);
+        Session::forget('addEmployee');
+        Session::forget('avatar');
+        $attributes['email'] = Auth::user()->email;
+        $attributes['password'] =Auth::user()->password;
+        return parent::create($attributes);
     }
 
     public function updateData($data, $id)

@@ -25,7 +25,7 @@ class EmployeeRequest extends FormRequest
     {
             return [
                 'avatar'=> 'required|mimes:png,gif,jpeg,txt,pdf,doc|max:2048',
-                //'team_id' => 'required',
+                'team_id' => 'required',
                 'first_name' => 'required|max:129',
                 'last_name' => 'required|max:129',
                 'gender' => 'required',
@@ -33,7 +33,7 @@ class EmployeeRequest extends FormRequest
                 'address' => 'required|max:256',
                 'salary' =>'required|min:0',
                 'position' => 'required',
-                'type_of_word' => 'required',
+                'type_of_work' => 'required',
                 'status'=> 'required'
             ];
     }  

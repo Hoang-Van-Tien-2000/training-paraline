@@ -21,7 +21,6 @@
                                     </div>
                                     <button type="submit" class="btn btn-primary  float-right">Confirm</button>
                                 </form>
-                                {{-- <button type="reset" class="btn btn-light ">Reset</button> --}}
                                 <a href="{{Session::forget('addTeam')}}" class="btn btn-light">Reset</a>
 
                             </div>

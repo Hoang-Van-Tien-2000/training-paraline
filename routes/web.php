@@ -47,4 +47,5 @@ Route::group(['prefix' => '/admin','as'=>'admin.','middleware' => 'checkLogin'],
     Route::get('/employee/add', [EmployeeController::class,'add'])->name('employee.add');
     Route::get('/employee/search', [EmployeeController::class,'search'])->name('employee.search');
     Route::post('/employee/add_confirm', [EmployeeController::class,'addConfirm'])->name('employee.add_confirm');
+    Route::post('/employee/add_save', [EmployeeController::class,'addConfirmSave'])->name('employee.add_save');
 });
