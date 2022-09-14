@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use App\Http\Requests\TeamRequest;
 use Illuminate\Http\Request;
 use App\Repositories\TeamRepository;
+use Illuminate\Support\Facades\Log;
 
 class TeamController extends Controller
 {
@@ -58,6 +59,7 @@ class TeamController extends Controller
 
         } catch (\Exception $exception) {
             $error= config('messages.update_not_list'). $exception->getCode();
+            Log::error($error);
             return redirect()->route('admin.team.search')->with('error', $error);
         }
     }
@@ -73,6 +75,7 @@ class TeamController extends Controller
             }
         } catch (\Exception $exception) {
             $error= config('messages.delete_not_list'). $exception->getCode();
+            Log::error($error);
             return redirect()->route('admin.team.search')->with('error', $error);
         }
 

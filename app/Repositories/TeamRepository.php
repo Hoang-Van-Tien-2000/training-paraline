@@ -18,12 +18,12 @@ class TeamRepository extends BaseRepository
         return $this->getModel()->select('id', 'name')->get();
     }
 
-    public function searchByName($conditions)
+    public function searchByName($name)
     {
-        if (empty($conditions)) {
+        if (empty($name)) {
             return $this->getModel()->select('id', 'name')->Paginate(config('constant.PER_PAGE'));
         }
-        return $this->getModel()->select('id', 'name')->where('name', 'like', $conditions)->Paginate(config('constant.PER_PAGE'));
+        return $this->getModel()->select('id', 'name')->where('name', 'like', $name)->Paginate(config('constant.PER_PAGE'));
     }
 
     public function getById($id)

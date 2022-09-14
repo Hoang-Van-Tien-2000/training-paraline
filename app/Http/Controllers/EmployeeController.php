@@ -6,10 +6,8 @@ use App\Repositories\TeamRepository;
 use App\Http\Requests\EmployeeRequest;
 use App\Repositories\EmployeeRepository;
 use Illuminate\Support\Facades\Session;
-use Carbon\Carbon;
 use Illuminate\Support\Facades\Storage;
 use Illuminate\Support\Facades\File;
-use Intervention\Image\Facades\Image;
 use Illuminate\Http\Request;
 
 class EmployeeController extends Controller
