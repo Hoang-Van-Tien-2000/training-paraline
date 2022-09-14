@@ -20,7 +20,7 @@
                                         {{--<input type="file" class="form-control" name="avatar" value="" id="file"--}}
                                         {{--aria-describedby="file">--}}
                                         <input type="hidden" name="avatar" value="{{Session::get('avatar')}}">
-                                        <img src="{{asset('storage/tmp/images/'.Session::get('avatar'))}}"
+                                        <img src="{{asset('storage/'.Session::get('avatar'))}}"
                                         class="card-img-top" alt="...">
                                         </div>
                                     </div>

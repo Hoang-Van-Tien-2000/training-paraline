@@ -28,7 +28,7 @@ class BaseRepository implements RepositoryInterface
         return $this->getModel()->create($attributes);
     }
 
-    public function update(array $attributes, $id)
+    public function update($id, array $attributes)
     {
         $model = $this->getModel()->find($id);
         if (empty($model)) {
@@ -37,8 +37,7 @@ class BaseRepository implements RepositoryInterface
 
         $attributes['upd_id'] = Auth::id();
         $attributes['upd_datetime'] = date("Y-m-d H:i:s");
-        $model->name = $attributes['name'];
-        $model->update();
+        $model->update($attributes);
         return $model;
     }
 
@@ -50,7 +49,7 @@ class BaseRepository implements RepositoryInterface
             return false;
         }
         $model->del_flag = config('constant.DELETED_ON');
-        $model->update();
+        $this->update($id, $model);
         return $model;
     }
 }

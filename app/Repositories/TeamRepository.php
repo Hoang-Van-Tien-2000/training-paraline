@@ -15,7 +15,7 @@ class TeamRepository extends BaseRepository
 
     public function getAll()
     {
-        return $this->getModel()->select('id', 'name')->where('del_flag', config('constant.DELETED_OFF'))->get();
+        return $this->getModel()->select('id', 'name')->get();
     }
 
     public function searchByName($conditions)
@@ -23,7 +23,7 @@ class TeamRepository extends BaseRepository
         if (empty($conditions)) {
             return $this->getModel()->select('id', 'name')->Paginate(config('constant.PER_PAGE'));
         }
-        return $this->getModel()->select('id', 'name')->where('name', 'like', $conditions)->Paginate(2);
+        return $this->getModel()->select('id', 'name')->where('name', 'like', $conditions)->Paginate(config('constant.PER_PAGE'));
     }
 
     public function getById($id)
@@ -46,10 +46,10 @@ class TeamRepository extends BaseRepository
         return parent::create($attributes);
     }
 
-    public function update($attributes, $id)
+    public function update($id, $attributes)
     {
         Session::forget('editTeam');
-        return parent::update($attributes, $id);
+        return parent::update($id, $attributes);
     }
 
     public function delete($id)
