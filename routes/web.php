@@ -48,4 +48,6 @@ Route::group(['prefix' => '/admin','as'=>'admin.','middleware' => 'checkLogin'],
     Route::get('/employee/search', [EmployeeController::class,'search'])->name('employee.search');
     Route::post('/employee/add_confirm', [EmployeeController::class,'addConfirm'])->name('employee.add_confirm');
     Route::post('/employee/add_save', [EmployeeController::class,'addConfirmSave'])->name('employee.add_save');
+    Route::get('/employee/edit/{id}', [EmployeeController::class,'edit'])->name('employee.edit');
+    Route::post('/employee/edit_confirm/{id}', [EmployeeController::class,'editConfirm'])->name('employee.edit_confirm');
 });

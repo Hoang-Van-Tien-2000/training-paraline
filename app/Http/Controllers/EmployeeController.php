@@ -2,13 +2,16 @@
 
 namespace App\Http\Controllers;
 
+use App\Jobs\EmployeeJob;
 use App\Repositories\TeamRepository;
 use App\Http\Requests\EmployeeRequest;
 use App\Repositories\EmployeeRepository;
+use Illuminate\Support\Facades\Log;
 use Illuminate\Support\Facades\Session;
 use Illuminate\Support\Facades\Storage;
 use Illuminate\Support\Facades\File;
 use Illuminate\Http\Request;
+use Illuminate\Database\QueryException;
 
 class EmployeeController extends Controller
 {
@@ -48,14 +51,24 @@ class EmployeeController extends Controller
 
     public function addConfirmSave(Request $request)
     {
-        $this->employeeRepository->create($request->all());
-        return redirect()->route('admin.employee.search')->with('message', config('messages.create_success'));
+        try {
+            $employee = $this->employeeRepository->create($request->all());
+            $emailJob = new EmployeeJob($employee);
+            dispatch($emailJob);
+            return redirect()->route('admin.employee.search')->with('message', config('messages.create_success'));
+        } catch (QueryException $e) {
+            $error = $e->errorInfo;
+            Log::error($error);
+            return redirect()->back()->with('error', $error);
+        }
     }
 
-    public function search()
+    public function search(Request $request)
     {
-        //$this->employeeRepository->search();
-        return view('admin.employees.search');
+        $teams = $this->teamRepository->getAll();
+        $conditions = $request->only(['team', 'name', 'email']);
+        $employees = $this->employeeRepository->search($conditions);
+        return view('admin.employees.search', compact('employees', 'teams'));
     }
 
 

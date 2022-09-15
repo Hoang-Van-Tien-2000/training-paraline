@@ -25,7 +25,7 @@ class Team extends Model
         'upd_datetime',
         'del_flag'
     ];
-    
+
     public $timestamps = false;
 
     public function employees()

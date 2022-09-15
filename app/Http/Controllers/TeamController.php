@@ -50,11 +50,11 @@ class TeamController extends Controller
         return view('admin.teams.edit_confirm'); 
     }
 
-    public function editConfirmSave(TeamRequest $request, $id)
+    public function editConfirmSave($id, TeamRequest $request)
     {
         try {
 
-            $this->teamRepository->update($request->only(['name']), $id);
+            $this->teamRepository->update($id, $request->only(['name']));
             return redirect()->route('admin.team.search')->with('message', config('messages.update_success'));
 
         } catch (\Exception $exception) {

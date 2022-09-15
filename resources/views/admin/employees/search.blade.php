@@ -19,32 +19,29 @@
                                         {{ session('error') }}
                                     </div>
                                 @endif
-                                <form action="" method="post">
+                                <form action="" method="GET">
                                     <div class="form-group">
                                         <div class="col col-md-3">
                                             <label for="selectSm" class=" form-control-label">Team </label>
                                         </div>
                                         <div class="col-3 col-md-3">
-                                            <select name="selectSm" id="SelectLm" class="form-control-sm form-control">
-                                                <option value="0">Web Team</option>
+                                            <select name="team" id="SelectLm" class="form-control-sm form-control">
+                                                <option value="">--Select--</option>
+                                                @foreach($teams as $team)
+                                                    <option value="{{$team->id}}">{{$team->name}}</option>
+                                                @endforeach
                                             </select>
                                         </div>
                                     </div>
                                     <div class="form-group col-6">
                                         <label for="name">Name *</label>
                                         <input type="text" class="form-control" name="name"
-                                            value="{{ request()->name }} " id="name" aria-describedby="name">
-                                        @error('name')
-                                        <small class="form-text text-danger"> {{ $message }}</small>
-                                        @enderror
+                                               value=" " id="name" aria-describedby="name">
                                     </div>
                                     <div class="form-group col-6">
                                         <label for="email">Email *</label>
                                         <input type="email" class="form-control" name="email"
-                                            value="{{ request()->name }} " id="email" aria-describedby="email">
-                                        @error('email')
-                                        <small class="form-text text-danger"> {{ $message }}</small>
-                                        @enderror
+                                               value=" " id="email" aria-describedby="email">
                                     </div>
                                     <button type="reset" class="btn btn-light ">Reset</button>
                                     <button type="submit" class="btn btn-primary  float-right">Search</button>
@@ -57,11 +54,6 @@
                 <div class="row">
                     <div class="col-md-12">
                         <div class="card-body">
-                            @if (session('status'))
-                                <div class="alert alert-success" role="alert">
-                                    {{ session('status') }}
-                                </div>
-                            @endif
                             <div class="table-responsive table-responsive-data2">
                                 <table class="table table-data2">
                                     <thead>
@@ -74,25 +66,38 @@
                                     </tr>
                                     </thead>
                                     <tbody>
-                                    <tr class="tr-shadow">
-                                        <td>
-                                            1
-                                        </td>
-                                        <td> Web Team</td>
-                                        <td>Lori Lynch</td>
-                                        <td>NguyenVana@gmail.com</td>
-                                        <td>
-                                            <button class="btn btn-primary" data-toggle="tooltip" title="Edit">Edit
-                                            </button>
-                                            <button class="btn btn-danger" data-toggle="tooltip" title="Delete">
-                                                Delete
-                                            </button>
-                                        </td>
-                                    </tr>
+                                    @if(count($employees)>0)
+                                        @foreach($employees as $employee)
+                                            <tr class="tr-shadow">
+                                                <td>
+                                                    {{$employee->id}}
+                                                </td>
+                                                <td> {{$employee->team->name}}</td>
+                                                <td>{{$employee->full_name}}</td>
+                                                <td>{{$employee->email}}</td>
+                                                <td>
+                                                    <button class="btn btn-primary" data-toggle="tooltip" title="Edit">
+                                                        Edit
+                                                    </button>
+                                                    <button class="btn btn-danger" data-toggle="tooltip" title="Delete">
+                                                        Delete
+                                                    </button>
+                                                </td>
+                                            </tr>
+                                        @endforeach
                                     </tbody>
                                 </table>
                             </div>
-                            <!-- END DATA TABLE -->
+                            @else
+                                <tr>
+                                    <td colspan="5"><p style="font-size: 17px" class="text-danger text-center p-3">No
+                                            results found !</p></td>
+                                </tr>
+                        @endif
+                        <!-- END DATA TABLE -->
+                            <div class="d-flex justify-content-center d-block mt-3 px-3">
+                                {!! $employees->appends(request()->only(['team', 'name', 'email']))->links() !!}
+                            </div>
                         </div>
                     </div>
                 </div>

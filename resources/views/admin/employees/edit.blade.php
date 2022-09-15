@@ -8,7 +8,7 @@
                     <div class="col-md-12">
                         <div class="card">
                             <div class="card-header">
-                                <strong>Employee - Create </strong>
+                                <strong>Employee - Edit </strong>
                             </div>
                             <form action="{{route('admin.employee.add_confirm')}}" method="POST"
                                   enctype="multipart/form-data" class="form-horizontal">
@@ -200,4 +200,5 @@
             </div>
         </div>
     </div>
+
 @endsection

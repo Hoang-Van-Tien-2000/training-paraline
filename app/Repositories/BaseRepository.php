@@ -43,12 +43,11 @@ class BaseRepository implements RepositoryInterface
 
     public function delete($id)
     {
-        $model = $this->getModel()->find($id);
-        if(empty($model))
-        {
+        $model = $this->getModel()->find($id)->toArray();
+        if (empty($model)) {
             return false;
         }
-        $model->del_flag = config('constant.DELETED_ON');
+        $model['del_flag'] = config('constant.DELETED_ON');
         $this->update($id, $model);
         return $model;
     }

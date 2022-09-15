@@ -7,9 +7,10 @@ use App\Http\Requests\LoginRequest;
 use Illuminate\Support\Facades\Auth;
 use App\Repositories\UserRepository;
 
-
 class AuthController extends Controller
 {
+    protected  $userRepository;
+
     public function __construct(UserRepository $userRepository)
     {
         $this->userRepository = $userRepository;

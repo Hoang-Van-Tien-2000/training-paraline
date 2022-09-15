@@ -6,7 +6,7 @@ use App\Models\Employee;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Session;
 
-class EmployeeRepository extends  BaseRepository
+class EmployeeRepository extends BaseRepository
 {
     public function __construct()
     {
@@ -19,13 +19,23 @@ class EmployeeRepository extends  BaseRepository
         return $this->getModel()->select('id', 'name')->where('del_flag', config('constant.DELETED_OFF'))->get();
     }
 
-    public function searchByName($data)
+    public function search($conditions)
     {
-        if (empty($data)) {
-            return $this->getModel()->select('id', 'name')->where('del_flag', config('constant.DELETED_OFF'))->Paginate(2);
+        if (empty($conditions)) {
+            return $this->getModel()->select('id', 'team_id', 'first_name', 'last_name', 'email')
+                ->Paginate(config('constant.PER_PAGE'));
+        } elseif ($conditions['team']) {
+            return $this->getModel()->select('id', 'team_id', 'first_name', 'last_name', 'email')
+                ->where('team_id', $conditions['team'])->Paginate(config('constant.PER_PAGE'));
+        } elseif ($conditions['name']) {
+            return $this->getModel()->select('id', 'team_id', 'first_name', 'last_name', 'email')
+                ->where('first_name', 'like', $conditions['name'])->Paginate(config('constant.PER_PAGE'));
+        } elseif ($conditions['email']) {
+            return $this->getModel()->select('id', 'team_id', 'first_name', 'last_name', 'email')
+                ->where('email', 'like', $conditions['email'])->Paginate(config('constant.PER_PAGE'));
         }
-        return $this->getModel()->select('id', 'name')->where('del_flag', config('constant.DELETED_OFF'))
-            ->where('name', 'like', $data)->Paginate(2);
+        return $this->getModel()->select('id', 'team_id', 'first_name', 'last_name', 'email')
+            ->Paginate(config('constant.PER_PAGE'));
     }
 
     public function getById($id)
@@ -38,7 +48,7 @@ class EmployeeRepository extends  BaseRepository
         Session::forget('addEmployee');
         Session::forget('avatar');
         $attributes['email'] = Auth::user()->email;
-        $attributes['password'] =Auth::user()->password;
+        $attributes['password'] = Auth::user()->password;
         return parent::create($attributes);
     }
 
@@ -47,7 +57,7 @@ class EmployeeRepository extends  BaseRepository
         Session::forget('editEmployee');
         $employee = $this->getModel()->find($id);
         if (empty($team)) {
-            return; 
+            return;
         }
 
         $employee->name = $data['name'];
@@ -58,11 +68,10 @@ class EmployeeRepository extends  BaseRepository
     public function delete($id)
     {
         $employee = $this->getModel()->find($id);
-        if(empty($employee))
-        {
-            return; 
+        if (empty($employee)) {
+            return;
         }
-        
+
         $employee->del_flag = config('constant.DELETED_ON');
         $employee->update();
         return $employee;
