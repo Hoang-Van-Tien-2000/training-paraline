@@ -14,8 +14,9 @@
                             <div class="card-body">
                                 <div class="form-group">
                                     <label for="name" class="py-4"> Name </label>
-                                    <input type="text" class="form-control" name="name" value="{{Session::get('editTeam')}}"
-                                        id="name" aria-describedby="name">
+                                    <input type="text" class="form-control" name="name"
+                                           value="{{Session::get('editTeam')}}"
+                                           id="name" aria-describedby="name">
                                 </div>
                                 <a href="{{ url()->previous() }} " class="btn btn-light">Back</a>
                                 <button type="button" class="btn btn-primary float-right mb-1" data-toggle="modal"
@@ -31,8 +32,8 @@
     </div>
     <!-- modal static -->
     <div class="modal fade" id="staticModal" tabindex="-1" role="dialog" aria-labelledby="staticModalLabel"
-        aria-hidden="true"
-        data-backdrop="static">
+         aria-hidden="true"
+         data-backdrop="static">
         <div class="modal-dialog modal-sm" role="document">
             <div class="modal-content">
                 <div class="modal-header">
@@ -50,7 +51,8 @@
                     <button type="button" class="btn btn-secondary" data-dismiss="modal">Cancel</button>
                     <form action=" {{ route('admin.team.edit_save',request()->id)}}" method="POST">
                         @csrf
-                        <input type="hidden" class="form-control" name="name" value="{{Session::get('editTeam')}}" id="name" aria-describedby="name">
+                        <input type="hidden" class="form-control" name="name" value="{{Session::get('editTeam')}}"
+                               id="name" aria-describedby="name">
                         <button type="submit" class="btn btn-primary"> OK</button>
                     </form>
 

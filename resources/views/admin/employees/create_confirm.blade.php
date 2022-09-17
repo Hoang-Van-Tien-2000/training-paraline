@@ -17,11 +17,11 @@
                                             <label for="file" class="py-4"> Avatar </label>
                                         </div>
                                         <div class="col-3 col-md-3">
-                                        {{--<input type="file" class="form-control" name="avatar" value="" id="file"--}}
-                                        {{--aria-describedby="file">--}}
-                                        <input type="hidden" name="avatar" value="{{Session::get('avatar')}}">
-                                        <img src="{{asset('storage/'.Session::get('avatar'))}}"
-                                        class="card-img-top" alt="...">
+                                            {{--<input type="file" class="form-control" name="avatar" value="" id="file"--}}
+                                            {{--aria-describedby="file">--}}
+                                            <input type="hidden" name="avatar" value="{{Session::get('avatar')}}">
+                                            <img src="{{asset('storage/'.Session::get('avatar'))}}"
+                                                 class="card-img-top" alt="...">
                                         </div>
                                     </div>
                                     @foreach (Session::get('addEmployee') as $employee)
@@ -30,7 +30,8 @@
                                                 <label for="name" class="py-4"> Team </label>
                                             </div>
                                             <div class="col-3 col-md-3">
-                                                <select name="team_id" id="SelectLm" class="form-control-sm form-control">
+                                                <select name="team_id" id="SelectLm"
+                                                        class="form-control-sm form-control">
                                                     <option value="{{$employee['team_id']}}">
                                                         {{$team->name}}
                                                     </option>
@@ -64,14 +65,14 @@
                                             <div class="col-3 col-md-3">
                                                 @if($employee['gender'] == config('constant.GENDER_MALE'))
                                                     <label for="inline-radio1" class="form-check-label pr-5">
-                                                        <input type="radio" id="inline-radio1" name="gender"
-                                                               value="{{$employee['gender']}}" checked
+                                                        <input type="hidden" id="inline-radio1" name="gender"
+                                                               value="{{$employee['gender']}}"
                                                                class="form-check-input">Male
                                                     </label>
                                                 @elseif($employee['gender'] == config('constant.GENDER_FEMALE'))
                                                     <label for="inline-radio3" class="form-check-label">
-                                                        <input type="radio" id="inline-radio3" name="gender"
-                                                               value="{{$employee['gender']}}" checked
+                                                        <input type="hidden" id="inline-radio3" name="gender"
+                                                               value="{{$employee['gender']}}"
                                                                class="form-check-input">Female
                                                     </label>
                                                 @endif
@@ -169,15 +170,15 @@
                                             <div class="col-3 col-md-3">
                                                 @if($employee['status'] == config('constant.STATUS_ON_WORKING') )
                                                     <label for="inline-radio1" class="form-check-label pr-5">
-                                                        <input type="radio" id="inline-radio1 " name="status"
+                                                        <input type="hidden" id="inline-radio1 " name="status"
                                                                value="{{$employee['status']}}" class="form-check-input"
-                                                               checked>On working
+                                                        >On working
                                                     </label>
                                                 @elseif($employee['status'] == config('constant.STATUS_RETIRED'))
                                                     <label for="inline-radio3" class="form-check-label">
-                                                        <input type="radio" id="inline-radio3" name="Status"
+                                                        <input type="hidden" id="inline-radio3" name="Status"
                                                                value="{{$employee['status']}}" class="form-check-input"
-                                                               checked>Retired
+                                                        >Retired
                                                     </label>
                                                 @endif
                                             </div>

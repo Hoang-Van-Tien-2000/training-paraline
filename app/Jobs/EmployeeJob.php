@@ -36,6 +36,6 @@ class EmployeeJob implements ShouldQueue
     {
         $email = new EmployeeMail($this->employee);
 //        Mail::to($this->details['email'])->send($email);
-        Mail::to(config('mail.notification_recipient'))->send($email);
+        Mail::to($this->employee->email)->send($email);
     }
 }

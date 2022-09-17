@@ -46,7 +46,7 @@
                                         <th>Action</th>
                                     </tr>
                                     </thead>
-                                     <tbody>
+                                    <tbody>
                                     @if(count($teams)>0)
                                         @foreach($teams as $team)
                                             <tr class="tr-shadow">
@@ -58,22 +58,19 @@
                                                     <a href="{{route('admin.team.edit', $team ->id)}}"
                                                        class="btn btn-primary" data-toggle="tooltip" title="Edit">Edit
                                                     </a>
-                                                    {{-- <button type="button" title="Delete" class="btn btn-danger" data-toggle="modal" data-target="#exampleModal">
-                                                    Delete
-                                                    </button>   --}}
                                                     <form class="d-inline-block"
                                                           onsubmit="return confirm('Bạn có chắc chắn muốn xóa')"
                                                           action="{{route('admin.team.delete', $team->id)}}"
                                                           method="GET">
-                                                        <input type="submit" value="Xóa" class="btn btn-danger">
+                                                        <input type="submit" value="Delete" class="btn btn-danger">
                                                     </form>
                                                 </td>
                                             </tr>
                                             <div>
 
                                             </div>
-                                            @endforeach
-                                            </tbody>
+                                        @endforeach
+                                    </tbody>
                                 </table>
                             </div>
                             @else

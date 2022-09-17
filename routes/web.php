@@ -49,5 +49,9 @@ Route::group(['prefix' => '/admin','as'=>'admin.','middleware' => 'checkLogin'],
     Route::post('/employee/add_confirm', [EmployeeController::class,'addConfirm'])->name('employee.add_confirm');
     Route::post('/employee/add_save', [EmployeeController::class,'addConfirmSave'])->name('employee.add_save');
     Route::get('/employee/edit/{id}', [EmployeeController::class,'edit'])->name('employee.edit');
-    Route::post('/employee/edit_confirm/{id}', [EmployeeController::class,'editConfirm'])->name('employee.edit_confirm');
+    Route::put('/employee/edit_confirm/{id}', [EmployeeController::class,'editConfirm'])->name('employee.edit_confirm');
+    Route::post('/employee/edit_save/{id}', [EmployeeController::class,'editConfirmSave'])->name('employee.edit_save');
+    Route::get('/employee/delete/{id}', [EmployeeController::class,'delete'])->name('employee.delete');
+    // Export CSV
+    Route::get('/employee/export_csv', [EmployeeController::class,'exportCSV'])->name('employee.export_csv');
 });

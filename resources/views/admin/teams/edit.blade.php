@@ -16,14 +16,15 @@
                                         {{ session('status') }}
                                     </div>
                                 @endif
+
                                 <form action="{{route('admin.team.edit_confirm', $team->id)}}" method="post">
                                     @csrf
                                     <input type="hidden" value="{{$team->id}}" name="id">
                                     <div class="form-group">
                                         <label for="name">Name *</label>
                                         <input type="text" class="form-control" name="name"
-                                            value="{{Session::get('editTeam') ? Session('editTeam') : $team->name  }} "
-                                            id="name" aria-describedby="name">
+                                               value="{{old('name', isset($team) ? $team->name : '' ) }} "
+                                               id="name" aria-describedby="name">
                                         @error('name')
                                         <small class="form-text text-danger"> {{ $message }}</small>
                                         @enderror

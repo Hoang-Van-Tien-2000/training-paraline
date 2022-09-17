@@ -15,23 +15,25 @@ class TeamController extends Controller
     {
         $this->teamRepository = $teamRepository;
     }
-    
-    public function add(){
+
+    public function add()
+    {
         return view('admin.teams.create');
     }
 
     public function addConfirm(TeamRequest $request)
-    { 
-        $request->session()->put('addTeam',$request->name);
+    {
+        $request->session()->put('addTeam', $request->name);
+        $request->flash();
         return view('admin.teams.create_confirm');
     }
-    
+
     public function addConfirmSave(TeamRequest $request)
     {
         $this->teamRepository->create($request->all());
         return redirect()->route('admin.team.search')->with('message', config('messages.create_success'));
     }
-    
+
     public function searchByName(Request $request)
     {
         $teams = $this->teamRepository->searchByName($request->input('keyword'));
@@ -41,13 +43,14 @@ class TeamController extends Controller
     public function edit($id)
     {
         $team = $this->teamRepository->getById($id);
-        return view('admin.teams.edit', compact('team')); 
+        return view('admin.teams.edit', compact('team'));
     }
-    
+
     public function editConfirm(TeamRequest $request)
-    { 
+    {
         $request->session()->put('editTeam', $request->name);
-        return view('admin.teams.edit_confirm'); 
+        $request->flash();
+        return view('admin.teams.edit_confirm');
     }
 
     public function editConfirmSave($id, TeamRequest $request)
@@ -58,7 +61,7 @@ class TeamController extends Controller
             return redirect()->route('admin.team.search')->with('message', config('messages.update_success'));
 
         } catch (\Exception $exception) {
-            $error= config('messages.update_not_list'). $exception->getCode();
+            $error = config('messages.update_not_list') . $exception->getCode();
             Log::error($error);
             return redirect()->route('admin.team.search')->with('error', $error);
         }
@@ -74,11 +77,10 @@ class TeamController extends Controller
                 return redirect()->route('admin.team.search')->with('error', config('messages.delete_failed'));
             }
         } catch (\Exception $exception) {
-            $error= config('messages.delete_not_list'). $exception->getCode();
+            $error = config('messages.delete_not_list') . $exception->getCode();
             Log::error($error);
             return redirect()->route('admin.team.search')->with('error', $error);
         }
-
     }
-    
+
 }

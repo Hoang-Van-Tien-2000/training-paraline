@@ -1,8 +1,8 @@
-<p>Welcome: {{$employee->first_name}}</p>
+<p>Welcome: {{$employee->last_name}}</p>
 <table>
     <tr>
         <td>Name</td>
-        <td>{{ $employee->first_name }}</td>
+        <td>{{ $employee->last_name }}</td>
     </tr>
     <tr>
         <td>Email</td>

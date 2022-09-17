@@ -19,22 +19,22 @@ class EmployeeRepository extends BaseRepository
         return $this->getModel()->select('id', 'name')->where('del_flag', config('constant.DELETED_OFF'))->get();
     }
 
-    public function search($conditions)
+    public function search($request)
     {
-        if (empty($conditions)) {
+        if (empty($request)) {
             return $this->getModel()->select('id', 'team_id', 'first_name', 'last_name', 'email')
                 ->Paginate(config('constant.PER_PAGE'));
-        } elseif ($conditions['team']) {
-            return $this->getModel()->select('id', 'team_id', 'first_name', 'last_name', 'email')
-                ->where('team_id', $conditions['team'])->Paginate(config('constant.PER_PAGE'));
-        } elseif ($conditions['name']) {
-            return $this->getModel()->select('id', 'team_id', 'first_name', 'last_name', 'email')
-                ->where('first_name', 'like', $conditions['name'])->Paginate(config('constant.PER_PAGE'));
-        } elseif ($conditions['email']) {
-            return $this->getModel()->select('id', 'team_id', 'first_name', 'last_name', 'email')
-                ->where('email', 'like', $conditions['email'])->Paginate(config('constant.PER_PAGE'));
         }
-        return $this->getModel()->select('id', 'team_id', 'first_name', 'last_name', 'email')
+
+        return $this->getModel()->when(isset($request['name']), function ($q) use ($request) {
+            return $q->where('first_name', 'like', '%'. $request->name .'%');
+        })
+            ->when(isset($request['team']), function ($q) use ($request) {
+                return $q->where('team_id', $request->team);
+            })
+            ->when(isset($request['email']), function ($q) use ($request) {
+                return $q->where('email', 'like',  '%'.$request->email .'%');
+            })
             ->Paginate(config('constant.PER_PAGE'));
     }
 
@@ -52,28 +52,18 @@ class EmployeeRepository extends BaseRepository
         return parent::create($attributes);
     }
 
-    public function updateData($data, $id)
+    public function update($id, $attributes)
     {
         Session::forget('editEmployee');
-        $employee = $this->getModel()->find($id);
-        if (empty($team)) {
-            return;
-        }
+        Session::forget('avatar');
+        $attributes['email'] = Auth::user()->email;
+        $attributes['password'] = Auth::user()->password;
 
-        $employee->name = $data['name'];
-        $employee->update();
-        return $employee;
+        return parent::update($id, $attributes);
     }
 
     public function delete($id)
     {
-        $employee = $this->getModel()->find($id);
-        if (empty($employee)) {
-            return;
-        }
-
-        $employee->del_flag = config('constant.DELETED_ON');
-        $employee->update();
-        return $employee;
+        return parent::delete($id);
     }
 }

@@ -31,8 +31,8 @@ class EmployeeMail extends Mailable
     public function build()
     {
         return $this
-            ->subject("Welcome to the system: {$this->employee->first_name}")
-            ->replyTo($this->employee->email, $this->employee->first_name)
+            ->subject("Welcome to the system: {$this->employee->last_name}")
+            ->replyTo($this->employee->email, $this->employee->last_name)
             ->view('emails.email');
     }
 }

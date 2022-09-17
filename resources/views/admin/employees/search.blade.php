@@ -28,7 +28,7 @@
                                             <select name="team" id="SelectLm" class="form-control-sm form-control">
                                                 <option value="">--Select--</option>
                                                 @foreach($teams as $team)
-                                                    <option value="{{$team->id}}">{{$team->name}}</option>
+                                                    <option value=" {{$team->id}}">{{$team->name}}</option>
                                                 @endforeach
                                             </select>
                                         </div>
@@ -36,12 +36,12 @@
                                     <div class="form-group col-6">
                                         <label for="name">Name *</label>
                                         <input type="text" class="form-control" name="name"
-                                               value=" " id="name" aria-describedby="name">
+                                               value="" id="name" aria-describedby="name">
                                     </div>
                                     <div class="form-group col-6">
-                                        <label for="email">Email *</label>
-                                        <input type="email" class="form-control" name="email"
-                                               value=" " id="email" aria-describedby="email">
+                                        <label for="email">Email </label>
+                                        <input type="text" class="form-control" name="email"
+                                               value="" id="email" aria-describedby="email">
                                     </div>
                                     <button type="reset" class="btn btn-light ">Reset</button>
                                     <button type="submit" class="btn btn-primary  float-right">Search</button>
@@ -54,6 +54,8 @@
                 <div class="row">
                     <div class="col-md-12">
                         <div class="card-body">
+                            <a href="{{route('admin.employee.export_csv')}}"
+                               class="btn btn-primary text-light float-right">Export CSV </a>
                             <div class="table-responsive table-responsive-data2">
                                 <table class="table table-data2">
                                     <thead>
@@ -76,12 +78,15 @@
                                                 <td>{{$employee->full_name}}</td>
                                                 <td>{{$employee->email}}</td>
                                                 <td>
-                                                    <button class="btn btn-primary" data-toggle="tooltip" title="Edit">
-                                                        Edit
-                                                    </button>
-                                                    <button class="btn btn-danger" data-toggle="tooltip" title="Delete">
-                                                        Delete
-                                                    </button>
+                                                    <a href="{{route('admin.employee.edit', $employee ->id)}}"
+                                                       class="btn btn-primary" data-toggle="tooltip" title="Edit">Edit
+                                                    </a>
+                                                    <form class="d-inline-block"
+                                                          onsubmit="return confirm('Bạn có chắc chắn muốn xóa')"
+                                                          action="{{route('admin.employee.delete', $employee->id)}}"
+                                                          method="GET">
+                                                        <input type="submit" value="Delete" class="btn btn-danger">
+                                                    </form>
                                                 </td>
                                             </tr>
                                         @endforeach
@@ -96,7 +101,7 @@
                         @endif
                         <!-- END DATA TABLE -->
                             <div class="d-flex justify-content-center d-block mt-3 px-3">
-                                {!! $employees->appends(request()->only(['team', 'name', 'email']))->links() !!}
+                                {!! $employees->appends(request()->input())->links() !!}
                             </div>
                         </div>
                     </div>

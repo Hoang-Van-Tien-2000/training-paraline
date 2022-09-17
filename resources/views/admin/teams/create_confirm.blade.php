@@ -47,7 +47,8 @@
                     <button type="button" class="btn btn-secondary" data-dismiss="modal">Cancel</button>
                     <form action=" {{ route('admin.team.add_save')}}" method="POST">
                         @csrf
-                        <input type="hidden" class="form-control" name="name" value="{{Session::get('addTeam')}}" id="name"
+                        <input type="hidden" class="form-control" name="name" value="{{Session::get('addTeam')}}"
+                               id="name"
                                aria-describedby="name">
                         <button type="submit" class="btn btn-primary"> OK</button>
                     </form>

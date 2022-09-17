@@ -23,18 +23,27 @@ class EmployeeRequest extends FormRequest
      */
     public function rules(): array
     {
-            return [
-                'avatar'=> 'required|mimes:png,gif,jpeg,txt,pdf,doc|max:2048',
-                'team_id' => 'required',
-                'first_name' => 'required|max:129',
-                'last_name' => 'required|max:129',
-                'gender' => 'required',
-                'birthday' => 'required',
-                'address' => 'required|max:256',
-                'salary' =>'required|min:0',
-                'position' => 'required',
-                'type_of_work' => 'required',
-                'status'=> 'required'
+        $rules = [
+            'avatar' => 'required|mimes:png,gif,jpeg,txt,pdf,doc|max:2048',
+            'team_id' => 'required',
+            'first_name' => 'required|max:129',
+            'last_name' => 'required|max:129',
+            'gender' => 'required',
+            'birthday' => 'required',
+            'address' => 'required|max:256',
+            'salary' => 'required|min:0',
+            'position' => 'required',
+            'type_of_work' => 'required',
+            'status' => 'required'
+        ];
+
+        if (in_array($this->method(), ['PUT', 'PATCH'])) {
+
+            $rules['avatar'] = [
+                'mimes:png,gif,jpeg,txt,pdf,doc|max:2048',
             ];
-    }  
+        }
+
+        return $rules;
+    }
 }

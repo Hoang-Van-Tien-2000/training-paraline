@@ -14,7 +14,7 @@
                                     <div class="form-group">
                                         <label for="name">Name *</label>
                                         <input type="text" class="form-control" name="name"
-                                            value="{{Session::get('addTeam')}} " id="name" aria-describedby="name">
+                                               value="{{old('name')}}" id="name" aria-describedby="name">
                                         @error('name')
                                         <small class="form-text text-danger"> {{ $message }}</small>
                                         @enderror
