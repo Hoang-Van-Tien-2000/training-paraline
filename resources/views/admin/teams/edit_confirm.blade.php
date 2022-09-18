@@ -1,68 +1,83 @@
-@extends('admin.layout.main')''
+@extends('admin.layout.main')
+@section('title', 'Edit-confirm Team')
 @section('main-content')
-    @include('admin.layout.header')
-    <div class="main-content">
-        <div class="section__content section__content--p30">
-            <div class="container-fluid">
-                <div class="row">
-                    <div class="col-md-12">
-                        <div class="card">
-                            <div class="card-header"><Strong><a
-                                            href="{{route('admin.team.search')}}">Search </a></Strong> > Team - Edit
-                                Confirm
-                            </div>
-                            <div class="card-body">
+    <!-- Content Header (Page header) -->
+    <section class="content-header">
+        <h1>
+            <Strong><a href="{{route('admin.team.search')}}">Search </a></Strong> > Team - Edit Confirm
+        </h1>
+    </section>
+    <!-- Main content -->
+    <section class="content">
+        <div class="row">
+            <!-- left column -->
+            <div class="col-md-10 d-flex justify-content-sm-between">
+                <!-- general form elements -->
+                <div class="box box-primary">
+                    <!-- /.box-header -->
+                    <!-- form start -->
+                    <div class="box-body">
+                        <div class="row">
+                            <div class="col-md-12">
                                 <div class="form-group">
-                                    <label for="name" class="py-4"> Name </label>
-                                    <input type="text" class="form-control" name="name"
-                                           value="{{Session::get('editTeam')}}"
-                                           id="name" aria-describedby="name">
+                                    <label for="name">Name *</label>
+                                    <input name="name" type="text" value="{{Session::get('editTeam')}}"
+                                           class="form-control"
+                                           id="name">
                                 </div>
-                                <a href="{{ url()->previous() }} " class="btn btn-light">Back</a>
-                                <button type="button" class="btn btn-primary float-right mb-1" data-toggle="modal"
-                                        data-target="#staticModal">
-                                    Save
-                                </button>
                             </div>
                         </div>
                     </div>
+                    <!-- /.box-body -->
+                    <div class="box-footer ">
+                        <a href="{{ url()->previous() }} " class="btn btn-default ">Back</a>
+                        <button type="button"
+                                class="btn btn-default __web-inspector-hide-shortcut__ btn btn-primary "
+                                style="float: right; color: white;" data-toggle="modal" data-target="#modal-sm">
+                            Save
+                        </button>
+                        <div class="modal fade" id="modal-sm">
+                            <div class="modal-dialog modal-sm">
+                                <div class="modal-content">
+                                    <div class="modal-header">
+                                        <h5 class="modal-title">Confirm</h5>
+                                        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                                            <span aria-hidden="true">&times;</span>
+                                        </button>
+                                    </div>
+                                    <div class="modal-body">
+                                        <p> Are you sure.</p>
+                                    </div>
+                                    <div class="modal-footer justify-content-between">
+                                        <button type="button" class="btn btn-default" data-dismiss="modal">Cancel
+                                        </button>
+                                        <form style="display: inline-block"
+                                              action="{{ route('admin.team.edit_save',request()->id)}}"
+                                              method="POST">
+                                            @csrf
+                                            <input type="hidden" class="form-control" name="name"
+                                                   value="{{Session::get('editTeam')}}"
+                                                   id="name"
+                                                   aria-describedby="name">
+                                            <button type="submit" class="btn btn-primary">OK</button>
+                                        </form>
+                                    </div>
+                                </div>
+                                <!-- /.modal-content -->
+                            </div>
+                            <!-- /.modal-dialog -->
+                        </div>
+                        <!-- /.modal -->
+
+                    </div>
                 </div>
+                <!-- /.box -->
             </div>
+            <!--/.col (left) -->
         </div>
-    </div>
-    <!-- modal static -->
-    <div class="modal fade" id="staticModal" tabindex="-1" role="dialog" aria-labelledby="staticModalLabel"
-         aria-hidden="true"
-         data-backdrop="static">
-        <div class="modal-dialog modal-sm" role="document">
-            <div class="modal-content">
-                <div class="modal-header">
-                    <h5 class="modal-title" id="staticModalLabel">Confirm</h5>
-                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-                        <span aria-hidden="true">&times;</span>
-                    </button>
-                </div>
-                <div class="modal-body">
-                    <p>
-                        Are you sure.
-                    </p>
-                </div>
-                <div class="modal-footer">
-                    <button type="button" class="btn btn-secondary" data-dismiss="modal">Cancel</button>
-                    <form action=" {{ route('admin.team.edit_save',request()->id)}}" method="POST">
-                        @csrf
-                        <input type="hidden" class="form-control" name="name" value="{{Session::get('editTeam')}}"
-                               id="name" aria-describedby="name">
-                        <button type="submit" class="btn btn-primary"> OK</button>
-                    </form>
-
-                </div>
-            </div>
-        </div>
-    </div>
-    <!-- end modal static -->
-
-    </div>
-    <!-- END PAGE CONTAINER-->
-
+        <!-- /.row -->
+    </section>
+    <!-- /.content -->
 @endsection
+
+

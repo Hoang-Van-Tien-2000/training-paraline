@@ -19,6 +19,11 @@ class EmployeeController extends Controller
 
     public function __construct(TeamRepository $teamRepository, EmployeeRepository $employeeRepository)
     {
+        $this->middleware(function ($request, $next) {
+            session(['module_active' => 'employee']);
+            return $next($request);
+        });
+
         $this->teamRepository = $teamRepository;
         $this->employeeRepository = $employeeRepository;
     }

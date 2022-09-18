@@ -1,93 +1,84 @@
-@extends('admin.layout.main')''
+@extends('Admin.layout.main')
+@section('title', 'List Team')
 @section('main-content')
-    @include('admin.layout.header')
-    <div class="main-content">
-        <div class="section__content section__content--p30">
-            <div class="container-fluid">
-                <div class="row">
-                    <div class="col-md-12">
-                        <div class="card">
-                            <div class="card-header">Team - Search</div>
-                            <div class="card-body">
-                                @if (session('message'))
-                                    <div class="alert alert-success" role="alert">
-                                        {{ session('message') }}
-                                    </div>
-                                @endif
-                                @if (session('error'))
-                                    <div class="alert alert-danger" role="alert">
-                                        {{ session('error') }}
-                                    </div>
-                                @endif
-                                <form action="">
-                                    <div class="form-group">
-                                        <label for="keyword">Name </label>
-                                        <input type="text" class="form-control" name="keyword"
-                                               value="" id="keyword">
-                                    </div>
-                                    <input type="reset" value="Reset" class="btn btn-light">
-                                    <input type="submit" name="btn-search " value="Search"
-                                           class="btn btn-primary float-right">
-                                </form>
-
+    <!-- Content Header (Page header) -->
+    <section class="content-header">
+        <h1>
+            Team - Search
+        </h1>
+    </section>
+    <!-- Main content -->
+    <section class="content">
+        @if (session('message'))
+            <div class="alert alert-success" role="alert">
+                {{ session('message') }}
+            </div>
+        @endif
+        @if (session('error'))
+            <div class="alert alert-danger" role="alert">
+                {{ session('error') }}
+            </div>
+        @endif
+        <div class="row">
+            <div class="col-xs-12">
+                <div class="box">
+                    <div class="box-header ">
+                        <form action="">
+                            <div class="form-group">
+                                <label for="keyword">Name </label>
+                                <input type="text" class="form-control" name="keyword"
+                                       value="" id="keyword">
                             </div>
-                        </div>
+                            <input type="reset" value="Reset" class="btn btn-light">
+                            <input type="submit" name="btn-search " value="Search"
+                                   class="btn btn-primary" style="float:right">
+                        </form>
                     </div>
-                </div>
-                <div class="row">
-                    <div class="col-md-12">
-                        <div class="card-body">
-                            <div class="table-responsive table-responsive-data2">
-                                <table class="table table-data2">
-                                    <thead>
-                                    <tr>
-                                        <th>ID</th>
-                                        <th>Name</th>
-                                        <th>Action</th>
-                                    </tr>
-                                    </thead>
-                                    <tbody>
-                                    @if(count($teams)>0)
-                                        @foreach($teams as $team)
-                                            <tr class="tr-shadow">
-                                                <td>
-                                                    {{$team ->id}}
-                                                </td>
-                                                <td> {{$team ->name}}</td>
-                                                <td>
-                                                    <a href="{{route('admin.team.edit', $team ->id)}}"
-                                                       class="btn btn-primary" data-toggle="tooltip" title="Edit">Edit
-                                                    </a>
-                                                    <form class="d-inline-block"
-                                                          onsubmit="return confirm('Bạn có chắc chắn muốn xóa')"
-                                                          action="{{route('admin.team.delete', $team->id)}}"
-                                                          method="GET">
-                                                        <input type="submit" value="Delete" class="btn btn-danger">
-                                                    </form>
-                                                </td>
-                                            </tr>
-                                            <div>
-
-                                            </div>
-                                        @endforeach
-                                    </tbody>
-                                </table>
-                            </div>
-                            @else
+                    <!-- /.box-header -->
+                    <div class="box-body table-responsive no-padding">
+                        <div class="dataTables_length " id="example1_length" style="margin: 10px;font-size: 17px;">
+                            <table class="table table-hover" style="align-items: center">
                                 <tr>
-                                    <td colspan="3"><p style="font-size: 17px" class="text-danger text-center p-3">No
-                                            results found !</p></td>
+                                    <th>ID</th>
+                                    <th>Name</th>
+                                    <th>Action</th>
                                 </tr>
-                            @endif
+                                @if(count($teams)>0)
+                                    @foreach($teams as $team)
+                                        <tr>
+                                            <td>
+                                                {{$team ->id}}
+                                            </td>
+                                            <td> {{$team ->name}}</td>
+                                            <td>
+                                                <a href="{{ route('admin.team.edit',$team->id) }}"
+                                                   class="btn btn-primary"><i class="fa fa-edit"
+                                                                              style="font-style:17px!important;"
+                                                                              aria-hidden="true"></i> Edit</a>
+                                                <a href="javascript:void(0)" title="Xóa"
+                                                   class="confirmDelete btn btn-danger" record="team"
+                                                   recordid="{{$team->id}}">
+                                                    <i class="fa fa-trash"> </i> Delete
+                                                </a>
+                                            </td>
+                                        </tr>
+                                    @endforeach
+                                @else
+                                    <td colspan="3"><p style="font-size: 17px;" class="text-danger text-center p-3">No
+                                            results found !</p></td>
+                                @endif
+                            </table>
                         </div>
-                        <div class="d-flex justify-content-center d-block mt-3 px-3">
+                        <div class="text-center " style="margin-bottom: 10px!important;">
                             {!! $teams->appends(request()->only('keyword'))->links() !!}
                         </div>
-                        <!-- END DATA TABLE -->
                     </div>
-                </div>
-            </div>
+                    <!-- /.box-body -->
 
+                </div>
+                <!-- /.box -->
+            </div>
         </div>
-    </div>
+    </section>
+    <!-- /.content -->
 @endsection

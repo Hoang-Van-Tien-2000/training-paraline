@@ -14,6 +14,10 @@ class TeamController extends Controller
     public function __construct(TeamRepository $teamRepository)
     {
         $this->teamRepository = $teamRepository;
+        $this->middleware(function ($request, $next) {
+            session(['module_active' => 'team']);
+            return $next($request);
+        });
     }
 
     public function add()

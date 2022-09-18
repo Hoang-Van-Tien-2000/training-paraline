@@ -1,111 +1,101 @@
-@extends('admin.layout.main')''
+@extends('Admin.layout.main')
+@section('title', 'List Employee')
 @section('main-content')
-    @include('admin.layout.header')
-    <div class="main-content">
-        <div class="section__content section__content--p30">
-            <div class="container-fluid">
-                <div class="row">
-                    <div class="col-md-12">
-                        <div class="card">
-                            <div class="card-header">Employee - Search</div>
-                            <div class="card-body">
-                                @if (session('message'))
-                                    <div class="alert alert-success" role="alert">
-                                        {{ session('message') }}
-                                    </div>
-                                @endif
-                                @if (session('error'))
-                                    <div class="alert alert-danger" role="alert">
-                                        {{ session('error') }}
-                                    </div>
-                                @endif
-                                <form action="" method="GET">
-                                    <div class="form-group">
-                                        <div class="col col-md-3">
-                                            <label for="selectSm" class=" form-control-label">Team </label>
-                                        </div>
-                                        <div class="col-3 col-md-3">
-                                            <select name="team" id="SelectLm" class="form-control-sm form-control">
-                                                <option value="">--Select--</option>
-                                                @foreach($teams as $team)
-                                                    <option value="{{$team->id}}">{{$team->name}}</option>
-                                                @endforeach
-                                            </select>
-                                        </div>
-                                    </div>
-                                    <div class="form-group col-6">
-                                        <label for="name">Name *</label>
-                                        <input type="text" class="form-control" name="name"
-                                               value="{{request()->name}}" id="name" aria-describedby="name">
-                                    </div>
-                                    <div class="form-group col-6">
-                                        <label for="email">Email </label>
-                                        <input type="text" class="form-control" name="email"
-                                               value="{{request()->email}}" id="email" aria-describedby="email">
-                                    </div>
-                                    <button type="reset" class="btn btn-light ">Reset</button>
-                                    <button type="submit" class="btn btn-primary  float-right">Search</button>
-                                </form>
-
+    <!-- Content Header (Page header) -->
+    <section class="content-header">
+        <h1>
+            Employee - Search
+        </h1>
+    </section>
+    <!-- Main content -->
+    <section class="content">
+        @if (session('message'))
+            <div class="alert alert-success" role="alert">
+                {{ session('message') }}
+            </div>
+        @endif
+        @if (session('error'))
+            <div class="alert alert-danger" role="alert">
+                {{ session('error') }}
+            </div>
+        @endif
+        <div class="row">
+            <div class="col-xs-12">
+                <div class="box">
+                    <div class="box-header ">
+                        <form action="" method="GET">
+                            <div class="form-group">
+                                <label for="selectSm" class=" form-control-label">Team </label>
+                                <select name="team" id="SelectLm" class="form-control-sm form-control">
+                                    <option value="">--Select--</option>
+                                    @foreach($teams as $team)
+                                        <option value="{{$team->id}}">{{$team->name}}</option>
+                                    @endforeach
+                                </select>
                             </div>
-                        </div>
+                            <div class="form-group">
+                                <label for="name">Name *</label>
+                                <input type="text" class="form-control" name="name"
+                                       value="{{request()->name}}" id="name" aria-describedby="name">
+                            </div>
+                            <div class="form-group">
+                                <label for="email">Email </label>
+                                <input type="text" class="form-control" name="email"
+                                       value="{{request()->email}}" id="email" aria-describedby="email">
+                            </div>
+                            <button type="reset" class="btn btn-light ">Reset</button>
+                            <button type="submit" class="btn btn-primary" style="float: right">Search</button>
+                        </form>
                     </div>
-                </div>
-                <div class="row">
-                    <div class="col-md-12">
-                        <div class="card-body">
-                            <a href="{{route('admin.employee.export_csv')}}"
-                               class="btn btn-primary text-light float-right">Export CSV </a>
-                            <div class="table-responsive table-responsive-data2">
-                                <table class="table table-data2">
-                                    <thead>
-                                    <tr>
-                                        <th>ID</th>
-                                        <th>Team</th>
-                                        <th>Name</th>
-                                        <th>Email</th>
-                                        <th>Action</th>
-                                    </tr>
-                                    </thead>
-                                    <tbody>
-                                    @if(count($employees)>0)
-                                        @foreach($employees as $employee)
-                                            <tr class="tr-shadow">
-                                                <td>
-                                                    {{$employee->id}}
-                                                </td>
-                                                <td> {{$employee->team->name}}</td>
-                                                <td>{{$employee->full_name}}</td>
-                                                <td>{{$employee->email}}</td>
-                                                <td>
-                                                    <a href="{{route('admin.employee.edit', $employee ->id)}}"
-                                                       class="btn btn-primary" data-toggle="tooltip" title="Edit">Edit
-                                                    </a>
-                                                    <form class="d-inline-block"
-                                                          onsubmit="return confirm('Bạn có chắc chắn muốn xóa')"
-                                                          action="{{route('admin.employee.delete', $employee->id)}}"
-                                                          method="GET">
-                                                        <input type="submit" value="Delete" class="btn btn-danger">
-                                                    </form>
-                                                </td>
-                                            </tr>
-                                        @endforeach
-                                    </tbody>
-                                </table>
-                            </div>
-                            @else
+                    <!-- /.box-header -->
+                    <div class="box-body table-responsive no-padding">
+                        <div class="dataTables_length " id="example1_length" style="margin: 10px;font-size: 17px;">
+                            <table class="table table-hover" style="align-items: center">
                                 <tr>
-                                    <td colspan="5"><p style="font-size: 17px" class="text-danger text-center p-3">No
-                                            results found !</p></td>
+                                    <th>ID</th>
+                                    <th>Team</th>
+                                    <th>Name</th>
+                                    <th>Email</th>
+                                    <th>Action</th>
                                 </tr>
-                        @endif
-                        <!-- END DATA TABLE -->
-                            <div class="d-flex justify-content-center d-block mt-3 px-3">
-                                {!! $employees->appends(request()->input())->links() !!}
-                            </div>
+                                @if(count($employees)>0)
+                                    @foreach($employees as $employee)
+                                        <tr>
+                                            <td>
+                                                {{$employee->id}}
+                                            </td>
+                                            <td> {{$employee->team->name}}</td>
+                                            <td>{{$employee->full_name}}</td>
+                                            <td>{{$employee->email}}</td>
+                                            <td>
+                                                <a href="{{ route('admin.employee.edit',$employee->id) }}"
+                                                   class="btn btn-primary"><i class="fa fa-edit"
+                                                                              style="font-style: 17px!important;"
+                                                                              aria-hidden="true"></i> Edit</a>
+                                                <a href="javascript:void(0)" title="Xóa"
+                                                   class="confirmDelete btn btn-danger" record="employee"
+                                                   recordid="{{$employee->id}}">
+                                                    <i class="fa fa-trash"> </i> Delete
+                                                </a>
+                                            </td>
+                                        </tr>
+                                    @endforeach
+                                @else
+                                    <td colspan="5"><p style="font-size: 17px;" class="text-danger text-center p-3">No
+                                            results found !</p></td>
+                                @endif
+                            </table>
+                        </div>
+                        <div class="text-center " style="margin-bottom: 10px!important;">
+                            {!! $employees->appends(request()->input())->links() !!}
                         </div>
                     </div>
+                    <!-- /.box-body -->
+
                 </div>
+                <!-- /.box -->
             </div>
         </div>
+    </section>
+    <!-- /.content -->
 @endsection

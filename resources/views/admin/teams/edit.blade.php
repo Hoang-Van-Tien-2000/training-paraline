@@ -1,43 +1,54 @@
-@extends('admin.layout.main')''
+@extends('admin.layout.main')
+@section('title', 'Edit Team')
 @section('main-content')
-    @include('admin.layout.header')
-    <div class="main-content">
-        <div class="section__content section__content--p30">
-            <div class="container-fluid">
-                <div class="row">
-                    <div class="col-md-12">
-                        <div class="card">
-                            <div class="card-header"><Strong><a
-                                            href="{{route('admin.team.search')}}">Search </a></Strong> > Team - Edit
-                            </div>
-                            <div class="card-body">
-                                @if (session('status'))
-                                    <div class="alert alert-success" role="alert">
-                                        {{ session('status') }}
-                                    </div>
-                                @endif
-
-                                <form action="{{route('admin.team.edit_confirm', $team->id)}}" method="post">
-                                    @csrf
-                                    <input type="hidden" value="{{$team->id}}" name="id">
+    <!-- Content Header (Page header) -->
+    <section class="content-header">
+        <h1>
+            <a
+                href="{{route('admin.team.search')}}">Search </a></Strong> > Team - Edit
+        </h1>
+    </section>
+    <!-- Main content -->
+    <section class="content">
+        <div class="row">
+            <!-- left column -->
+            <div class="col-md-10 d-flex justify-content-sm-between">
+                <!-- general form elements -->
+                <div class="box box-primary">
+                    <!-- /.box-header -->
+                    <!-- form start -->
+                    <form action="{{route('admin.team.edit_confirm', $team->id)}}" method="post">
+                        @csrf
+                        <div class="box-body">
+                            <div class="row">
+                                <div class="col-md-12">
                                     <div class="form-group">
                                         <label for="name">Name *</label>
-                                        <input type="text" class="form-control" name="name"
-                                               value="{{old('name', isset($team) ? $team->name : '' ) }} "
-                                               id="name" aria-describedby="name">
+                                        <input name="name" type="text"
+                                               value="{{old('name', isset($team) ? $team->name : '' ) }}"
+                                               class="form-control"
+                                               id="name">
                                         @error('name')
                                         <small class="form-text text-danger"> {{ $message }}</small>
                                         @enderror
                                     </div>
-                                    <button type="submit" class="btn btn-primary  float-right">Confirm</button>
-                                </form>
-                                <a href="" class="btn btn-light">Reset</a>
-
+                                </div>
                             </div>
                         </div>
-                    </div>
+                        <!-- /.box-body -->
+                        <div class="box-footer ">
+                            <a href="" class="btn btn-default ">Reset</a>
+                            <button type="submit" class="btn btn-primary " style="float: right">Confirm</button>
+                        </div>
+                    </form>
                 </div>
+                <!-- /.box -->
             </div>
+            <!--/.col (left) -->
         </div>
-    </div>
+        <!-- /.row -->
+    </section>
+    <!-- /.content -->
 @endsection
+
+

@@ -1,60 +1,50 @@
-<!-- PAGE CONTAINER-->
-<div class="page-container">
-    <!-- HEADER DESKTOP-->
-    <header class="header-desktop">
-        <div class="section__content section__content--p30">
-            <div class="container-fluid">
-                <div class="header-wrap">
-                    <a href=""> Trang Chủ </a>
-                    <div class="header-button">
-                        <div class="account-wrap">
-                            <div class="account-item clearfix js-item-menu">
-                                <div class="content">
-                                    <a class="js-acc-btn" href="#">Team Management </a>
-                                </div>
-                                <div class="account-dropdown js-dropdown">
-                                    <div class="account-dropdown__body">
-                                    </div>
-                                    <div class="account-dropdown__footer">
-                                        <a href="{{route('admin.team.search')}}">Search </a>
-                                        <a href="{{route('admin.team.add')}}">Create</a>
-                                    </div>
-                                </div>
-                            </div>
+<header class="main-header">
+    <!-- Logo -->
+    <a href="{{url('/admin')}}" class="logo">
+        <!-- mini logo for sidebar mini 50x50 pixels -->
+        <span class="logo-mini"><b>A</b>LT</span>
+        <!-- logo for regular state and mobile devices -->
+        <span class="logo-lg"><b>Admin</b></span>
+    </a>
+    <!-- Header Navbar: style can be found in header.less -->
+    <nav class="navbar navbar-static-top">
+        <!-- Sidebar toggle button-->
+        <a href="#" class="sidebar-toggle" data-toggle="push-menu" role="button">
+            <span class="sr-only">Toggle navigation</span>
+            <span class="icon-bar"></span>
+            <span class="icon-bar"></span>
+            <span class="icon-bar"></span>
+        </a>
 
-                        </div>
-                    </div>
-                    <div class="header-button">
-                        <div class="account-wrap">
-                            <div class="account-item clearfix js-item-menu">
-                                <div class="content">
-                                    <a class="js-acc-btn" href="#"> Employee Management </a>
-                                </div>
-                                <div class="account-dropdown js-dropdown">
-                                    <div class="account-dropdown__body">
-                                    </div>
-                                    <div class="account-dropdown__footer">
-                                        <a href=" {{ route('admin.employee.search')}} ">Search </a>
-                                        <a href=" {{route('admin.employee.add')}} ">Create</a>
-                                    </div>
-                                </div>
-                            </div>
+        <div class="navbar-custom-menu">
+            <ul class="nav navbar-nav">
+                @if(Auth::check())
 
-                        </div>
-                    </div>
-                    <div class="header-button">
-                        <div class="account-wrap">
-                            <div class="clearfix">
-                                <div class="content">
-                                    <a href="{{route('admin.logout')}}">Logout</a>
-                                </div>
-                            </div>
+                    <li class="dropdown user user-menu">
+                        <a href="#" class="dropdown-toggle" data-toggle="dropdown">
+                            <img src="{{asset('backend/dist/img/user2-160x160.jpg')}}" class="user-image" alt="User Image">
+                            <span class="hidden-xs">
+                                {{ Auth::user()->name }}
+                            </span>
+                        </a>
+                        <ul class="dropdown-menu">
+                            <!-- user image -->
+                            <li class="user-header">
+                                <img src="{{asset('backend/dist/img/user2-160x160.jpg')}}   " class="img-circle" alt="User Image">
+                            </li>
 
-                        </div>
-                    </div>
-                </div>
-            </div>
+                            <!-- Menu Footer-->
+                            <li class="user-footer">
+
+                                <div class="pull-right">
+                                    <a href="{{ route('admin.logout') }}" class="btn btn-default btn-flat">Thoát</a>
+                                </div>
+                            </li>
+                        </ul>
+                    </li>
+
+                @endif
+            </ul>
         </div>
-    </header>
-    <!-- HEADER DESKTOP-->
-@include('admin.layout.sidebar') 
+    </nav>
+</header>
