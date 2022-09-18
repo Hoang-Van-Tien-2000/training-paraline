@@ -5,6 +5,7 @@ namespace App\Repositories;
 use App\Models\Employee;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Session;
+use Illuminate\Support\Facades\DB;
 
 class EmployeeRepository extends BaseRepository
 {
@@ -21,19 +22,23 @@ class EmployeeRepository extends BaseRepository
 
     public function search($request)
     {
+
         if (empty($request)) {
             return $this->getModel()->select('id', 'team_id', 'first_name', 'last_name', 'email')
                 ->Paginate(config('constant.PER_PAGE'));
         }
 
-        return $this->getModel()->when(isset($request['name']), function ($q) use ($request) {
-            return $q->where('first_name', 'like', '%'. $request->name .'%');
+        return $this->getModel()->when(!empty($request['name']), function ($q) use ($request) {
+            //$request['name'] = preg_replace('/\s+/', '%',   $request['name']);
+            return $q->where('first_name', 'like', '%' . $request['name'] . '%')
+                ->orWhere('last_name', 'like', '%' . $request['name'] . '%')
+                ->orWhere(DB::raw("concat(first_name, ' ', last_name)"), 'like', '%' . $request['name'] . '%');
         })
-            ->when(isset($request['team']), function ($q) use ($request) {
-                return $q->where('team_id', $request->team);
+            ->when(!empty($request['team']), function ($q) use ($request) {
+                return $q->where('team_id', $request['team']);
             })
-            ->when(isset($request['email']), function ($q) use ($request) {
-                return $q->where('email', 'like',  '%'.$request->email .'%');
+            ->when(!empty($request['email']), function ($q) use ($request) {
+                return $q->where('email', 'LIKE', '%' . $request['email'] . '%');
             })
             ->Paginate(config('constant.PER_PAGE'));
     }

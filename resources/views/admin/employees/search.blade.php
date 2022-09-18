@@ -28,7 +28,7 @@
                                             <select name="team" id="SelectLm" class="form-control-sm form-control">
                                                 <option value="">--Select--</option>
                                                 @foreach($teams as $team)
-                                                    <option value=" {{$team->id}}">{{$team->name}}</option>
+                                                    <option value="{{$team->id}}">{{$team->name}}</option>
                                                 @endforeach
                                             </select>
                                         </div>
@@ -36,12 +36,12 @@
                                     <div class="form-group col-6">
                                         <label for="name">Name *</label>
                                         <input type="text" class="form-control" name="name"
-                                               value="" id="name" aria-describedby="name">
+                                               value="{{request()->name}}" id="name" aria-describedby="name">
                                     </div>
                                     <div class="form-group col-6">
                                         <label for="email">Email </label>
                                         <input type="text" class="form-control" name="email"
-                                               value="" id="email" aria-describedby="email">
+                                               value="{{request()->email}}" id="email" aria-describedby="email">
                                     </div>
                                     <button type="reset" class="btn btn-light ">Reset</button>
                                     <button type="submit" class="btn btn-primary  float-right">Search</button>

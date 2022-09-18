@@ -95,6 +95,7 @@ class EmployeeController extends Controller
                 Storage::disk('public')->put($newFileName, File::get($newImage));
                 Storage::delete('public' . $oldImage);
             }
+
             $request->flash();
             $employee = collect([$request->input()]);
             $request->session()->put('editEmployee', $employee);
