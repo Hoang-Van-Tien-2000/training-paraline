@@ -40,8 +40,13 @@ class TeamController extends Controller
 
     public function searchByName(Request $request)
     {
-        $teams = $this->teamRepository->searchByName($request->input('keyword'));
-        return view('admin.teams.search', compact('teams'));
+        try {
+            $teams = $this->teamRepository->searchByName($request->input('keyword'));
+            return view('admin.teams.search', compact('teams'));
+        } catch (ModelNotFoundException $exception) {
+            Log::error('Message: ' . $exception->getMessage() . ' Line : ' . $exception->getLine());
+            return back()->withError($exception->getMessage())->withInput();
+        }
     }
 
     public function edit($id)
@@ -66,7 +71,7 @@ class TeamController extends Controller
 
         } catch (\Exception $exception) {
             $error = config('messages.update_not_list') . $exception->getCode();
-            Log::error($error);
+            Log::error('Message: ' . $exception->getMessage() . ' Line : ' . $exception->getLine());
             return redirect()->route('admin.team.search')->with('error', $error);
         }
     }
@@ -82,7 +87,7 @@ class TeamController extends Controller
             }
         } catch (\Exception $exception) {
             $error = config('messages.delete_not_list') . $exception->getCode();
-            Log::error($error);
+            Log::error('Message: ' . $exception->getMessage() . ' Line : ' . $exception->getLine());
             return redirect()->route('admin.team.search')->with('error', $error);
         }
     }

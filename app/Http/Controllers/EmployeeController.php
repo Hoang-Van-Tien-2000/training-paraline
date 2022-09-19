@@ -36,7 +36,6 @@ class EmployeeController extends Controller
 
     public function addConfirm(EmployeeRequest $request)
     {
-        //upload file
         if ($request->file('avatar')) {
             $file = $request->file('avatar');
 
@@ -58,23 +57,30 @@ class EmployeeController extends Controller
     {
         try {
             $employee = $this->employeeRepository->create($request->all());
-            $emailJob = new EmployeeJob($employee);
-            dispatch($emailJob);
+            if ($employee) {
+                $emailJob = new EmployeeJob($employee);
+                dispatch($emailJob);
+            }
+
             return redirect()->route('admin.employee.search')->with('message', config('messages.create_success'));
         } catch (QueryException $e) {
             $error = $e->errorInfo;
-            Log::error($error);
+            Log::error('Message: ' . $exception->getMessage() . ' Line : ' . $exception->getLine());
             return redirect()->back()->with('error', $error);
         }
     }
 
     public function search(Request $request)
     {
-        $teams = $this->teamRepository->getAll();
-        $request->only('team', 'name', 'email');
-        $request->flash();
-        $employees = $this->employeeRepository->search($request);
-        return view('admin.employees.search', compact('employees', 'teams'));
+        try {
+            $teams = $this->teamRepository->getAll();
+            $request->flash();
+            $employees = $this->employeeRepository->search($request);
+            return view('admin.employees.search', compact('employees', 'teams'));
+        } catch (ModelNotFoundException $exception) {
+            Log::error('Message: ' . $exception->getMessage() . ' Line : ' . $exception->getLine());
+            return back()->withError($exception->getMessage())->withInput();
+        }
     }
 
     public function edit($id)
@@ -128,7 +134,7 @@ class EmployeeController extends Controller
             return redirect()->route('admin.employee.search')->with('message', config('messages.update_success'));
         } catch (\Exception $exception) {
             $error = config('messages.update_not_list') . $exception->getCode();
-            Log::error($error);
+            Log::error('Message: ' . $exception->getMessage() . ' Line : ' . $exception->getLine());
             return redirect()->route('admin.employee.search')->with('error', $error);
         }
     }
@@ -144,7 +150,7 @@ class EmployeeController extends Controller
             }
         } catch (\Exception $exception) {
             $error = config('messages.delete_not_list') . $exception->getCode();
-            Log::error($error);
+            Log::error('Message: ' . $exception->getMessage() . ' Line : ' . $exception->getLine());
             return redirect()->route('admin.employee.search')->with('error', $error);
         }
     }
@@ -153,7 +159,6 @@ class EmployeeController extends Controller
     {
 
         $fileName = 'employees.csv';
-        $request->only('team', 'name', 'email');
         $employees = $this->employeeRepository->search($request);
         $headers = [
             "Content-Encoding: UTF-8",
@@ -164,7 +169,19 @@ class EmployeeController extends Controller
             "Expires" => "0"
         ];
 
-        $columns = ['id', 'team', 'name', 'email'];
+        $columns = ['id',
+            'team',
+            'name',
+            'email',
+            'gender',
+            'birthday',
+            'address',
+            'avatar',
+            'salary',
+            'position',
+            'type_of_work',
+            'status'
+        ];
 
         $callback = function () use ($employees, $columns) {
             $file = fopen('php://output', 'w');
@@ -177,7 +194,54 @@ class EmployeeController extends Controller
                 $row['team'] = $employee->team->name;
                 $row['name'] = $employee->fullname;
                 $row['email'] = $employee->email;
-                fputcsv($file, [$row['id'], $row['team'], $row['name'], $row['email']]);
+
+                $genders = [1 => 'Male', 2 => 'Female'];
+                foreach ($genders as $key => $value) {
+                    if ($employee->gender == $key) {
+                        $row['gender'] = $value;
+                    }
+                }
+
+                $row['birthday'] = $employee->birthday;
+                $row['address'] = $employee->address;
+                $row['avatar'] = $employee->avatar;
+                $row['salary'] = $employee->salary;
+
+                $positions = [1 => 'Manager', 2 => 'Team Leader', 3 => 'BSE', 4 => 'Dev', 5 => 'Tester'];
+                foreach ($positions as $key => $value) {
+                    if ($employee->position == $key) {
+                        $row['position'] = $value;
+                    }
+                }
+
+                $type_of_works = [1 => 'Full Time', 2 => 'Part Time', 3 => 'Probationary Staff', 4 => 'Intern'];
+                foreach ($type_of_works as $key => $value) {
+                    if ($employee->type_of_work == $key) {
+                        $row['type_of_work'] = $value;
+                    }
+                }
+
+                $status = [0 => 'On Working', 1 => 'Retired'];
+                foreach ($status as $key => $value) {
+                    if ($employee->status == $key) {
+                        $row['status'] = $value;
+                    }
+                }
+
+                fputcsv($file, [
+                    $row['id'],
+                    $row['team'],
+                    $row['name'],
+                    $row['email'],
+                    $row['gender'],
+                    $row['birthday'],
+                    $row['address'],
+                    $row['avatar'],
+                    $row['salary'],
+                    $row['position'],
+                    $row['type_of_work'],
+                    $row['status']
+                ]);
             }
 
             fclose($file);

@@ -235,7 +235,7 @@
                             </div>
                         </div>
                         <div class="card-footer" style="padding: 10px;">
-                            <a href="{{Session::forget('addEmployee','avatar')}}"
+                            <a href="{{Session::forget('editEmployee')}}"
                                class="btn btn-default btn-sm">Reset</a>
                             <button type="submit" class="btn btn-primary btn-sm " style="float: right;">Confirm</button>
                         </div>

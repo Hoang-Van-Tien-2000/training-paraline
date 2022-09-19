@@ -25,11 +25,10 @@ class EmployeeRepository extends BaseRepository
 
         if (empty($request)) {
             return $this->getModel()->select('id', 'team_id', 'first_name', 'last_name', 'email')
-                ->Paginate(config('constant.PER_PAGE'));
+                ->Paginate(config('constant.LIMIT_PER_PAGE'));
         }
 
         return $this->getModel()->when(!empty($request['name']), function ($q) use ($request) {
-            //$request['name'] = preg_replace('/\s+/', '%',   $request['name']);
             return $q->where('first_name', 'like', '%' . $request['name'] . '%')
                 ->orWhere('last_name', 'like', '%' . $request['name'] . '%')
                 ->orWhere(DB::raw("concat(first_name, ' ', last_name)"), 'like', '%' . $request['name'] . '%');
@@ -40,7 +39,13 @@ class EmployeeRepository extends BaseRepository
             ->when(!empty($request['email']), function ($q) use ($request) {
                 return $q->where('email', 'LIKE', '%' . $request['email'] . '%');
             })
-            ->Paginate(config('constant.PER_PAGE'));
+            ->when(!empty($request['sort_field'] && $request['sort_type'] == 'desc' ), function ($q) use ($request) {
+                return $q->orderByDesc($request['sort_field']);
+            })
+            ->when(!empty($request['sort_field'] && $request['sort_type'] == 'asc' ), function ($q) use ($request) {
+                return $q->orderBy($request['sort_field']);
+            })
+            ->Paginate(config('constant.LIMIT_PER_PAGE'));
     }
 
     public function getById($id)
@@ -51,7 +56,6 @@ class EmployeeRepository extends BaseRepository
     public function create(array $attributes)
     {
         Session::forget('addEmployee');
-        Session::forget('avatar');
         $attributes['email'] = Auth::user()->email;
         $attributes['password'] = Auth::user()->password;
         return parent::create($attributes);
@@ -60,7 +64,6 @@ class EmployeeRepository extends BaseRepository
     public function update($id, $attributes)
     {
         Session::forget('editEmployee');
-        Session::forget('avatar');
         $attributes['email'] = Auth::user()->email;
         $attributes['password'] = Auth::user()->password;
 

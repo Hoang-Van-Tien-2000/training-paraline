@@ -70,7 +70,7 @@
                             </table>
                         </div>
                         <div class="text-center " style="margin-bottom: 10px!important;">
-                            {!! $teams->appends(request()->only('keyword'))->links() !!}
+                            {{ $teams->appends(request()->only('keyword'))->links() }}
                         </div>
                     </div>
                     <!-- /.box-body -->

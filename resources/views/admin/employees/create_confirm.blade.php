@@ -72,7 +72,7 @@
                                                        value="{{Session::get('addEmployee')['0']['gender']}}"
                                                        class="form-check-input">Male
                                             </label>
-                                        @elseif(Session::get('addEmployee')['0'] == config('constant.GENDER_FEMALE'))
+                                        @elseif(Session::get('addEmployee')['0']['gender'] == config('constant.GENDER_FEMALE'))
                                             <label for="inline-radio3" class="form-check-label">
                                                 <input type="hidden" id="inline-radio3" name="gender"
                                                        value="{{Session::get('addEmployee')['0']['gender']}}"

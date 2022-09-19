@@ -3,7 +3,7 @@
 return [
     'DELETED_OFF' => 0,
     'DELETED_ON' => 1,
-    'PER_PAGE' => 4,
+    'LIMIT_PER_PAGE' => 4,
     'GENDER_MALE' => 1,
     'GENDER_FEMALE' => 2,
     'POSITION_MANAGER' => 1,
