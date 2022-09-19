@@ -47,12 +47,9 @@ class EmployeeController extends Controller
         }
         $request->flash();
         $employee = collect([$request->input()]);
-        $request->session()->put('addEmployee', $employee);
-        $request->session()->put('avatar', $fileName);
-        foreach (Session::get('addEmployee') as $employee) {
-            $team_id = $employee['team_id'];
-        }
-        $team = $this->teamRepository->findById($team_id);
+        $employee = $employee->merge($fileName);
+        session(['addEmployee' => $employee]);
+        $team = $this->teamRepository->findById(Session::get('addEmployee')['0']['team_id']);
         return view('admin.employees.create_confirm', compact('team'));
 
     }
@@ -89,6 +86,7 @@ class EmployeeController extends Controller
 
     public function editConfirm(EmployeeRequest $request)
     {
+        $request->flash();
         $employee = $this->employeeRepository->getById($request->id);
         $oldImage = $employee->avatar;
         if ($request->file('avatar')) {
@@ -101,25 +99,18 @@ class EmployeeController extends Controller
                 Storage::delete('public' . $oldImage);
             }
 
-            $request->flash();
             $employee = collect([$request->input()]);
+            $employee = $employee->merge($newFileName);
             $request->session()->put('editEmployee', $employee);
-            $request->session()->put('newAvatar', $newFileName);
-            foreach (Session::get('editEmployee') as $employee) {
-                $team_id = $employee['team_id'];
-            }
-            $team = $this->teamRepository->findById($team_id);
+            $team = $this->teamRepository->findById(Session::get('editEmployee')['0']['team_id']);
             return view('admin.employees.edit_confirm', compact('team'));
 
         } else {
-            $request->flash();
+
             $employee = collect([$request->input()]);
+            $employee = $employee->merge($oldImage);
             $request->session()->put('editEmployee', $employee);
-            $request->session()->put('newAvatar', $oldImage);
-            foreach (Session::get('editEmployee') as $employee) {
-                $team_id = $employee['team_id'];
-            }
-            $team = $this->teamRepository->findById($team_id);
+            $team = $this->teamRepository->findById(Session::get('editEmployee')['0']['team_id']);
             return view('admin.employees.edit_confirm', compact('team'));
         }
     }

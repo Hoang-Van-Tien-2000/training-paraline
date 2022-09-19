@@ -30,7 +30,7 @@
                                            name="avatar"
                                            id="file">
 
-                                    <img id="avatar" class="thumbnail" alt="Employee" width="250px" height="auto"
+                                    <img id="avatar" class="thumbnail" alt="..." width="250px" height="auto"
                                          src="{{asset('backend/dist/img/import-img.png')}}">
                                     @error('avatar')
                                     <small class="form-text text-danger">{!! $message !!}</small>
@@ -103,7 +103,6 @@
                                     @enderror
                                 </div>
                             </div>
-
                             <div class="row form-group">
                                 <div class="col col-md-3">
                                     <label for="text-input" class=" form-control-label">Birthday * </label>
@@ -208,7 +207,7 @@
                                 <div class="col col-md-9">
                                     <div class="form-check-inline form-check">
                                         <label for="inline-radio1" class="form-check-label "
-                                               style="padding-right: 5rem">
+                                               style="padding-right: 5rem;">
                                             <input type="radio" id="inline-radio1 " name="status"
                                                    value="{{ config('constant.STATUS_ON_WORKING') }}"
                                                    class="form-check-input"
@@ -231,7 +230,7 @@
                         </div>
                         <!-- /.box-body -->
                         <div class="box-footer ">
-                            <a href="{{Session::forget('addEmployee','avatar')}}" class="btn btn-default ">Reset</a>
+                            <a href="{{Session::forget('addEmployee')}}" class="btn btn-default ">Reset</a>
                             <button type="submit" class="btn btn-primary " style="float: right;">Confirm</button>
                         </div>
                     </form>

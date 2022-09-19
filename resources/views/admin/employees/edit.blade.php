@@ -28,7 +28,7 @@
                                 </div>
                                 <div class="col col-md-3">
                                     <input type="file" class="form-control file-input-control src_img"
-                                           name="avatar"
+                                           name="avatar" value="{{$employee->avatar}}"
                                            id="file">
                                     <img id="avatar" alt="Employee" class="thumbnail" width="150px" height="auto"
                                          src="{{asset('storage/'.$employee->avatar)}}">

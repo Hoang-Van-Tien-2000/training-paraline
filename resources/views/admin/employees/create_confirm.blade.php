@@ -15,24 +15,19 @@
                 <!-- general form elements -->
                 <div class="box box-primary">
                     <!-- /.box-header -->
-                    <!-- form start -->
-                    <form action="{{route('admin.employee.add_save')}}" method="post"
-                          class="form-horizontal">
-                        @csrf
                         <div class="box-body">
+                            <form action="{{route('admin.employee.add_save')}}" method="POST">
+                                @csrf
                             <div class="row form-group">
                                 <div class="col col-md-3">
                                     <label for="file" class="py-4"> Avatar </label>
                                 </div>
                                 <div class="col-3 col-md-3">
-                                    {{--<input type="file" class="form-control" name="avatar" value="" id="file"--}}
-                                    {{--aria-describedby="file">--}}
-                                    <input type="hidden" name="avatar" value="{{Session::get('avatar')}}">
-                                    <img src="{{asset('storage/'.Session::get('avatar'))}}"
-                                         class="card-img-top" alt="...">
+                                    <input type="hidden" name="avatar" value="{{Session::get('addEmployee')['1']}}">
+                                    <img src="{{asset('storage/'.Session::get('addEmployee')['1'])}}"
+                                          height="auto"  class="card-img-top" alt="...">
                                 </div>
                             </div>
-                            @foreach (Session::get('addEmployee') as $employee)
                                 <div class="row  form-group">
                                     <div class="col col-md-3">
                                         <label for="name" class="py-4"> Team </label>
@@ -40,7 +35,7 @@
                                     <div class="col-3 col-md-3">
                                         <select name="team_id" id="SelectLm"
                                                 class="form-control-sm form-control">
-                                            <option value="{{$employee['team_id']}}">
+                                            <option value="{{Session::get('addEmployee')['0']['team_id']}}">
                                                 {{$team->name}}
                                             </option>
                                         </select>
@@ -52,7 +47,7 @@
                                     </div>
                                     <div class="col-3 col-md-3">
                                         <input type="text" class="form-control" name="first_name"
-                                               value="{{ $employee['first_name'] }}" id="first_name"
+                                               value="{{ Session::get('addEmployee')['0']['first_name'] }}" id="first_name"
                                                aria-describedby="first_name">
                                     </div>
                                 </div>
@@ -62,7 +57,7 @@
                                     </div>
                                     <div class="col-3 col-md-3">
                                         <input type="text" class="form-control" name="last_name"
-                                               value=" {{ $employee['last_name'] }} " id="last_name"
+                                               value=" {{ Session::get('addEmployee')['0']['last_name'] }} " id="last_name"
                                                aria-describedby="last_name">
                                     </div>
                                 </div>
@@ -71,16 +66,16 @@
                                         <label for="gender"> Gender </label>
                                     </div>
                                     <div class="col-3 col-md-3">
-                                        @if($employee['gender'] == config('constant.GENDER_MALE'))
+                                        @if(Session::get('addEmployee')['0']['gender'] == config('constant.GENDER_MALE'))
                                             <label for="inline-radio1" class="form-check-label pr-5">
                                                 <input type="hidden" id="inline-radio1" name="gender"
-                                                       value="{{$employee['gender']}}"
+                                                       value="{{Session::get('addEmployee')['0']['gender']}}"
                                                        class="form-check-input">Male
                                             </label>
-                                        @elseif($employee['gender'] == config('constant.GENDER_FEMALE'))
+                                        @elseif(Session::get('addEmployee')['0'] == config('constant.GENDER_FEMALE'))
                                             <label for="inline-radio3" class="form-check-label">
                                                 <input type="hidden" id="inline-radio3" name="gender"
-                                                       value="{{$employee['gender']}}"
+                                                       value="{{Session::get('addEmployee')['0']['gender']}}"
                                                        class="form-check-input">Female
                                             </label>
                                         @endif
@@ -92,7 +87,7 @@
                                     </div>
                                     <div class="col-3 col-md-3">
                                         <input type="date" id="text-input"
-                                               value="{{ $employee['birthday'] }}" name="birthday"
+                                               value="{{ Session::get('addEmployee')['0']['birthday'] }}" name="birthday"
                                                class="form-control">
                                     </div>
                                 </div>
@@ -101,7 +96,7 @@
                                         <label for="address"> Address </label>
                                     </div>
                                     <div class="col-3 col-md-3">
-                                        <input type="text" id="text-input" value="{{ $employee['address'] }}"
+                                        <input type="text" id="text-input" value="{{ Session::get('addEmployee')['0']['address'] }}"
                                                name="address" class="form-control">
                                     </div>
                                 </div>
@@ -110,7 +105,7 @@
                                         <label for="salary" class="py-4"> Salary </label>
                                     </div>
                                     <div class="col-3 col-md-3">
-                                        <input type="text" id="text-input" value="{{ $employee['salary'] }}"
+                                        <input type="text" id="text-input" value="{{ Session::get('addEmployee')['0']['salary'] }}"
                                                name="salary" class="form-control">
                                     </div>
                                 </div>
@@ -121,8 +116,8 @@
                                     <div class="col-3 col-md-3">
                                         <select name="position" id="SelectLm"
                                                 class="form-control-sm form-control">
-                                            <option value="{{$employee['position']}}">
-                                                @switch($employee['position'])
+                                            <option value="{{Session::get('addEmployee')['0']['position']}}">
+                                                @switch(Session::get('addEmployee')['0']['position'])
                                                     @case(config('constant.POSITION_MANAGER'))
                                                     Manager
                                                     @break
@@ -151,8 +146,8 @@
                                     <div class="col-3 col-md-3">
                                         <select name="type_of_work" id="SelectLm"
                                                 class="form-control-sm form-control">
-                                            <option value="{{$employee['type_of_work']}}">
-                                                @switch($employee['type_of_work'])
+                                            <option value="{{Session::get('addEmployee')['0']['type_of_work']}}">
+                                                @switch(Session::get('addEmployee')['0']['type_of_work'])
                                                     @case(config('constant.TYPE_OF_WORK_FULL_TIME'))
                                                     Full Time
                                                     @break
@@ -176,28 +171,49 @@
                                         <label for="status"> Status </label>
                                     </div>
                                     <div class="col-3 col-md-3">
-                                        @if($employee['status'] == config('constant.STATUS_ON_WORKING') )
+                                        @if(Session::get('addEmployee')['0']['status'] == config('constant.STATUS_ON_WORKING') )
                                             <label for="inline-radio1" class="form-check-label pr-5">
                                                 <input type="hidden" id="inline-radio1 " name="status"
-                                                       value="{{$employee['status']}}" class="form-check-input"
+                                                       value="{{Session::get('addEmployee')['0']['status']}}" class="form-check-input"
                                                 >On working
                                             </label>
-                                        @elseif($employee['status'] == config('constant.STATUS_RETIRED'))
+                                        @elseif(Session::get('addEmployee')['0']['status'] == config('constant.STATUS_RETIRED'))
                                             <label for="inline-radio3" class="form-check-label">
                                                 <input type="hidden" id="inline-radio3" name="Status"
-                                                       value="{{$employee['status']}}" class="form-check-input"
+                                                       value="{{Session::get('addEmployee')['0']['status']}}" class="form-check-input"
                                                 >Retired
                                             </label>
                                         @endif
                                     </div>
                                 </div>
-                            @endforeach
                             <a href="{{ url()->previous() }} " class="btn btn-light">Back</a>
-                            <button type="submit" value="Save" class="btn btn-primary btn-sm " style="float: right;">
+                            <button type="button"
+                                    class="btn btn-default __web-inspector-hide-shortcut__ btn btn-primary "
+                                    style="float: right; color: white;" data-toggle="modal" data-target="#modal-sm">
                                 Save
                             </button>
+                            <div class="modal fade" id="modal-sm">
+                                <div class="modal-dialog modal-sm">
+                                    <div class="modal-content">
+                                        <div class="modal-header">
+                                            <h5 class="modal-title">Confirm</h5>
+                                        </div>
+                                        <div class="modal-body">
+                                            <p> Are you sure.</p>
+                                        </div>
+                                        <div class="modal-footer justify-content-between">
+                                            <button type="button" class="btn btn-default" data-dismiss="modal">Cancel
+                                            </button>
+                                                <button type="submit" class="btn btn-primary">OK</button>
+                                        </div>
+                                    </div>
+                                    <!-- /.modal-content -->
+                                </div>
+                                <!-- /.modal-dialog -->
+                            </div>
+                            <!-- /.modal -->
+                            </form>
                         </div>
-                    </form>
                 </div>
                 <!-- /.box -->
             </div>
