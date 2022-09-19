@@ -50,6 +50,7 @@
                     <!-- /.box-header -->
                     <div class="box-body table-responsive no-padding">
                         <div class="dataTables_length " id="example1_length" style="margin: 10px;font-size: 17px;">
+                            <a href="{{route('admin.employee.export_csv')}}" style="float: right;" class="btn btn-primary"> Export CSV</a>
                             <table class="table table-hover" style="align-items: center">
                                 <tr>
                                     <th>ID</th>
