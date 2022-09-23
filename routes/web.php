@@ -6,7 +6,6 @@ use App\Http\Controllers\AuthController;
 use App\Http\Controllers\AdminController;
 use App\Http\Controllers\TeamController;
 use App\Http\Controllers\EmployeeController;
-
 /*
 |--------------------------------------------------------------------------
 | Web Routes
@@ -48,11 +47,12 @@ Route::group(['prefix' => '/admin', 'as' => 'admin.', 'middleware' => 'checkLogi
     Route::get('/employee/add', [EmployeeController::class, 'add'])->name('employee.add');
     Route::get('/employee/search', [EmployeeController::class, 'search'])->name('employee.search');
     Route::post('/employee/add_confirm', [EmployeeController::class, 'addConfirm'])->name('employee.add_confirm');
-    Route::post('/employee/add_save', [EmployeeController::class, 'addConfirmSave'])->name('employee.add_save');
+    Route::put('/employee/add_save', [EmployeeController::class, 'addConfirmSave'])->name('employee.add_save');
     Route::get('/employee/edit/{id}', [EmployeeController::class, 'edit'])->name('employee.edit');
     Route::put('/employee/edit_confirm/{id}', [EmployeeController::class, 'editConfirm'])->name('employee.edit_confirm');
     Route::post('/employee/edit_save/{id}', [EmployeeController::class, 'editConfirmSave'])->name('employee.edit_save');
     Route::get('/employee/delete/{id}', [EmployeeController::class, 'delete'])->name('employee.delete');
+    Route::get('/employee/reset_add_edit', [EmployeeController::class, 'resetAddEdit'])->name('employee.reset_add_edit');
     // Export CSV
     Route::get('/employee/export_csv', [EmployeeController::class, 'exportCSV'])->name('employee.export_csv');
 });

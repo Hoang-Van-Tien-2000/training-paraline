@@ -16,7 +16,8 @@
                 <div class="box box-primary">
                     <!-- /.box-header -->
                     <!-- form start -->
-                    <form id="formEmployee" action="{{route('admin.employee.add_confirm')}}" method="POST" enctype="multipart/form-data"
+                    <form id="formEmployee" action="{{route('admin.employee.add_confirm')}}" method="POST"
+                          enctype="multipart/form-data"
                           class="form-horizontal">
                         @csrf
                         <div class="box-body">
@@ -25,11 +26,9 @@
                                     <label for="file-input-control" class=" form-control-label">Avatar * </label>
                                 </div>
                                 <div class="col col-md-3">
-{{--                                    <img class="thumbnail" height="150" width="150" id="blah"--}}
-{{--                                         src="{{asset(isset(request()->session()->get('addEmployee')['file_path'])  ? request()->session()->get('addEmployee')['file_path'] : 'backend/dist/img/import-img.png')}}"--}}
-{{--                                         alt="your image"/>--}}
+
                                     <img
-                                        src="{{asset(session()->get('currentImgUrl'))}}"
+                                        src="{{asset(!empty(session()->get('currentImgUrl')) ? session()->get('currentImgUrl') : 'backend/dist/img/import-img.png')}}"
                                         width="150" height="150" class="card-img-top" id="blah" alt="...">
 
                                     <input type="file" name="avatar" value="{{old('avatar')}}" onchange="readURL(this);"
@@ -235,8 +234,7 @@
                         </div>
                         <!-- /.box-body -->
                         <div class="box-footer ">
-                            <a href="{{request()->session()->forget('currentImgUrl')}}"
-                               class="btn btn-default ">Reset</a>
+                            <a href="{{route('admin.employee.reset_add_edit')}}" class="btn btn-default ">Reset</a>
                             <button type="submit" class="btn btn-primary " style="float: right;">Confirm</button>
                         </div>
                     </form>

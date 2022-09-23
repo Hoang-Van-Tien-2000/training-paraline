@@ -28,9 +28,10 @@
                                 </div>
                                 <div class="col col-md-3">
                                     <img class="thumbnail" height="150" width="150" id="blah"
-                                         src="{{    asset(isset(session()->get('editEmployee')['file_path'])  ? session()->get('editEmployee')['file_path'] : public_url(config('constant.APP_URL_IMAGE'). $employee->avatar))}}" alt="your image"/>
+                                         src="{{ asset(!empty(session()->get('currentImgUrl'))  ? session()->get('currentImgUrl') : public_url(config('constant.APP_URL_IMAGE'). $employee->avatar))}}"
+                                         alt="your image"/>
                                     <input type="file" name="avatar" onchange="readURL(this);"
-                                           value="{{$employee->avatar}}" class="form-control file-input-control"/>
+                                           value="" class="form-control file-input-control"/>
 
                                     @error('avatar')
                                     <small class="form-text text-danger">{!! $message !!}</small>
@@ -44,7 +45,8 @@
                                 <div class="col-3 col-md-3">
                                     <select name="team_id" id="Team" class="form-control-sm form-control">
                                         @foreach($teams as $team)
-                                            <option {{ old('team_id', isset($employee) ? $employee->team_id : '' )  == $team->id ? 'selected' : '' }}
+                                            <option
+                                                {{ old('team_id', isset($employee) ? $employee->team_id : '' )  == $team->id ? 'selected' : '' }}
                                                 value="{{$team->id}} ">{{$team->name}}
                                             </option>
                                         @endforeach
@@ -92,7 +94,6 @@
                                                    value="{{ config('constant.GENDER_MALE')}}"
                                                    class="form-check-input"
                                                 {{ old('gender', isset($employee) ? $employee->gender : '' )  == config('constant.GENDER_MALE') ? 'checked' : '' }}>Male
-
                                         </label>
                                         <label for="inline-radio3" class="form-check-label">
                                             <input type="radio" id="inline-radio3" name="gender"
@@ -147,10 +148,10 @@
                             </div>
                             <div class="row form-group">
                                 <div class="col col-md-3">
-                                    <label for="selectSm" class=" form-control-label">Position * </label>
+                                    <label for="position" class=" form-control-label">Position * </label>
                                 </div>
                                 <div class="col-3 col-md-3">
-                                    <select name="position" id="SelectLm" class="form-control-sm form-control">
+                                    <select name="position" id="position" class="form-control-sm form-control">
                                         <option value="{{config('constant.POSITION_MANAGER') }}"
                                             {{ old('position', isset($employee) ? $employee->position : '' ) == config('constant.POSITION_MANAGER') ? 'selected' : '' }}>
                                             Manager
@@ -236,8 +237,7 @@
                             </div>
                         </div>
                         <div class="card-footer" style="padding: 10px;">
-                            <a href="{{request()->session()->forget(['editEmployee', 'avatarEdit'])}}"
-                               class="btn btn-default btn-sm">Reset</a>
+                            <a href="{{route('admin.employee.reset_add_edit')}}" class="btn btn-default ">Reset</a>
                             <button type="submit" class="btn btn-primary btn-sm " style="float: right;">Confirm</button>
                         </div>
                     </form>

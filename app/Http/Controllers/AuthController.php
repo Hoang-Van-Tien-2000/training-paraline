@@ -9,25 +9,25 @@ use App\Repositories\UserRepository;
 
 class AuthController extends Controller
 {
-    protected  $userRepository;
+    protected $userRepository;
 
     public function __construct(UserRepository $userRepository)
     {
         $this->userRepository = $userRepository;
     }
-    
+
     public function register()
     {
         return view('auth.register');
-    } 
-    
+    }
+
     public function postRegister(RegisterRequest $request)
     {
         $user = $this->userRepository->register($request->all());
         auth()->login($user);
         return redirect()->to('/admin');
-    } 
-    
+    }
+
     public function login()
     {
         return view('auth.login');
@@ -43,12 +43,12 @@ class AuthController extends Controller
         if (Auth::attempt($data, $request->has('remember'))) {
             return redirect('/admin');
         }
-        return redirect()->back()->with('msg',  config('messages.incorrect'));
+        return redirect()->back()->with('msg', config('messages.incorrect'));
     }
 
     public function logout()
     {
         $this->userRepository->logout();
         return redirect()->route('admin.login');
-    } 
+    }
 }

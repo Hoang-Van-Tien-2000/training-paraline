@@ -62,9 +62,10 @@
                                     <th width=4%>ID <i onclick="sortByField('id')" class="fa fa-sort" aria-hidden="true"
                                                        style="cursor: pointer;"></i></th>
                                     <th width=10%>Full name <i onclick="sortByField('last_name')" class="fa fa-sort"
-                                                              aria-hidden="true" style="cursor: pointer;"></i></th>
-                                    <th width=6%>Team <i onclick="sortByField('team_id')" class="fa fa-sort" aria-hidden="true"
-                                                style="cursor: pointer;"></i></th>
+                                                               aria-hidden="true" style="cursor: pointer;"></i></th>
+                                    <th width=6%>Team <i onclick="sortByField('team_id')" class="fa fa-sort"
+                                                         aria-hidden="true"
+                                                         style="cursor: pointer;"></i></th>
                                     <th width=4%>Email</th>
                                     <th width=2%>Gender</th>
                                     <th>Birthday</th>
@@ -73,7 +74,8 @@
                                     <th>Salary</th>
                                     <th width=8%>Position <i onclick="sortByField('position')" class="fa fa-sort"
                                                              aria-hidden="true" style="cursor: pointer;"></i></th>
-                                    <th width=12%>Type_of_work <i onclick="sortByField('type_of_work')" class="fa fa-sort"
+                                    <th width=12%>Type_of_work <i onclick="sortByField('type_of_work')"
+                                                                  class="fa fa-sort"
                                                                   aria-hidden="true" style="cursor: pointer;"></i></th>
                                     <th width=7%>Status <i onclick="sortByField('status')" class="fa fa-sort"
                                                            aria-hidden="true" style="cursor: pointer;"></i></th>
@@ -97,7 +99,8 @@
                                             </td>
                                             <td>{{$employee->birthday }}</td>
                                             <td>{{$employee->address}}</td>
-                                            <td><img alt="Your image" src="{{ public_url($employee->avatar)}}"
+                                            <td><img alt="Your image"
+                                                     src="{{ public_url(config('constant.APP_URL_IMAGE'). $employee->avatar)}}"
                                                      width="50px"></td>
                                             <td>{{number_format($employee->salary,0,'đ','.')}} </td>
                                             <td>

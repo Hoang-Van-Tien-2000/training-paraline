@@ -39,10 +39,10 @@ class EmployeeRepository extends BaseRepository
             ->when(!empty($request['email']), function ($q) use ($request) {
                 return $q->where('email', 'LIKE', '%' . $request['email'] . '%');
             })
-            ->when(!empty($request['sort_field'] && $request['sort_type'] == 'desc' ), function ($q) use ($request) {
+            ->when(!empty($request['sort_field'] && $request['sort_type'] == 'desc'), function ($q) use ($request) {
                 return $q->orderByDesc($request['sort_field']);
             })
-            ->when(!empty($request['sort_field'] && $request['sort_type'] == 'asc' ), function ($q) use ($request) {
+            ->when(!empty($request['sort_field'] && $request['sort_type'] == 'asc'), function ($q) use ($request) {
                 return $q->orderBy($request['sort_field']);
             })
             ->Paginate(config('constant.LIMIT_PER_PAGE'));
@@ -55,19 +55,22 @@ class EmployeeRepository extends BaseRepository
 
     public function create(array $attributes)
     {
-        $attributes['avatar'] = request()->session()->get('addEmployee')['file_name'];
+        $attributes['avatar'] = session()->get('addEmployee')['file_name'];
         $attributes['password'] = Auth::user()->password;
         $attributes['email'] = Auth::user()->email;
-        request()->session()->forget('addEmployee');
-        request()->session()->forget('currentImgUrl');
+        session()->forget('addEmployee');
+        session()->forget('currentImgUrl');
+
         return parent::create($attributes);
     }
 
     public function update($id, $attributes)
     {
-        Session::forget('editEmployee');
+        $attributes['avatar'] = session()->get('editEmployee')['file_name'];
         $attributes['email'] = Auth::user()->email;
         $attributes['password'] = Auth::user()->password;
+        session()->forget('editEmployee');
+        session()->forget('currentImgUrl');
 
         return parent::update($id, $attributes);
     }
@@ -75,5 +78,13 @@ class EmployeeRepository extends BaseRepository
     public function delete($id)
     {
         return parent::delete($id);
+    }
+
+    public function resetAddEdit($request)
+    {
+
+        session()->forget('addEmployee');
+        session()->forget('editEmployee');
+        session()->forget('currentImgUrl');
     }
 }

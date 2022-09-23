@@ -34,7 +34,7 @@
                             </div>
                             <div class="col-3 col-md-3">
                                 <span>
-                                     @if(request()->session()->get('addEmployee')['team_id'])
+                                     @if(request()->team_id)
                                         {{$team->name}}
                                     @endif
                                 </span>
@@ -46,7 +46,7 @@
                             </div>
                             <div class="col-3 col-md-3">
                                     <span>
-                                        {{request()->session()->get('addEmployee')['first_name']}}
+                                        {{request()->first_name}}
                                     </span>
                             </div>
                         </div>
@@ -56,7 +56,7 @@
                             </div>
                             <div class="col-3 col-md-3">
                                     <span>
-                                        {{request()->session()->get('addEmployee')['last_name']}}
+                                        {{request()->last_name}}
                                     </span>
                             </div>
                         </div>
@@ -65,11 +65,11 @@
                                 <label for="gender"> Gender : </label>
                             </div>
                             <div class="col-3 col-md-3">
-                                @if(request()->session()->get('addEmployee')['gender'] == config('constant.GENDER_MALE'))
+                                @if(request()->gender == config('constant.GENDER_MALE'))
                                     <label for="inline-radio1" class="form-check-label pr-5">
                                         <span> Male </span>
                                     </label>
-                                @elseif(request()->session()->get('addEmployee')['gender'] == config('constant.GENDER_FEMALE'))
+                                @elseif(request()->gender == config('constant.GENDER_FEMALE'))
                                     <label for="inline-radio3" class="form-check-label">
                                         <span>Female </span>
                                     </label>
@@ -81,7 +81,7 @@
                                 <label for="birthday" class="py-4"> Birthday :</label>
                             </div>
                             <div class="col-3 col-md-3">
-                                <span> {{request()->session()->get('addEmployee')['birthday']}} </span>
+                                <span> {{request()->birthday}} </span>
                             </div>
                         </div>
                         <div class="row form-group">
@@ -89,7 +89,7 @@
                                 <label for="address"> Address : </label>
                             </div>
                             <div class="col-3 col-md-3">
-                                <span> {{request()->session()->get('addEmployee')['address'] }} </span>
+                                <span> {{request()->address }} </span>
                             </div>
                         </div>
                         <div class="row form-group">
@@ -97,7 +97,7 @@
                                 <label for="salary" class="py-4"> Salary : </label>
                             </div>
                             <div class="col-3 col-md-3">
-                                <span> {{number_format(request()->session()->get('addEmployee')['salary'],0,'đ','.')}} </span>
+                                <span> {{number_format(request()->salary,0,'đ','.')}} </span>
                             </div>
                         </div>
                         <div class="row form-group">
@@ -105,7 +105,7 @@
                                 <label for="position"> Position </label>
                             </div>
                             <div class="col-3 col-md-3">
-                                @switch(request()->session()->get('addEmployee')['position'])
+                                @switch(request()->position)
                                     @case(config('constant.POSITION_MANAGER'))
                                     <span>Manager</span>
                                     @break
@@ -131,7 +131,7 @@
                                 <label for="type_of_word"> Type of work </label>
                             </div>
                             <div class="col-3 col-md-3">
-                                @switch(request()->session()->get('addEmployee')['type_of_work'])
+                                @switch(request()->type_of_work)
                                     @case(config('constant.TYPE_OF_WORK_FULL_TIME'))
                                     <span>Full Time</span>
                                     @break
@@ -154,11 +154,11 @@
                                 <label for="status"> Status </label>
                             </div>
                             <div class="col-3 col-md-3">
-                                @if(request()->session()->get('addEmployee')['status'] == config('constant.STATUS_ON_WORKING') )
+                                @if(request()->status == config('constant.STATUS_ON_WORKING') )
                                     <label for="inline-radio1" class="form-check-label pr-5">
                                         <span>On working </span>
                                     </label>
-                                @elseif(request()->session()->get('addEmployee')['status'] == config('constant.STATUS_RETIRED'))
+                                @elseif(request()->status == config('constant.STATUS_RETIRED'))
                                     <label for="inline-radio3" class="form-check-label">
                                         <span>Retired </span>
                                     </label>
@@ -186,9 +186,8 @@
                                         </button>
                                         <form style="display: inline-block;"
                                               action="{{route('admin.employee.add_save')}}" method="post">
-                                            {{method_field('post')}}
+                                            {{method_field('put')}}
                                             @csrf
-                                            {{--                                                <input type="hidden" class="form-control" value="{{request()->session()->get('addEmployee')}}">--}}
                                             <button type="submit" class="btn btn-primary">OK</button>
                                         </form>
                                     </div>

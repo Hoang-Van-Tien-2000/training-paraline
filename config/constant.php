@@ -17,5 +17,5 @@ return [
     'TYPE_OF_WORK_INTERN' => 4,
     'STATUS_ON_WORKING' => 0,
     'STATUS_RETIRED' => 1,
-    'APP_URL_IMAGE' => 'storage/employee/'
+    'APP_URL_IMAGE' => 'storage/temp/'
 ];

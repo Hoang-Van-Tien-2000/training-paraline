@@ -16,6 +16,7 @@ class TeamController extends Controller
         $this->teamRepository = $teamRepository;
         $this->middleware(function ($request, $next) {
             session(['module_active' => 'team']);
+
             return $next($request);
         });
     }
@@ -29,12 +30,14 @@ class TeamController extends Controller
     {
         $request->flash();
         $request->session()->put('addTeam', $request->input());
+
         return view('admin.teams.create_confirm');
     }
 
     public function addConfirmSave(TeamRequest $request)
     {
         $this->teamRepository->create($request->session()->get('addTeam'));
+
         return redirect()->route('admin.team.search')->with('message', config('messages.create_success'));
     }
 
@@ -42,9 +45,13 @@ class TeamController extends Controller
     {
         try {
             $teams = $this->teamRepository->searchByName($request->input('keyword'));
+
             return view('admin.teams.search', compact('teams'));
+
         } catch (ModelNotFoundException $exception) {
+
             Log::error('Message: ' . $exception->getMessage() . ' Line : ' . $exception->getLine());
+
             return back()->withError($exception->getMessage())->withInput();
         }
     }
@@ -52,13 +59,15 @@ class TeamController extends Controller
     public function edit($id)
     {
         $team = $this->teamRepository->getById($id);
+
         return view('admin.teams.edit', compact('team'));
     }
 
     public function editConfirm(TeamRequest $request)
     {
         $request->flash();
-        $request->session()->put('editTeam',  $request->input());
+        $request->session()->put('editTeam', $request->input());
+
         return view('admin.teams.edit_confirm');
     }
 
@@ -67,11 +76,14 @@ class TeamController extends Controller
         try {
 
             $this->teamRepository->update($id, $request->session()->get('editTeam'));
+
             return redirect()->route('admin.team.search')->with('message', config('messages.update_success'));
 
         } catch (\Exception $exception) {
+
             $error = config('messages.update_not_list') . $exception->getCode();
             Log::error('Message: ' . $exception->getMessage() . ' Line : ' . $exception->getLine());
+
             return redirect()->route('admin.team.search')->with('error', $error);
         }
     }
@@ -79,7 +91,9 @@ class TeamController extends Controller
     public function delete($id)
     {
         try {
+
             $result = $this->teamRepository->delete($id);
+
             if ($result) {
                 return redirect()->route('admin.team.search')->with('message', config('messages.delete_success'));
             } else {
@@ -88,6 +102,7 @@ class TeamController extends Controller
         } catch (\Exception $exception) {
             $error = config('messages.delete_not_list') . $exception->getCode();
             Log::error('Message: ' . $exception->getMessage() . ' Line : ' . $exception->getLine());
+
             return redirect()->route('admin.team.search')->with('error', $error);
         }
     }

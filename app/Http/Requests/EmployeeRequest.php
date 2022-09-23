@@ -2,25 +2,19 @@
 
 namespace App\Http\Requests;
 
-
 use Illuminate\Foundation\Http\FormRequest;
-use Illuminate\Support\Facades\Request;
-use MongoDB\Driver\Session;
 use Illuminate\Contracts\Validation\Validator;
 use Illuminate\Validation\ValidationException;
-use App\Traits\StorageImageTrait;
-use function Doctrine\Common\Cache\Psr6\get;
+
 
 class EmployeeRequest extends FormRequest
 {
-    use StorageImageTrait;
-
     /**
      * Determine if the user is authorized to make this request.
      *
      * @return bool
      */
-    public function authorize(): bool
+    public function authorize()
     {
         return true;
     }
@@ -30,9 +24,10 @@ class EmployeeRequest extends FormRequest
      *
      * @return array
      */
-    public function rules(): array
+    public function rules()
     {
         $rules = [
+
             'avatar' => 'nullable|mimes:png,gif,jpeg|max:2048',
             'team_id' => 'required',
             'first_name' => 'required|max:129',
@@ -52,12 +47,12 @@ class EmployeeRequest extends FormRequest
             $rules['avatar'] = 'required|mimes:png,gif,jpeg|max:2048';
         }
 
-        if (in_array($this->method(), ['PUT', 'PATCH'])) {
-
-            $rules['avatar'] = [
-                'mimes:png,gif,jpeg|max:2048',
-            ];
-        }
+//        if (in_array($this->method(), ['PUT', 'PATCH'])) {
+//
+//            $rules['avatar'] = [
+//                'mimes:png,gif,jpeg|max:2048',
+//            ];
+//        }
 
         return $rules;
     }
@@ -66,14 +61,8 @@ class EmployeeRequest extends FormRequest
     {
         $all = parent::validationData();
 
-        request()->flash();
-        $imageFileName = str_replace('storage/temp/', '', session()->get('currentImgUrl'));
-        $imageUrl = session()->get('currentImgUrl');
-
-        request()->merge([
-            'file_name' => $imageFileName,
-            'file_path' => $imageUrl,
-        ]);
+        $imageFileName = null;
+        $imageUrl = null;
 
         if (request()->hasFile('avatar')) {
             $image = request()->file('avatar');
@@ -82,17 +71,27 @@ class EmployeeRequest extends FormRequest
             $imageUrl = 'storage/temp/' . $imageFileName;
 
             session()->put('currentImgUrl', $imageUrl);
+
+        } else {
+            $imageFileName = str_replace('storage/temp/', '', session()->get('currentImgUrl1'));
+            $imageUrl = session()->get('currentImgUrl');
         }
 
+
+        request()->merge([
+            'file_name' => $imageFileName,
+            'file_path' => $imageUrl,
+        ]);
+
+        request()->flash();
         return $all;
     }
 
     protected function failedValidation(Validator $validator)
     {
         if ($validator->errors()->has('avatar')) {
-            session()->forget('currentImgUrl');
+//            session()->forget('currentImgUrl');
         }
         parent::failedValidation($validator);
     }
-
 }
