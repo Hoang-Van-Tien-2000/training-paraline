@@ -12,10 +12,13 @@ use Illuminate\Support\Facades\Storage;
 use Illuminate\Support\Facades\File;
 use Illuminate\Http\Request;
 use Illuminate\Database\QueryException;
+use App\Traits\StorageImageTrait;
 
 class EmployeeController extends Controller
 {
     protected $teamRepository, $employeeRepository;
+
+    use StorageImageTrait;
 
     public function __construct(TeamRepository $teamRepository, EmployeeRepository $employeeRepository)
     {
@@ -31,40 +34,58 @@ class EmployeeController extends Controller
     public function add()
     {
         $teams = $this->teamRepository->getAll();
+
         return view('admin.employees.create', compact('teams'));
     }
 
     public function addConfirm(EmployeeRequest $request)
     {
-        if ($request->file('avatar')) {
-            $file = $request->file('avatar');
 
-            if ($file->isValid()) {
-                $fileName = $file->getClientOriginalName();
-                Storage::disk('public')->put($fileName, File::get($file));
-            }
-        }
         $request->flash();
-        $employee = collect([$request->input()]);
-        $employee = $employee->merge($fileName);
-        session(['addEmployee' => $employee]);
-        $team = $this->teamRepository->findById(Session::get('addEmployee')['0']['team_id']);
-        return view('admin.employees.create_confirm', compact('team'));
+//        $dataUploadFeatureImage = $this->storageTraitUpload($request, 'avatar', 'employee');
+//        $employee = $request->input();
+//        $avatarSession = $request->session()->get('avatar');
+//
+//        if (!empty($dataUploadFeatureImage)) {
+//            $request->session()->put('avatar', $dataUploadFeatureImage);
+//            $avatarSession = $dataUploadFeatureImage;
+//        }
+//
+//        $employee = array_merge($employee, $avatarSession);
+//
+//        $request->session()->put('addEmployee', $employee);
+//
+//        $team = $this->teamRepository->findById($request->session()->get('addEmployee')['team_id']);
+
+        $employee = $request->input();
+        $avatarSession = session()->get('avatar');
+
+       if ($request->hasFile('avatar')) {
+            $dataUploadFeatureImage['file_name'] = request()['file_name'];
+            $dataUploadFeatureImage['file_path'] = request()['file_path'];
+            session()->put('avatar', $dataUploadFeatureImage);
+            $avatarSession = $dataUploadFeatureImage;
+       }
+
+        $employee = array_merge($employee, $avatarSession);
+        session()->put('addEmployee', $employee);
+        $team = $this->teamRepository->findById(session()->get('addEmployee')['team_id']);
+       return view('admin.employees.create_confirm')->with(compact('team'));
 
     }
 
     public function addConfirmSave(Request $request)
     {
         try {
-            $employee = $this->employeeRepository->create($request->all());
+            $employee = $this->employeeRepository->create($request->session()->get('addEmployee'));
             if ($employee) {
                 $emailJob = new EmployeeJob($employee);
                 dispatch($emailJob);
             }
 
             return redirect()->route('admin.employee.search')->with('message', config('messages.create_success'));
-        } catch (QueryException $e) {
-            $error = $e->errorInfo;
+        } catch (QueryException $exception) {
+            $error = $exception->errorInfo;
             Log::error('Message: ' . $exception->getMessage() . ' Line : ' . $exception->getLine());
             return redirect()->back()->with('error', $error);
         }
@@ -76,9 +97,12 @@ class EmployeeController extends Controller
             $teams = $this->teamRepository->getAll();
             $request->flash();
             $employees = $this->employeeRepository->search($request);
+
             return view('admin.employees.search', compact('employees', 'teams'));
+
         } catch (ModelNotFoundException $exception) {
             Log::error('Message: ' . $exception->getMessage() . ' Line : ' . $exception->getLine());
+
             return back()->withError($exception->getMessage())->withInput();
         }
     }
@@ -87,54 +111,58 @@ class EmployeeController extends Controller
     {
         $employee = $this->employeeRepository->getById($id);
         $teams = $this->teamRepository->getAll();
+
         return view('admin.employees.edit', compact('employee', 'teams'));
     }
 
     public function editConfirm(EmployeeRequest $request)
     {
+
         $request->flash();
-        $employee = $this->employeeRepository->getById($request->id);
-        $oldImage = $employee->avatar;
-        if ($request->file('avatar')) {
+        $result = $this->employeeRepository->getById($request->id);
+        $employee = $request->input();
+        $avatarSession = session()->get('avatarEdit');
 
-            $newImage = $request->file('avatar');
-            $newFileName = $newImage->getClientOriginalName();
-            if ($newImage->isValid()) {
-                $newFileName = $newImage->getClientOriginalName();
-                Storage::disk('public')->put($newFileName, File::get($newImage));
-                Storage::delete('public' . $oldImage);
+        if ($request->avatar) {
+            $dataUploadFeatureImage = $this->storageTraitUpload($request, 'avatar', 'employee');
+            // unlink(public_path(config('constant.APP_URL_IMAGE'). $result->avatar));
+            if (!empty($dataUploadFeatureImage)) {
+                session()->put('avatarEdit', $dataUploadFeatureImage);
+                $avatarSession = $dataUploadFeatureImage;
             }
-
-            $employee = collect([$request->input()]);
-            $employee = $employee->merge($newFileName);
-            $request->session()->put('editEmployee', $employee);
-            $team = $this->teamRepository->findById(Session::get('editEmployee')['0']['team_id']);
-            return view('admin.employees.edit_confirm', compact('team'));
-
-        } else {
-
-            $employee = collect([$request->input()]);
-            $employee = $employee->merge($oldImage);
-            $request->session()->put('editEmployee', $employee);
-            $team = $this->teamRepository->findById(Session::get('editEmployee')['0']['team_id']);
-            return view('admin.employees.edit_confirm', compact('team'));
         }
+
+//        elseif(empty($dataUploadFeatureImage)) {
+//
+//            $oldImage['file_name'] = $employee->avatar;
+//            $request->session()->put('avatarEdit', $oldImage);
+//            $avatarSession = $oldImage;
+//        }
+
+        $employee = array_merge($employee, $avatarSession);
+        session()->put('editEmployee', $employee);
+
+        $team = $this->teamRepository->findById($request->session()->get('editEmployee')['team_id']);
+
+        return view('admin.employees.edit_confirm', compact('team'));
     }
 
     public function editConfirmSave($id, Request $request)
     {
         try {
-
             $employee = $this->employeeRepository->getById($request->id);
             $result = $this->employeeRepository->update($id, $request->input());
+
             if ($employee->email !== $result->email) {
                 $emailJob = new EmployeeJob($employee);
                 dispatch($emailJob);
             }
+
             return redirect()->route('admin.employee.search')->with('message', config('messages.update_success'));
         } catch (\Exception $exception) {
             $error = config('messages.update_not_list') . $exception->getCode();
             Log::error('Message: ' . $exception->getMessage() . ' Line : ' . $exception->getLine());
+
             return redirect()->route('admin.employee.search')->with('error', $error);
         }
     }
@@ -151,13 +179,13 @@ class EmployeeController extends Controller
         } catch (\Exception $exception) {
             $error = config('messages.delete_not_list') . $exception->getCode();
             Log::error('Message: ' . $exception->getMessage() . ' Line : ' . $exception->getLine());
+
             return redirect()->route('admin.employee.search')->with('error', $error);
         }
     }
 
     public function exportCSV(Request $request)
     {
-
         $fileName = 'employees.csv';
         $employees = $this->employeeRepository->search($request);
         $headers = [

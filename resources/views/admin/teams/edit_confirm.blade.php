@@ -21,9 +21,10 @@
                             <div class="col-md-12">
                                 <div class="form-group">
                                     <label for="name">Name *</label>
-                                    <input name="name" type="text" value="{{Session::get('editTeam')}}"
-                                           class="form-control"
-                                           id="name">
+{{--                                    <input name="name" type="text" value="{{Session::get('editTeam')}}"--}}
+{{--                                           class="form-control"--}}
+{{--                                           id="name">--}}
+                                    <span  style="display: inline-block; padding-left: 6rem; font-size: 17px;">  {{  request()->session()->get('editTeam')['name'] }} </span>
                                 </div>
                             </div>
                         </div>
@@ -53,7 +54,7 @@
                                               method="POST">
                                             @csrf
                                             <input type="hidden" class="form-control" name="name"
-                                                   value="{{Session::get('editTeam')}}"
+                                                   value="{{ request()->session()->get('editTeam')['name'] }}"
                                                    id="name"
                                                    aria-describedby="name">
                                             <button type="submit" class="btn btn-primary">OK</button>
@@ -65,7 +66,6 @@
                             <!-- /.modal-dialog -->
                         </div>
                         <!-- /.modal -->
-
                     </div>
                 </div>
                 <!-- /.box -->

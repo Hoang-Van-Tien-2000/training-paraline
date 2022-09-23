@@ -25,170 +25,149 @@
                                     <label for="file" class="py-4"> Avatar </label>
                                 </div>
                                 <div class="col-3 col-md-3">
-                                    <input type="hidden" name="avatar" value="{{Session::get('editEmployee')['1'] }}">
-                                    <img src="{{asset('storage/'.Session::get('editEmployee')['1'])}}"
-                                         class="card-img-top" alt="...">
+                                    <input type="hidden" name="avatar"
+                                           value="{{request()->session()->get('editEmployee')['file_name']}}">
+                                    <img width="150" height="150"
+                                         src="{{public_url(config('constant.APP_URL_IMAGE'). request()->session()->get('editEmployee')['file_name'])}}"
+                                         class="card-img-top img-thumbnail" alt="...">
                                 </div>
                             </div>
-                                <div class="row  form-group">
-                                    <div class="col col-md-3">
-                                        <label for="name" class="py-4"> Team </label>
-                                    </div>
-                                    <div class="col-3 col-md-3">
-                                        <select name="team_id" id="SelectLm"
-                                                class="form-control-sm form-control">
-                                            <option value="{{Session::get('editEmployee')['0']['team_id']}}">
-                                                {{$team->name}}
-                                            </option>
-                                        </select>
-                                    </div>
+                            <div class="row  form-group">
+                                <div class="col col-md-3">
+                                    <label for="name" class="py-4"> Team </label>
                                 </div>
-                                <div class="row form-group">
-                                    <div class="col col-md-3">
-                                        <label for="first_name" class="py-4"> First name </label>
-                                    </div>
-                                    <div class="col-3 col-md-3">
-                                        <input type="text" class="form-control" name="first_name"
-                                               value="{{ Session::get('editEmployee')['0']['first_name'] }}" id="first_name"
-                                               aria-describedby="first_name">
-                                    </div>
+                                <div class="col-3 col-md-3">
+                                    @if(request()->session()->get('editEmployee')['team_id'])
+                                        {{$team->name}}
+                                    @endif
                                 </div>
-                                <div class="row form-group">
-                                    <div class="col col-md-3">
-                                        <label for="last_name" class="py-4"> Last name </label>
-                                    </div>
-                                    <div class="col-3 col-md-3">
-                                        <input type="text" class="form-control" name="last_name"
-                                               value=" {{ Session::get('editEmployee')['0']['last_name'] }} " id="last_name"
-                                               aria-describedby="last_name">
-                                    </div>
+                            </div>
+                            <div class="row form-group">
+                                <div class="col col-md-3">
+                                    <label for="first_name" class="py-4"> First name </label>
                                 </div>
-                                <div class="form-group row">
-                                    <div class="col col-md-3">
-                                        <label for="gender"> Gender </label>
-                                    </div>
-                                    <div class="col-3 col-md-3">
-                                        @if(Session::get('editEmployee')['0']['gender'] == config('constant.GENDER_MALE'))
-                                            <label for="inline-radio1" class="form-check-label pr-5">
-                                                <input type="hidden" id="inline-radio1" name="gender"
-                                                       value="{{Session::get('editEmployee')['0']['gender']}}"
-                                                       class="form-check-input">Male
-                                            </label>
-                                        @elseif(Session::get('editEmployee')['0']['gender'] == config('constant.GENDER_FEMALE'))
-                                            <label for="inline-radio3" class="form-check-label">
-                                                <input type="hidden" id="inline-radio3" name="gender"
-                                                       value="{{Session::get('editEmployee')['0']['gender']}}"
-                                                       class="form-check-input">Female
-                                            </label>
-                                        @endif
-                                    </div>
+                                <div class="col-3 col-md-3">
+                                     <span>
+                                        {{request()->session()->get('editEmployee')['first_name']}}
+                                    </span>
                                 </div>
-                                <div class="form-group row">
-                                    <div class="col col-md-3">
-                                        <label for="birthday" class="py-4"> Birthday </label>
-                                    </div>
-                                    <div class="col-3 col-md-3">
-                                        <input type="date" id="text-input"
-                                               value="{{ Session::get('editEmployee')['0']['birthday'] }}" name="birthday"
-                                               class="form-control">
-                                    </div>
+                            </div>
+                            <div class="row form-group">
+                                <div class="col col-md-3">
+                                    <label for="last_name" class="py-4"> Last name </label>
                                 </div>
-                                <div class="row form-group">
-                                    <div class="col col-md-3">
-                                        <label for="address"> Address </label>
-                                    </div>
-                                    <div class="col-3 col-md-3">
-                                        <input type="text" id="text-input" value="{{ Session::get('editEmployee')['0']['address'] }}"
-                                               name="address" class="form-control">
-                                    </div>
+                                <div class="col-3 col-md-3">
+                                      <span>
+                                        {{request()->session()->get('editEmployee')['last_name']}}
+                                    </span>
                                 </div>
-                                <div class="row form-group">
-                                    <div class="col col-md-3">
-                                        <label for="salary" class="py-4"> Salary </label>
-                                    </div>
-                                    <div class="col-3 col-md-3">
-                                        <input type="text" id="text-input" value="{{ Session::get('editEmployee')['0']['salary'] }}"
-                                               name="salary" class="form-control">
-                                    </div>
+                            </div>
+                            <div class="form-group row">
+                                <div class="col col-md-3">
+                                    <label for="gender"> Gender </label>
                                 </div>
-                                <div class="row form-group">
-                                    <div class="col col-md-3">
-                                        <label for="position"> Position </label>
-                                    </div>
-                                    <div class="col-3 col-md-3">
-                                        <select name="position" id="SelectLm"
-                                                class="form-control-sm form-control">
-                                            <option value="{{Session::get('editEmployee')['0']['position']}}">
-                                                @switch(Session::get('editEmployee')['0']['position'])
-                                                    @case(config('constant.POSITION_MANAGER'))
-                                                    Manager
-                                                    @break
-                                                    @case(config('constant.POSITION_TEAM_LEADER'))
-                                                    Team leader
-                                                    @break
-                                                    @case(config('constant.POSITION_BSE'))
-                                                    BSE
-                                                    @break
-                                                    @case(config('constant.POSITION_DEV'))
-                                                    DEV
-                                                    @break
-                                                    @case(config('constant.POSITION_TESTER'))
-                                                    Tester
-                                                    @break
-                                                    @default
-                                                @endswitch
-                                            </option>
-                                        </select>
-                                    </div>
+                                <div class="col-3 col-md-3">
+                                    @if(request()->session()->get('editEmployee')['gender'] == config('constant.GENDER_MALE'))
+                                        <label for="inline-radio1" class="form-check-label pr-5">
+                                            <span> Male </span>
+                                        </label>
+                                    @elseif(request()->session()->get('editEmployee')['gender'] == config('constant.GENDER_FEMALE'))
+                                        <label for="inline-radio3" class="form-check-label">
+                                            <span>Female </span>
+                                        </label>
+                                    @endif
                                 </div>
-                                <div class="row form-group">
-                                    <div class="col col-md-3">
-                                        <label for="type_of_word"> Type of work </label>
-                                    </div>
-                                    <div class="col-3 col-md-3">
-                                        <select name="type_of_work" id="SelectLm"
-                                                class="form-control-sm form-control">
-                                            <option value="{{Session::get('editEmployee')['0']['type_of_work']}}">
-                                                @switch(Session::get('editEmployee')['0']['type_of_work'])
-                                                    @case(config('constant.TYPE_OF_WORK_FULL_TIME'))
-                                                    Full Time
-                                                    @break
-                                                    @case(config('constant.TYPE_OF_WORK_PART_TIME'))
-                                                    Part Time
-                                                    @break
-                                                    @case(config('constant.TYPE_OF_WORK_PROBATIONARY_STAFF'))
-                                                    Probationary Staff
-                                                    @break
-                                                    @case(config('constant.TYPE_OF_WORK_INTERN'))
-                                                    Intern
-                                                    @break
-                                                    @default
-                                                @endswitch
-                                            </option>
-                                        </select>
-                                    </div>
+                            </div>
+                            <div class="form-group row">
+                                <div class="col col-md-3">
+                                    <label for="birthday" class="py-4"> Birthday </label>
                                 </div>
-                                <div class="row form-group">
-                                    <div class="col col-md-3">
-                                        <label for="status"> Status </label>
-                                    </div>
-                                    <div class="col-3 col-md-3">
-                                        @if(Session::get('editEmployee')['0']['status'] == config('constant.STATUS_ON_WORKING') )
-                                            <label for="inline-radio1" class="form-check-label pr-5">
-                                                <input type="hidden" id="inline-radio1 " name="status"
-                                                       value="{{Session::get('editEmployee')['0']['status']}}" class="form-check-input"
-                                                >On working
-                                            </label>
-                                        @elseif(Session::get('editEmployee')['0']['status'] == config('constant.STATUS_RETIRED'))
-                                            <label for="inline-radio3" class="form-check-label">
-                                                <input type="hidden" id="inline-radio3" name="Status"
-                                                       value="{{Session::get('editEmployee')['0']['status']}}" class="form-check-input"
-                                                >Retired
-                                            </label>
-                                        @endif
-                                    </div>
+                                <div class="col-3 col-md-3">
+                                    <span> {{request()->session()->get('editEmployee')['birthday']}} </span>
                                 </div>
-                            <a href="{{ url()->previous() }} " class="btn btn-light">Back</a>
+                            </div>
+                            <div class="row form-group">
+                                <div class="col col-md-3">
+                                    <label for="address"> Address </label>
+                                </div>
+                                <div class="col-3 col-md-3">
+                                    <span> <span> {{request()->session()->get('editEmployee')['address']}} </span> </span>
+                                </div>
+                            </div>
+                            <div class="row form-group">
+                                <div class="col col-md-3">
+                                    <label for="salary" class="py-4"> Salary </label>
+                                </div>
+                                <div class="col-3 col-md-3">
+                                    <span> {{number_format(request()->session()->get('editEmployee')['salary'],0,'đ','.')}} </span>
+                                </div>
+                            </div>
+                            <div class="row form-group">
+                                <div class="col col-md-3">
+                                    <label for="position"> Position </label>
+                                </div>
+                                <div class="col-3 col-md-3">
+                                    @switch(request()->session()->get('editEmployee')['position'])
+                                        @case(config('constant.POSITION_MANAGER'))
+                                        <span>Manager</span>
+                                        @break
+                                        @case(config('constant.POSITION_TEAM_LEADER'))
+                                        <span> Team leader</span>
+                                        @break
+                                        @case(config('constant.POSITION_BSE'))
+                                        <span> BSE</span>
+                                        @break
+                                        @case(config('constant.POSITION_DEV'))
+                                        <span>DEV</span>
+                                        @break
+                                        @case(config('constant.POSITION_TESTER'))
+                                        <span> Tester</span>
+                                        @break
+                                        @default
+                                        @break
+                                    @endswitch
+                                </div>
+                            </div>
+                            <div class="row form-group">
+                                <div class="col col-md-3">
+                                    <label for="type_of_word"> Type of work </label>
+                                </div>
+                                <div class="col-3 col-md-3">
+                                    @switch(request()->session()->get('editEmployee')['type_of_work'])
+                                        @case(config('constant.TYPE_OF_WORK_FULL_TIME'))
+                                        <span>Full Time</span>
+                                        @break
+                                        @case(config('constant.TYPE_OF_WORK_PART_TIME'))
+                                        <span> Part Time</span>
+                                        @break
+                                        @case(config('constant.TYPE_OF_WORK_PROBATIONARY_STAFF'))
+                                        <span>  Probationary Staff</span>
+                                        @break
+                                        @case(config('constant.TYPE_OF_WORK_INTERN'))
+                                        <span>  Intern</span>
+                                        @break
+                                        @default
+                                        @break
+                                    @endswitch
+                                </div>
+                            </div>
+                            <div class="row form-group">
+                                <div class="col col-md-3">
+                                    <label for="status"> Status </label>
+                                </div>
+                                <div class="col-3 col-md-3">
+                                    @if(request()->session()->get('editEmployee')['status'] == config('constant.STATUS_ON_WORKING') )
+                                        <label for="inline-radio1" class="form-check-label pr-5">
+                                            <span>On working </span>
+                                        </label>
+                                    @elseif(request()->session()->get('editEmployee')['status'] == config('constant.STATUS_RETIRED'))
+                                        <label for="inline-radio3" class="form-check-label">
+                                            <span>Retired </span>
+                                        </label>
+                                    @endif
+                                </div>
+                            </div>
+                            <a href="{{ route('admin.employee.edit' , request()->id)}}" class="btn btn-light">Back</a>
                             <button type="button"
                                     class="btn btn-default __web-inspector-hide-shortcut__ btn btn-primary "
                                     style="float: right; color: white;" data-toggle="modal" data-target="#modal-sm">

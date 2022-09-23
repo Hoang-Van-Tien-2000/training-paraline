@@ -3,9 +3,7 @@
 @section('main-content')
     <!-- Content Header (Page header) -->
     <section class="content-header">
-        <h1>
-            Team - Create
-        </h1>
+        <h1> Team - Create </h1>
     </section>
     <!-- Main content -->
     <section class="content">
@@ -14,7 +12,6 @@
             <div class="col-md-10 d-flex justify-content-sm-between">
                 <!-- general form elements -->
                 <div class="box box-primary">
-
                     <!-- /.box-header -->
                     <!-- form start -->
                     <form role="form" method="post" action="{{route('admin.team.add_confirm')}}">
@@ -35,8 +32,8 @@
                         </div>
                         <!-- /.box-body -->
                         <div class="box-footer ">
-                            <a href="{{Session::forget('addTeam')}}" class="btn btn-default ">Reset</a>
-                            <button type="submit" class="btn btn-primary " style="float: right">Confirm</button>
+                            <a href="{{request()->session()->forget('addTeam')}}" class="btn btn-default ">Reset</a>
+                            <button type="submit" class="btn btn-primary" style="float: right">Confirm</button>
                         </div>
                     </form>
                 </div>

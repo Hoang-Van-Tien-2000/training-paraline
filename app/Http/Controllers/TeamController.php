@@ -27,14 +27,14 @@ class TeamController extends Controller
 
     public function addConfirm(TeamRequest $request)
     {
-        $request->session()->put('addTeam', $request->name);
         $request->flash();
+        $request->session()->put('addTeam', $request->input());
         return view('admin.teams.create_confirm');
     }
 
     public function addConfirmSave(TeamRequest $request)
     {
-        $this->teamRepository->create($request->all());
+        $this->teamRepository->create($request->session()->get('addTeam'));
         return redirect()->route('admin.team.search')->with('message', config('messages.create_success'));
     }
 
@@ -57,8 +57,8 @@ class TeamController extends Controller
 
     public function editConfirm(TeamRequest $request)
     {
-        $request->session()->put('editTeam', $request->name);
         $request->flash();
+        $request->session()->put('editTeam',  $request->input());
         return view('admin.teams.edit_confirm');
     }
 
@@ -66,7 +66,7 @@ class TeamController extends Controller
     {
         try {
 
-            $this->teamRepository->update($id, $request->only(['name']));
+            $this->teamRepository->update($id, $request->session()->get('editTeam'));
             return redirect()->route('admin.team.search')->with('message', config('messages.update_success'));
 
         } catch (\Exception $exception) {

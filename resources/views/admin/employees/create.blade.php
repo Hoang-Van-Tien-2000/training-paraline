@@ -16,22 +16,24 @@
                 <div class="box box-primary">
                     <!-- /.box-header -->
                     <!-- form start -->
-                    <form action="{{route('admin.employee.add_confirm')}}" method="POST" enctype="multipart/form-data"
+                    <form id="formEmployee" action="{{route('admin.employee.add_confirm')}}" method="POST" enctype="multipart/form-data"
                           class="form-horizontal">
                         @csrf
                         <div class="box-body">
                             <div class="row form-group image">
                                 <div class="col col-md-3">
-                                    <label for="file-input-control" class=" form-control-label">Avatar
-                                        * </label>
+                                    <label for="file-input-control" class=" form-control-label">Avatar * </label>
                                 </div>
                                 <div class="col col-md-3">
-                                    <input type="file" class="form-control file-input-control src_img"
-                                           name="avatar"
-                                           id="file">
+{{--                                    <img class="thumbnail" height="150" width="150" id="blah"--}}
+{{--                                         src="{{asset(isset(request()->session()->get('addEmployee')['file_path'])  ? request()->session()->get('addEmployee')['file_path'] : 'backend/dist/img/import-img.png')}}"--}}
+{{--                                         alt="your image"/>--}}
+                                    <img
+                                        src="{{asset(session()->get('currentImgUrl'))}}"
+                                        width="150" height="150" class="card-img-top" id="blah" alt="...">
 
-                                    <img id="avatar" class="thumbnail" alt="..." width="250px" height="auto"
-                                         src="{{asset('backend/dist/img/import-img.png')}}">
+                                    <input type="file" name="avatar" value="{{old('avatar')}}" onchange="readURL(this);"
+                                           class="form-control file-input-control"/>
                                     @error('avatar')
                                     <small class="form-text text-danger">{!! $message !!}</small>
                                     @enderror
@@ -42,9 +44,12 @@
                                     <label for="Team" class=" form-control-label">Team * </label>
                                 </div>
                                 <div class="col-3 col-md-3">
-                                    <select name="team_id" id="SelectLm" class="form-control-sm form-control">
+                                    <select name="team_id" id="Team" class="form-control-sm form-control">
                                         @foreach($teams as $team)
-                                            <option value=" {{$team->id}} ">{{$team->name}}</option>
+                                            <option value=" {{$team->id}}"
+                                                {{old('team_id') == $team->id ? 'selected' : '' }}
+                                            >{{$team->name}}
+                                            </option>
                                         @endforeach
                                         @error('team')
                                         <small class="form-text text-danger"> {{ $message }}</small>
@@ -82,16 +87,16 @@
                                 </div>
                                 <div class="col col-md-9">
                                     <div class="form-check-inline form-check">
-                                        <label for="inline-radio1" class="form-check-label "
+                                        <label for="male" class="form-check-label "
                                                style="padding-right: 5rem">
-                                            <input type="radio" id="inline-radio1" name="gender"
+                                            <input type="radio" id="male" name="gender"
                                                    value="{{config('constant.GENDER_MALE')}}"
                                                    class="form-check-input"
                                                 {{old('gender') == config('constant.GENDER_MALE') ? 'checked' : '' }}
                                             >Male
                                         </label>
-                                        <label for="inline-radio3" class="form-check-label">
-                                            <input type="radio" id="inline-radio3" name="gender"
+                                        <label for="female" class="form-check-label">
+                                            <input type="radio" id="female" name="gender"
                                                    value="{{config('constant.GENDER_FEMALE')}}"
                                                    class="form-check-input"
                                                 {{old('gender') == config('constant.GENDER_FEMALE') ? 'checked' : '' }}
@@ -141,28 +146,28 @@
                             </div>
                             <div class="row form-group">
                                 <div class="col col-md-3">
-                                    <label for="selectSm" class="form-control-label">Position * </label>
+                                    <label for="position" class="form-control-label">Position * </label>
                                 </div>
                                 <div class="col-3 col-md-3">
-                                    <select name="position" id="SelectLm" class="form-control-sm form-control">
+                                    <select name="position" id="position" class="form-control-sm form-control">
                                         <option value="{{ config('constant.POSITION_MANAGER') }}"
-                                            {{old('position') == config('constant.POSITION_MANAGER') ? 'checked' : '' }}
+                                            {{old('position') == config('constant.POSITION_MANAGER') ? 'selected' : '' }}
                                         >Manager
                                         </option>
                                         <option value="{{ config('constant.POSITION_TEAM_LEADER') }}"
-                                            {{old('position') == config('constant.POSITION_TEAM_LEADER') ? 'checked' : '' }}
+                                            {{old('position') == config('constant.POSITION_TEAM_LEADER') ? 'selected' : '' }}
                                         >Team Leader
                                         </option>
                                         <option value="{{ config('constant.POSITION_BSE') }}"
-                                            {{old('position') == config('constant.POSITION_BSE') ? 'checked' : '' }}
+                                            {{old('position') == config('constant.POSITION_BSE') ? 'selected' : '' }}
                                         >BSE
                                         </option>
                                         <option value="{{ config('constant.POSITION_DEV') }}"
-                                            {{old('position') == config('constant.POSITION_DEV') ? 'checked' : '' }}
+                                            {{old('position') == config('constant.POSITION_DEV') ? 'selected' : '' }}
                                         >DEV
                                         </option>
                                         <option value="{{ config('constant.POSITION_TESTER') }}"
-                                            {{old('position') == config('constant.POSITION_TESTER') ? 'checked' : '' }}
+                                            {{old('position') == config('constant.POSITION_TESTER') ? 'selected' : '' }}
                                         >Tester
                                         </option>
                                     </select>
@@ -173,25 +178,25 @@
                             </div>
                             <div class="row form-group">
                                 <div class="col col-md-3">
-                                    <label for="selectSm" class="form-control-label">Type of word * </label>
+                                    <label for="type_of_work" class="form-control-label">Type of word * </label>
                                 </div>
                                 <div class="col-3 col-md-3">
-                                    <select name="type_of_work" id="SelectLm"
+                                    <select name="type_of_work" id="type_of_work"
                                             class="form-control-sm form-control">
                                         <option value="{{ config('constant.TYPE_OF_WORK_FULL_TIME') }}"
-                                            {{old('type_of_work') == config('constant.TYPE_OF_WORK_FULL_TIME') ? 'checked' : '' }}
+                                            {{old('type_of_work') == config('constant.TYPE_OF_WORK_FULL_TIME') ? 'selected' : '' }}
                                         >Full Time
                                         </option>
                                         <option value="{{ config('constant.TYPE_OF_WORK_PART_TIME') }}"
-                                            {{old('type_of_work') == config('constant.TYPE_OF_WORK_FULL_TIME') ? 'checked' : '' }}
+                                            {{old('type_of_work') == config('constant.TYPE_OF_WORK_FULL_TIME') ? 'selected' : '' }}
                                         >Part Time
                                         </option>
                                         <option value="{{ config('constant.TYPE_OF_WORK_PROBATIONARY_STAFF') }}"
-                                            {{old('type_of_work') == config('constant.TYPE_OF_WORK_PROBATIONARY_STAFF') ? 'checked' : '' }}
+                                            {{old('type_of_work') == config('constant.TYPE_OF_WORK_PROBATIONARY_STAFF') ? 'selected' : '' }}
                                         > Probationary Staff
                                         </option>
                                         <option value="{{ config('constant.TYPE_OF_WORK_INTERN') }}"
-                                            {{old('type_of_work') == config('constant.TYPE_OF_WORK_INTERN') ? 'checked' : '' }}
+                                            {{old('type_of_work') == config('constant.TYPE_OF_WORK_INTERN') ? 'selected' : '' }}
                                         >Intern
                                         </option>
                                     </select>
@@ -206,17 +211,17 @@
                                 </div>
                                 <div class="col col-md-9">
                                     <div class="form-check-inline form-check">
-                                        <label for="inline-radio1" class="form-check-label "
+                                        <label for="working" class="form-check-label "
                                                style="padding-right: 5rem;">
-                                            <input type="radio" id="inline-radio1 " name="status"
+                                            <input type="radio" id="working" name="status"
                                                    value="{{ config('constant.STATUS_ON_WORKING') }}"
                                                    class="form-check-input"
                                                 {{old('status') == config('constant.STATUS_ON_WORKING') ? 'checked' : '' }}
                                             >On working
                                         </label>
-                                        <label for="inline-radio" class="form-check-label">
-                                            <input type="radio" id="inline-radio3" name="status"
-                                                   value="{{ config('constant.STATUS_RETIRED') }}"
+                                        <label for="retired" class="form-check-label">
+                                            <input type="radio" id="retired" name="status"
+                                                   value="{{ config('constant.STATUS_RETIRED')}}"
                                                    class="form-check-input"
                                                 {{old('status') == config('constant.STATUS_RETIRED') ? 'checked' : '' }}
                                             >Retired
@@ -230,7 +235,8 @@
                         </div>
                         <!-- /.box-body -->
                         <div class="box-footer ">
-                            <a href="{{Session::forget('addEmployee')}}" class="btn btn-default ">Reset</a>
+                            <a href="{{request()->session()->forget('currentImgUrl')}}"
+                               class="btn btn-default ">Reset</a>
                             <button type="submit" class="btn btn-primary " style="float: right;">Confirm</button>
                         </div>
                     </form>

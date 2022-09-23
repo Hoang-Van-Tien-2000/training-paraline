@@ -55,9 +55,11 @@ class EmployeeRepository extends BaseRepository
 
     public function create(array $attributes)
     {
-        Session::forget('addEmployee');
-        $attributes['email'] = Auth::user()->email;
+        $attributes['avatar'] = request()->session()->get('addEmployee')['file_name'];
         $attributes['password'] = Auth::user()->password;
+        $attributes['email'] = Auth::user()->email;
+        request()->session()->forget('addEmployee');
+        request()->session()->forget('currentImgUrl');
         return parent::create($attributes);
     }
 

@@ -27,16 +27,16 @@
                             <div class="form-group">
                                 <label for="keyword">Name </label>
                                 <input type="text" class="form-control" name="keyword"
-                                       value="" id="keyword">
+                                       value="{{request()->keyword}}" id="keyword">
                             </div>
-                            <input type="reset" value="Reset" class="btn btn-light">
                             <input type="submit" name="btn-search " value="Search"
                                    class="btn btn-primary" style="float:right">
                         </form>
+                        <a href="{{route('admin.team.search')}}" class="btn btn-default"> Reset </a>
                     </div>
                     <!-- /.box-header -->
                     <div class="box-body table-responsive no-padding">
-                        <div class="dataTables_length " id="example1_length" style="margin: 10px;font-size: 17px;">
+                        <div class="dataTables_length " id="example1_length" style="margin: 10px;font-size: 14px;">
                             <table class="table table-hover" style="align-items: center">
                                 <tr>
                                     <th>ID</th>
@@ -53,7 +53,7 @@
                                             <td>
                                                 <a href="{{ route('admin.team.edit',$team->id) }}"
                                                    class="btn btn-primary"><i class="fa fa-edit"
-                                                                              style="font-style:17px!important;"
+                                                                              style="font-size: 17px!important;"
                                                                               aria-hidden="true"></i> Edit</a>
                                                 <a href="javascript:void(0)" title="Xóa"
                                                    class="confirmDelete btn btn-danger" record="team"

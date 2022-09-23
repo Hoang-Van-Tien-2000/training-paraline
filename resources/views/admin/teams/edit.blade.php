@@ -4,8 +4,7 @@
     <!-- Content Header (Page header) -->
     <section class="content-header">
         <h1>
-            <a
-                href="{{route('admin.team.search')}}">Search </a></Strong> > Team - Edit
+            <Strong><a href="{{route('admin.team.search')}}">Search </a></Strong> > Team - Edit
         </h1>
     </section>
     <!-- Main content -->

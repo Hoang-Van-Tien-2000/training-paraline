@@ -27,11 +27,11 @@
                                         * </label>
                                 </div>
                                 <div class="col col-md-3">
-                                    <input type="file" class="form-control file-input-control src_img"
-                                           name="avatar" value="{{$employee->avatar}}"
-                                           id="file">
-                                    <img id="avatar" alt="Employee" class="thumbnail" width="150px" height="auto"
-                                         src="{{asset('storage/'.$employee->avatar)}}">
+                                    <img class="thumbnail" height="150" width="150" id="blah"
+                                         src="{{    asset(isset(session()->get('editEmployee')['file_path'])  ? session()->get('editEmployee')['file_path'] : public_url(config('constant.APP_URL_IMAGE'). $employee->avatar))}}" alt="your image"/>
+                                    <input type="file" name="avatar" onchange="readURL(this);"
+                                           value="{{$employee->avatar}}" class="form-control file-input-control"/>
+
                                     @error('avatar')
                                     <small class="form-text text-danger">{!! $message !!}</small>
                                     @enderror
@@ -42,12 +42,13 @@
                                     <label for="Team" class=" form-control-label">Team * </label>
                                 </div>
                                 <div class="col-3 col-md-3">
-                                    <select name="team_id" id="SelectLm" class="form-control-sm form-control">
+                                    <select name="team_id" id="Team" class="form-control-sm form-control">
                                         @foreach($teams as $team)
-                                            <option {{ $team->id == $employee->team_id ? 'selected' : '' }}
-                                                    value="{{  $team->id}} ">{{$team->name}}</option>
+                                            <option {{ old('team_id', isset($employee) ? $employee->team_id : '' )  == $team->id ? 'selected' : '' }}
+                                                value="{{$team->id}} ">{{$team->name}}
+                                            </option>
                                         @endforeach
-                                        @error('team')
+                                        @error('team_id')
                                         <small class="form-text text-danger"> {{ $message }}</small>
                                         @enderror
                                     </select>
@@ -235,7 +236,7 @@
                             </div>
                         </div>
                         <div class="card-footer" style="padding: 10px;">
-                            <a href="{{Session::forget('editEmployee')}}"
+                            <a href="{{request()->session()->forget(['editEmployee', 'avatarEdit'])}}"
                                class="btn btn-default btn-sm">Reset</a>
                             <button type="submit" class="btn btn-primary btn-sm " style="float: right;">Confirm</button>
                         </div>

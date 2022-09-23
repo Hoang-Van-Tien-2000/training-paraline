@@ -42,7 +42,7 @@ class TeamRepository extends BaseRepository
      */
     public function create(array $attributes)
     {
-        Session::forget('addTeam');
+        request()->session()->forget('addTeam');
         return parent::create($attributes);
     }
 

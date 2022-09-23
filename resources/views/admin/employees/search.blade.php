@@ -27,12 +27,12 @@
                             <input id="sort_field" type="hidden" name="sort_field" class="form-control">
                             <input id="sort_type" type="hidden" name="sort_type" class="form-control">
                             <div class="form-group">
-                                <label for="selectSm" class=" form-control-label">Team </label>
-                                <select name="team" id="SelectLm" class="form-control-sm form-control">
+                                <label for="team" class=" form-control-label">Team </label>
+                                <select name="team" id="team" class="form-control-sm form-control">
                                     <option value="">--Select--</option>
                                     @foreach($teams as $team)
                                         <option value="{{$team->id}}"
-                                                @if( isset(request()->id) && $team->team_id == request()->id) selected @endif
+                                                @if( isset(request()->team) && $team->id == request()->team) selected @endif
                                         >{{$team->name}}</option>
                                     @endforeach
                                 </select>
@@ -46,37 +46,38 @@
                                 <label for="email">Email </label>
                                 <input type="text" class="form-control" name="email"
                                        value="{{request()->email}}" id="email" aria-describedby="email">
+
                             </div>
-                            <button type="reset" class="btn btn-light ">Reset</button>
                             <button type="submit" class="btn btn-primary" style="float: right">Search</button>
                         </form>
+                        <a href="{{route('admin.employee.search')}}" class="btn btn-default"> Reset </a>
                     </div>
                     <!-- /.box-header -->
                     <div class="box-body table-responsive no-padding">
-                        <div class="dataTables_length " id="example1_length" style="margin: 10px;font-size: 17px;">
-                            <a href="{{route('admin.employee.export_csv')}}" class="btn btn-primary"
+                        <div class="dataTables_length " id="example1_length" style="margin: 10px;font-size: 14px;">
+                            <a href="{{route('admin.employee.export_csv', request()->all())}}" class="btn btn-primary"
                                style="float: right"> Export CSV</a>
                             <table class="table table-hover" style="align-items: center">
                                 <tr>
                                     <th width=4%>ID <i onclick="sortByField('id')" class="fa fa-sort" aria-hidden="true"
                                                        style="cursor: pointer;"></i></th>
-                                    <th width=9%>Full name <i onclick="sortByField('id')" class="fa fa-sort"
+                                    <th width=10%>Full name <i onclick="sortByField('last_name')" class="fa fa-sort"
                                                               aria-hidden="true" style="cursor: pointer;"></i></th>
-                                    <th>Team <i onclick="sortByField('id')" class="fa fa-sort" aria-hidden="true"
+                                    <th width=6%>Team <i onclick="sortByField('team_id')" class="fa fa-sort" aria-hidden="true"
                                                 style="cursor: pointer;"></i></th>
-                                    <th width=5%>Email</th>
-                                    <th>Gender</th>
+                                    <th width=4%>Email</th>
+                                    <th width=2%>Gender</th>
                                     <th>Birthday</th>
                                     <th>Address</th>
                                     <th>Avatar</th>
                                     <th>Salary</th>
-                                    <th width=8%>Position <i onclick="sortByField('id')" class="fa fa-sort"
+                                    <th width=8%>Position <i onclick="sortByField('position')" class="fa fa-sort"
                                                              aria-hidden="true" style="cursor: pointer;"></i></th>
-                                    <th  width=11%>Type_of_work <i onclick="sortByField('id')" class="fa fa-sort"
-                                                        aria-hidden="true" style="cursor: pointer;"></i></th>
-                                    <th width=7%>Status <i onclick="sortByField('id')" class="fa fa-sort"
+                                    <th width=12%>Type_of_work <i onclick="sortByField('type_of_work')" class="fa fa-sort"
+                                                                  aria-hidden="true" style="cursor: pointer;"></i></th>
+                                    <th width=7%>Status <i onclick="sortByField('status')" class="fa fa-sort"
                                                            aria-hidden="true" style="cursor: pointer;"></i></th>
-                                    <th>Action</th>
+                                    <th width=9%>Action</th>
                                 </tr>
                                 @if(count($employees)>0)
                                     @foreach($employees as $employee)
@@ -84,8 +85,8 @@
                                             <td>
                                                 {{$employee->id}}
                                             </td>
-                                            <td> {{!empty($employee->team) ? $employee->team->name : ''}}</td>
                                             <td>{{$employee->full_name}}</td>
+                                            <td> {{!empty($employee->team) ? $employee->team->name : ''}}</td>
                                             <td>{{$employee->email}}</td>
                                             <td>
                                                 <?php $lists = [1 => 'Male', 2 => 'Female']; ?>
@@ -94,11 +95,11 @@
                                                     @endif
                                                 @endforeach
                                             </td>
-                                            <td>{{$employee->birthday}}</td>
+                                            <td>{{$employee->birthday }}</td>
                                             <td>{{$employee->address}}</td>
-                                            <td><img src="{{asset('/storage/'.$employee->avatar) }} "
+                                            <td><img alt="Your image" src="{{ public_url($employee->avatar)}}"
                                                      width="50px"></td>
-                                            <td>{{$employee->salary}}</td>
+                                            <td>{{number_format($employee->salary,0,'đ','.')}} </td>
                                             <td>
                                                 <?php $lists = [1 => 'Manager', 2 => 'Team Leader', 3 => 'BSE', 4 => 'Dev', 5 => 'Tester']; ?>
                                                 @foreach($lists as $key => $value)
@@ -123,7 +124,7 @@
                                             <td>
                                                 <a href="{{ route('admin.employee.edit',$employee->id) }}"
                                                    class="btn btn-primary"><i class="fa fa-edit"
-                                                                              style="font-style: 17px!important;"
+                                                                              style="font-size: 17px!important;"
                                                                               aria-hidden="true"></i></a>
                                                 <a href="javascript:void(0)" title="Xóa"
                                                    class="confirmDelete btn btn-danger" record="employee"

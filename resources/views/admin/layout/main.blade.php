@@ -31,22 +31,45 @@
     <link rel="stylesheet"
           href="https://fonts.googleapis.com/css?family=Source+Sans+Pro:300,400,600,700,300italic,400italic,600italic">
     <style>
-        small.form-text{
+        small.form-text {
             font-style: italic;
             font-size: 13px;
         }
+        label#text-input-error {
+             font-style: italic;
+             font-size: 13px;
+             color: #9f191f;
+         }
+        label#avatar-error{
+            font-style: italic;
+            font-size: 13px;
+            color: #9f191f;
+        }
+
+
+        /*label input[type="text"], label input[type="file"] {*/
+        /*    font-style: italic;*/
+        /*    font-size: 13px;*/
+        /*    color: #9f191f;*/
+        /*}*/
+
+
+
         .btn-outline-info {
             color: #17a2b8;
             border-color: #17a2b8;
         }
+
         .btn-outline-info:hover {
-            background-color:#17a2b8;
+            background-color: #17a2b8;
             color: white;
         }
+
         .pages li.active a {
             background-color: #ff5555;
             color: #fff;
         }
+
         .pages a {
             background-color: #888888;
             border-radius: 28px;
@@ -285,6 +308,9 @@
 <script src="{{asset('backend/dist/js/adminlte.min.js')}}   "></script>
 <!-- AdminLTE for demo purposes -->
 <script src=" {{asset('backend/dist/js/adminlte.min.js')}}  "></script>
+<script src=" {{asset('backend/dist/js/jquery-3.6.1.min.js')}}  "></script>
+<script src=" {{asset('backend/dist/js/jquery.validate.min.js')}}  "></script>
+
 
 @yield('scripts')
 </body>

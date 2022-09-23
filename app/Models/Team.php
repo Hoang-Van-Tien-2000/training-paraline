@@ -32,4 +32,10 @@ class Team extends Model
     {
         return $this->hasMany(Employee::class);
     }
+
+    public function setNameAttribute($name)
+    {
+        $this->attributes['name'] = trim($name);
+    }
+
 }
