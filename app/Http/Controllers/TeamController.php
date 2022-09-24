@@ -41,10 +41,10 @@ class TeamController extends Controller
         return redirect()->route('admin.team.search')->with('message', config('messages.create_success'));
     }
 
-    public function searchByName(Request $request)
+    public function search(Request $request)
     {
         try {
-            $teams = $this->teamRepository->searchByName($request->input('keyword'));
+            $teams = $this->teamRepository->search($request);
 
             return view('admin.teams.search', compact('teams'));
 

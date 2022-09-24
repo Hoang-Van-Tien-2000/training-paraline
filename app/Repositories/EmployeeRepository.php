@@ -80,11 +80,5 @@ class EmployeeRepository extends BaseRepository
         return parent::delete($id);
     }
 
-    public function resetAddEdit($request)
-    {
 
-        session()->forget('addEmployee');
-        session()->forget('editEmployee');
-        session()->forget('currentImgUrl');
-    }
 }

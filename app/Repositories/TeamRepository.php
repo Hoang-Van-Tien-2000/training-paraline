@@ -18,12 +18,21 @@ class TeamRepository extends BaseRepository
         return $this->getModel()->select('id', 'name')->get();
     }
 
-    public function searchByName($name)
+    public function search($request)
     {
-        if (empty($name)) {
+        if (empty($request)) {
             return $this->getModel()->select('id', 'name')->Paginate(config('constant.LIMIT_PER_PAGE'));
         }
-        return $this->getModel()->select('id', 'name')->where('name', 'like', $name)->Paginate(config('constant.LIMIT_PER_PAGE'));
+        return $this->getModel()->select('id', 'name')->when(!empty($request['name']), function ($q) use ($request) {
+            return $q->where('name', 'like', '%' . $request['name'] . '%');
+        })
+            ->when(!empty($request['sort_field'] && $request['sort_type'] == 'desc'), function ($q) use ($request) {
+                return $q->orderByDesc($request['sort_field']);
+            })
+            ->when(!empty($request['sort_field'] && $request['sort_type'] == 'asc'), function ($q) use ($request) {
+                return $q->orderBy($request['sort_field']);
+            })
+            ->Paginate(config('constant.LIMIT_PER_PAGE'));
     }
 
     public function getById($id)

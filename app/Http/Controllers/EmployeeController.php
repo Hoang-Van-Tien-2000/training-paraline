@@ -162,10 +162,13 @@ class EmployeeController extends Controller
         }
     }
 
-    public function resetAddEdit(Request $request)
+    public function resetAddEdit()
     {
         try {
-            $this->employeeRepository->resetAddEdit($request);
+
+            session()->forget('addEmployee');
+            session()->forget('editEmployee');
+            session()->forget('currentImgUrl');
 
             return redirect()->back();
 

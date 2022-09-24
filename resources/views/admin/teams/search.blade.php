@@ -23,11 +23,13 @@
             <div class="col-xs-12">
                 <div class="box">
                     <div class="box-header ">
-                        <form action="">
+                        <form action="" method="GET">
+                            <input id="sort_field" type="hidden" name="sort_field" class="form-control">
+                            <input id="sort_type" type="hidden" name="sort_type" class="form-control">
                             <div class="form-group">
-                                <label for="keyword">Name </label>
-                                <input type="text" class="form-control" name="keyword"
-                                       value="{{request()->keyword}}" id="keyword">
+                                <label for="name">Name </label>
+                                <input type="text" class="form-control" name="name"
+                                       value="{{request()->keyword}}" id="name">
                             </div>
                             <input type="submit" name="btn-search " value="Search"
                                    class="btn btn-primary" style="float:right">
@@ -39,8 +41,10 @@
                         <div class="dataTables_length " id="example1_length" style="margin: 10px;font-size: 14px;">
                             <table class="table table-hover" style="align-items: center">
                                 <tr>
-                                    <th>ID</th>
-                                    <th>Name</th>
+                                    <th>ID <i onclick="sortByField('id')" class="fa fa-sort"
+                                              aria-hidden="true" style="cursor: pointer;"></i></th>
+                                    <th>Name <i onclick="sortByField('name')" class="fa fa-sort"
+                                                aria-hidden="true" style="cursor: pointer;"></i></th>
                                     <th>Action</th>
                                 </tr>
                                 @if(count($teams)>0)
