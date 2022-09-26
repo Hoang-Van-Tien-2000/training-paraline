@@ -21,7 +21,8 @@
                             <div class="col-md-10">
                                 <div class="form-group">
                                     <label for="name">Name *</label>
-                                     <span  style="display: inline-block; padding-left: 6rem; font-size: 17px;">  {{  request()->session()->get('addTeam')['name'] }} </span>
+                                    <span
+                                        style="display: inline-block; padding-left: 6rem; font-size: 17px;">  {{ session('addTeam')['name'] }} </span>
                                 </div>
                             </div>
                         </div>
@@ -46,11 +47,12 @@
                                     <div class="modal-footer justify-content-between">
                                         <button type="button" class="btn btn-default" data-dismiss="modal">Cancel
                                         </button>
-                                        <form style="display: inline-block;" action="{{route('admin.team.add_save')}}" method="post">
+                                        <form style="display: inline-block;" action="{{route('admin.team.add_save')}}"
+                                              method="post">
                                             {{method_field('post')}}
                                             @csrf
                                             <input type="hidden" class="form-control" name="name"
-                                                   value="{{request()->session()->get('addTeam')['name']}}"
+                                                   value="{{session('addTeam')['name']}}"
                                                    id="name"
                                                    aria-describedby="name">
                                             <button type="submit" class="btn btn-primary">OK</button>

@@ -24,7 +24,7 @@
                             <div class="col-3 col-md-3">
 
                                 <img width="150" height="150"
-                                     src="{{asset(session()->get('currentImgUrl'))}}"
+                                     src="{{asset(session('currentImgUrl'))}}"
                                      class="card-img-top img-thumbnail" alt="...">
                             </div>
                         </div>
@@ -33,7 +33,7 @@
                                 <label for="name" class="py-4"> Team </label>
                             </div>
                             <div class="col-3 col-md-3">
-                                @if(session()->get('editEmployee')['team_id'])
+                                @if(session('editEmployee')['team_id'])
                                     {{$team->name}}
                                 @endif
                             </div>
@@ -44,7 +44,7 @@
                             </div>
                             <div class="col-3 col-md-3">
                                      <span>
-                                        {{session()->get('editEmployee')['first_name']}}
+                                        {{session('editEmployee')['first_name']}}
                                     </span>
                             </div>
                         </div>
@@ -54,7 +54,7 @@
                             </div>
                             <div class="col-3 col-md-3">
                                       <span>
-                                        {{session()->get('editEmployee')['last_name']}}
+                                        {{session('editEmployee')['last_name']}}
                                     </span>
                             </div>
                         </div>
@@ -63,11 +63,11 @@
                                 <label for="gender"> Gender </label>
                             </div>
                             <div class="col-3 col-md-3">
-                                @if(session()->get('editEmployee')['gender'] == config('constant.GENDER_MALE'))
+                                @if(session('editEmployee')['gender'] == config('constant.GENDER_MALE'))
                                     <label for="inline-radio1" class="form-check-label pr-5">
                                         <span> Male </span>
                                     </label>
-                                @elseif(session()->get('editEmployee')['gender'] == config('constant.GENDER_FEMALE'))
+                                @elseif(session('editEmployee')['gender'] == config('constant.GENDER_FEMALE'))
                                     <label for="inline-radio3" class="form-check-label">
                                         <span>Female </span>
                                     </label>
@@ -79,7 +79,7 @@
                                 <label for="birthday" class="py-4"> Birthday </label>
                             </div>
                             <div class="col-3 col-md-3">
-                                <span> {{session()->get('editEmployee')['birthday']}} </span>
+                                <span> {{session('editEmployee')['birthday']}} </span>
                             </div>
                         </div>
                         <div class="row form-group">
@@ -87,7 +87,7 @@
                                 <label for="address"> Address </label>
                             </div>
                             <div class="col-3 col-md-3">
-                                <span> <span> {{session()->get('editEmployee')['address']}} </span> </span>
+                                <span> <span> {{session('editEmployee')['address']}} </span> </span>
                             </div>
                         </div>
                         <div class="row form-group">
@@ -95,7 +95,7 @@
                                 <label for="salary" class="py-4"> Salary </label>
                             </div>
                             <div class="col-3 col-md-3">
-                                <span> {{number_format(session()->get('editEmployee')['salary'],0,'đ','.')}} </span>
+                                <span> {{number_format(session('editEmployee')['salary'],0,'đ','.')}} </span>
                             </div>
                         </div>
                         <div class="row form-group">
@@ -103,7 +103,7 @@
                                 <label for="position"> Position </label>
                             </div>
                             <div class="col-3 col-md-3">
-                                @switch(session()->get('editEmployee')['position'])
+                                @switch(session('editEmployee')['position'])
                                     @case(config('constant.POSITION_MANAGER'))
                                     <span>Manager</span>
                                     @break
@@ -129,7 +129,7 @@
                                 <label for="type_of_word"> Type of work </label>
                             </div>
                             <div class="col-3 col-md-3">
-                                @switch(session()->get('editEmployee')['type_of_work'])
+                                @switch(session('editEmployee')['type_of_work'])
                                     @case(config('constant.TYPE_OF_WORK_FULL_TIME'))
                                     <span>Full Time</span>
                                     @break
@@ -152,11 +152,11 @@
                                 <label for="status"> Status </label>
                             </div>
                             <div class="col-3 col-md-3">
-                                @if(session()->get('editEmployee')['status'] == config('constant.STATUS_ON_WORKING') )
+                                @if(session('editEmployee')['status'] == config('constant.STATUS_ON_WORKING') )
                                     <label for="inline-radio1" class="form-check-label pr-5">
                                         <span>On working </span>
                                     </label>
-                                @elseif(request()->session()->get('editEmployee')['status'] == config('constant.STATUS_RETIRED'))
+                                @elseif(session('editEmployee')['status'] == config('constant.STATUS_RETIRED'))
                                     <label for="inline-radio3" class="form-check-label">
                                         <span>Retired </span>
                                     </label>
@@ -182,7 +182,7 @@
                                         <button type="button" class="btn btn-default" data-dismiss="modal">Cancel
                                         </button>
                                         <form action="{{route('admin.employee.edit_save', request()->id)}}"
-                                              method="post"
+                                              method="post" style="display: inline-block;"
                                               class="form-horizontal">
                                             @csrf
                                             <button type="submit" class="btn btn-primary">OK</button>

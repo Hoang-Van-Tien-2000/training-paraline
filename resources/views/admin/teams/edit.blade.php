@@ -36,7 +36,7 @@
                         </div>
                         <!-- /.box-body -->
                         <div class="box-footer ">
-                            <a href="" class="btn btn-default ">Reset</a>
+                            <a href="{{route('admin.team.edit', $team->id)}}" class="btn btn-default ">Reset</a>
                             <button type="submit" class="btn btn-primary " style="float: right">Confirm</button>
                         </div>
                     </form>

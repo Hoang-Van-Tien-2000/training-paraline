@@ -6,6 +6,7 @@ use App\Http\Controllers\AuthController;
 use App\Http\Controllers\AdminController;
 use App\Http\Controllers\TeamController;
 use App\Http\Controllers\EmployeeController;
+
 /*
 |--------------------------------------------------------------------------
 | Web Routes
@@ -43,6 +44,7 @@ Route::group(['prefix' => '/admin', 'as' => 'admin.', 'middleware' => 'checkLogi
     Route::post('/team/edit_save/{id}', [TeamController::class, 'editConfirmSave'])->name('team.edit_save');
     Route::get('/team/search', [TeamController::class, 'search'])->name('team.search');
     Route::get('/team/delete/{id}', [TeamController::class, 'delete'])->name('team.delete');
+    Route::get('/team/reset_add_edit', [EmployeeController::class, 'resetAddEdit'])->name('team.reset_add_edit');
     // Quản lý Employee
     Route::get('/employee/add', [EmployeeController::class, 'add'])->name('employee.add');
     Route::get('/employee/search', [EmployeeController::class, 'search'])->name('employee.search');

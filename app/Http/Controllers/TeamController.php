@@ -29,14 +29,14 @@ class TeamController extends Controller
     public function addConfirm(TeamRequest $request)
     {
         $request->flash();
-        $request->session()->put('addTeam', $request->input());
+        session(['addTeam'=> $request->input()]);
 
         return view('admin.teams.create_confirm');
     }
 
     public function addConfirmSave(TeamRequest $request)
     {
-        $this->teamRepository->create($request->session()->get('addTeam'));
+        $this->teamRepository->create(session('addTeam'));
 
         return redirect()->route('admin.team.search')->with('message', config('messages.create_success'));
     }
@@ -49,7 +49,6 @@ class TeamController extends Controller
             return view('admin.teams.search', compact('teams'));
 
         } catch (ModelNotFoundException $exception) {
-
             Log::error('Message: ' . $exception->getMessage() . ' Line : ' . $exception->getLine());
 
             return back()->withError($exception->getMessage())->withInput();
@@ -66,7 +65,7 @@ class TeamController extends Controller
     public function editConfirm(TeamRequest $request)
     {
         $request->flash();
-        $request->session()->put('editTeam', $request->input());
+        session(['editTeam'=> $request->input()]);
 
         return view('admin.teams.edit_confirm');
     }
@@ -74,13 +73,11 @@ class TeamController extends Controller
     public function editConfirmSave($id, TeamRequest $request)
     {
         try {
-
-            $this->teamRepository->update($id, $request->session()->get('editTeam'));
+            $this->teamRepository->update($id, session('editTeam'));
 
             return redirect()->route('admin.team.search')->with('message', config('messages.update_success'));
 
         } catch (\Exception $exception) {
-
             $error = config('messages.update_not_list') . $exception->getCode();
             Log::error('Message: ' . $exception->getMessage() . ' Line : ' . $exception->getLine());
 
@@ -91,7 +88,6 @@ class TeamController extends Controller
     public function delete($id)
     {
         try {
-
             $result = $this->teamRepository->delete($id);
 
             if ($result) {
@@ -104,6 +100,21 @@ class TeamController extends Controller
             Log::error('Message: ' . $exception->getMessage() . ' Line : ' . $exception->getLine());
 
             return redirect()->route('admin.team.search')->with('error', $error);
+        }
+    }
+
+    public function resetAddEdit(Request $request)
+    {
+        try {
+            session()->forget('addTeam');
+            session()->forget('editTeam');
+
+            return redirect()->back();
+
+        } catch (\Exception $exception) {
+            Log::error('Message: ' . $exception->getMessage() . ' Line : ' . $exception->getLine());
+
+            return back()->withError($exception->getMessage())->withInput();
         }
     }
 

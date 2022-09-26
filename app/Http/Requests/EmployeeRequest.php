@@ -27,7 +27,6 @@ class EmployeeRequest extends FormRequest
     public function rules()
     {
         $rules = [
-
             'avatar' => 'nullable|mimes:png,gif,jpeg|max:2048',
             'team_id' => 'required',
             'first_name' => 'required|max:129',
@@ -47,12 +46,11 @@ class EmployeeRequest extends FormRequest
             $rules['avatar'] = 'required|mimes:png,gif,jpeg|max:2048';
         }
 
-//        if (in_array($this->method(), ['PUT', 'PATCH'])) {
-//
-//            $rules['avatar'] = [
-//                'mimes:png,gif,jpeg|max:2048',
-//            ];
-//        }
+        if (in_array($this->method(), ['PUT', 'PATCH'])) {
+            $rules['avatar'] = [
+                'mimes:png,gif,jpeg|max:2048',
+            ];
+        }
 
         return $rules;
     }
@@ -70,11 +68,11 @@ class EmployeeRequest extends FormRequest
             $image->storeAs('public/temp/', $imageFileName);
             $imageUrl = 'storage/temp/' . $imageFileName;
 
-            session()->put('currentImgUrl', $imageUrl);
+            session(['currentImgUrl'=> $imageUrl]);
 
         } else {
-            $imageFileName = str_replace('storage/temp/', '', session()->get('currentImgUrl1'));
-            $imageUrl = session()->get('currentImgUrl');
+            $imageFileName = str_replace('storage/temp/', '', session('currentImgUrl1'));
+            $imageUrl = session('currentImgUrl');
         }
 
 
@@ -90,7 +88,7 @@ class EmployeeRequest extends FormRequest
     protected function failedValidation(Validator $validator)
     {
         if ($validator->errors()->has('avatar')) {
-//            session()->forget('currentImgUrl');
+            session()->forget('currentImgUrl');
         }
         parent::failedValidation($validator);
     }

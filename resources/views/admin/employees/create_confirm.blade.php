@@ -20,10 +20,8 @@
                                 <label for="file" class="py-4"> Avatar :</label>
                             </div>
                             <div class="col-3 col-md-3">
-                                {{--                                <img src="{{asset(isset( request()->session()->get('addEmployee')['file_path']) ? request()->session()->get('addEmployee')['file_path'] : '')}}"--}}
-                                {{--                                    width="150" height="150" class="card-img-top" alt="...">--}}
                                 <img
-                                    src="{{asset(session()->get('currentImgUrl'))}}"
+                                    src="{{asset(session('currentImgUrl'))}}"
                                     width="150" height="150" class="card-img-top" alt="...">
 
                             </div>

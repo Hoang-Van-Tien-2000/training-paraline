@@ -13,6 +13,7 @@ class EmployeeMail extends Mailable
     use Queueable, SerializesModels;
 
     public $employee;
+
     /**
      * Create a new message instance.
      *

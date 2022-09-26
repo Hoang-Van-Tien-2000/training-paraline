@@ -32,7 +32,7 @@
                         </div>
                         <!-- /.box-body -->
                         <div class="box-footer ">
-                            <a href="{{request()->session()->forget('addTeam')}}" class="btn btn-default ">Reset</a>
+                            <a href="{{route('admin.team.reset_add_edit')}}" class="btn btn-default ">Reset</a>
                             <button type="submit" class="btn btn-primary" style="float: right">Confirm</button>
                         </div>
                     </form>

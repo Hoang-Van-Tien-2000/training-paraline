@@ -29,7 +29,7 @@
                             <div class="form-group">
                                 <label for="name">Name </label>
                                 <input type="text" class="form-control" name="name"
-                                       value="{{request()->keyword}}" id="name">
+                                       value="{{request()->name}}" id="name">
                             </div>
                             <input type="submit" name="btn-search " value="Search"
                                    class="btn btn-primary" style="float:right">
@@ -74,7 +74,7 @@
                             </table>
                         </div>
                         <div class="text-center " style="margin-bottom: 10px!important;">
-                            {{ $teams->appends(request()->only('keyword'))->links() }}
+                            {{ $teams->appends(request()->input())->links() }}
                         </div>
                     </div>
                     <!-- /.box-body -->

@@ -28,7 +28,7 @@
                                 </div>
                                 <div class="col col-md-3">
                                     <img class="thumbnail" height="150" width="150" id="blah"
-                                         src="{{ asset(!empty(session()->get('currentImgUrl'))  ? session()->get('currentImgUrl') : public_url(config('constant.APP_URL_IMAGE'). $employee->avatar))}}"
+                                         src="{{ asset(!empty(session('currentImgUrl'))  ? session('currentImgUrl') : public_url(config('constant.APP_URL_IMAGE'). $employee->avatar))}}"
                                          alt="your image"/>
                                     <input type="file" name="avatar" onchange="readURL(this);"
                                            value="" class="form-control file-input-control"/>
@@ -180,10 +180,10 @@
                             </div>
                             <div class="row form-group">
                                 <div class="col col-md-3">
-                                    <label for="selectSm" class="form-control-label">Type of word * </label>
+                                    <label for="type_of_work" class="form-control-label">Type of word * </label>
                                 </div>
                                 <div class="col-3 col-md-3">
-                                    <select name="type_of_work" id="SelectLm"
+                                    <select name="type_of_work" id="type_of_work"
                                             class="form-control-sm form-control">
                                         <option value="{{ config('constant.TYPE_OF_WORK_FULL_TIME') }}"
                                             {{ old('type_of_work', isset($employee) ? $employee->type_of_work : '' ) == config('constant.TYPE_OF_WORK_FULL_TIME') ? 'selected' : '' }}

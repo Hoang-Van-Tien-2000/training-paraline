@@ -47,6 +47,7 @@ class BaseRepository implements RepositoryInterface
         if (empty($model)) {
             return false;
         }
+
         $model['del_flag'] = config('constant.DELETED_ON');
         $this->update($id, $model);
         return $model;

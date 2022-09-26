@@ -21,10 +21,7 @@
                             <div class="col-md-12">
                                 <div class="form-group">
                                     <label for="name">Name *</label>
-{{--                                    <input name="name" type="text" value="{{Session::get('editTeam')}}"--}}
-{{--                                           class="form-control"--}}
-{{--                                           id="name">--}}
-                                    <span  style="display: inline-block; padding-left: 6rem; font-size: 17px;">  {{  request()->session()->get('editTeam')['name'] }} </span>
+                                    <span  style="display: inline-block; padding-left: 6rem; font-size: 17px;">  {{session('editTeam')['name'] }} </span>
                                 </div>
                             </div>
                         </div>
@@ -49,12 +46,12 @@
                                     <div class="modal-footer justify-content-between">
                                         <button type="button" class="btn btn-default" data-dismiss="modal">Cancel
                                         </button>
-                                        <form style="display: inline-block"
-                                              action="{{ route('admin.team.edit_save',request()->id)}}"
+                                        <form
+                                              action="{{ route('admin.team.edit_save', request()->id)}}"
                                               method="POST">
                                             @csrf
                                             <input type="hidden" class="form-control" name="name"
-                                                   value="{{ request()->session()->get('editTeam')['name'] }}"
+                                                   value="{{ session('editTeam')['name'] }}"
                                                    id="name"
                                                    aria-describedby="name">
                                             <button type="submit" class="btn btn-primary">OK</button>

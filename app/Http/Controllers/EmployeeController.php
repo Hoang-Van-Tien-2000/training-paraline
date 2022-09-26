@@ -42,7 +42,7 @@ class EmployeeController extends Controller
     {
         $request->flash();
         $employee = request()->except('avatar');
-        session()->put('addEmployee', $employee);
+        session()->put(['addEmployee' => $employee]);
 
         $team = $this->teamRepository->findById(request()->team_id);
 
@@ -53,8 +53,8 @@ class EmployeeController extends Controller
     public function addConfirmSave(Request $request)
     {
         try {
+            $employee = $this->employeeRepository->create(session('addEmployee'));
 
-            $employee = $this->employeeRepository->create(session()->get('addEmployee'));
             if ($employee) {
                 $emailJob = new EmployeeJob($employee);
                 dispatch($emailJob);
@@ -72,7 +72,6 @@ class EmployeeController extends Controller
     public function search(Request $request)
     {
         try {
-
             $request->flash();
             $teams = $this->teamRepository->getAll();
             $employees = $this->employeeRepository->search($request);
@@ -103,7 +102,7 @@ class EmployeeController extends Controller
         if ($request->hasFile('avatar')) {
 
             $employee = request()->except('avatar');
-            session()->put('editEmployee', $employee);
+            session(['editEmployee' => $employee]);
             unlink('storage/temp/' . $oldImage);
 
         } elseif (!$request->hasFile('avatar') && !session()->has('editEmployee')) {
@@ -115,8 +114,8 @@ class EmployeeController extends Controller
             ]);
 
             $employee = request()->except('avatar');
-            session()->put('editEmployee', $employee);
-            session()->put('currentImgUrl', $request->file_path);
+            session(['editEmployee' => $employee]);
+            session(['currentImgUrl' => $request->file_path]);
         }
 
         $team = $this->teamRepository->findById($result->team_id);
@@ -127,9 +126,8 @@ class EmployeeController extends Controller
     public function editConfirmSave($id, Request $request)
     {
         try {
-
             $employee = $this->employeeRepository->getById($request->id);
-            $result = $this->employeeRepository->update($id, session()->get('editEmployee'));
+            $result = $this->employeeRepository->update($id, session('editEmployee'));
 
             if ($employee->email !== $result->email) {
                 $emailJob = new EmployeeJob($employee);
@@ -162,10 +160,9 @@ class EmployeeController extends Controller
         }
     }
 
-    public function resetAddEdit()
+    public function resetAddEdit(Request $request)
     {
         try {
-
             session()->forget('addEmployee');
             session()->forget('editEmployee');
             session()->forget('currentImgUrl');
