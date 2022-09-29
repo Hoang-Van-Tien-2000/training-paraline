@@ -40,12 +40,12 @@ class EmployeeController extends Controller
 
     public function addConfirm(EmployeeRequest $request)
     {
-        $request->flash();
+        request()->flash();
         $employee = request()->except('avatar');
-        session()->put(['addEmployee' => $employee]);
+        session()->put('addEmployee', $employee);
+
 
         $team = $this->teamRepository->findById(request()->team_id);
-
         return view('admin.employees.create_confirm', compact('team'));
 
     }
@@ -53,7 +53,7 @@ class EmployeeController extends Controller
     public function addConfirmSave(Request $request)
     {
         try {
-            $employee = $this->employeeRepository->create(session('addEmployee'));
+            $employee = $this->employeeRepository->create(session()->get('addEmployee'));
 
             if ($employee) {
                 $emailJob = new EmployeeJob($employee);
@@ -89,6 +89,9 @@ class EmployeeController extends Controller
     {
         $employee = $this->employeeRepository->getById($id);
         $teams = $this->teamRepository->getAll();
+        if (!$employee) {
+            return redirect()->route('admin.employee.search')->with('error', config('messages.update_not_list'));
+        }
 
         return view('admin.employees.edit', compact('employee', 'teams'));
     }
@@ -99,13 +102,8 @@ class EmployeeController extends Controller
         $request->flash();
         $result = $this->employeeRepository->getById($request->id);
         $oldImage = $result->avatar;
-        if ($request->hasFile('avatar')) {
 
-            $employee = request()->except('avatar');
-            session(['editEmployee' => $employee]);
-            unlink('storage/temp/' . $oldImage);
-
-        } elseif (!$request->hasFile('avatar') && !session()->has('editEmployee')) {
+        if ($request->avatar == null && !session()->has('currentImgUrl')) {
 
             $result = $this->employeeRepository->getById($request->id);
             $request = request()->merge([
@@ -113,13 +111,13 @@ class EmployeeController extends Controller
                 'file_path' => 'storage/temp/' . $oldImage
             ]);
 
-            $employee = request()->except('avatar');
-            session(['editEmployee' => $employee]);
-            session(['currentImgUrl' => $request->file_path]);
+            session()->put('currentImgUrl', $request->file_path);
         }
 
+        $employee = request()->except('avatar');
+        session()->put('editEmployee', $employee);
         $team = $this->teamRepository->findById($result->team_id);
-
+        //  dd(session()->get('editEmployee'));
         return view('admin.employees.edit_confirm', compact('team'));
     }
 
@@ -127,7 +125,7 @@ class EmployeeController extends Controller
     {
         try {
             $employee = $this->employeeRepository->getById($request->id);
-            $result = $this->employeeRepository->update($id, session('editEmployee'));
+            $result = $this->employeeRepository->update($id, session()->get('editEmployee'));
 
             if ($employee->email !== $result->email) {
                 $emailJob = new EmployeeJob($employee);
@@ -147,12 +145,14 @@ class EmployeeController extends Controller
     {
         try {
             $result = $this->employeeRepository->delete($id);
+
             if ($result) {
                 return redirect()->route('admin.employee.search')->with('message', config('messages.delete_success'));
             } else {
                 return redirect()->route('admin.employee.search')->with('error', config('messages.delete_failed'));
             }
         } catch (\Exception $exception) {
+
             $error = config('messages.delete_not_list') . $exception->getCode();
             Log::error('Message: ' . $exception->getMessage() . ' Line : ' . $exception->getLine());
 

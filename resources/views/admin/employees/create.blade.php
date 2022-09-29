@@ -16,7 +16,7 @@
                 <div class="box box-primary">
                     <!-- /.box-header -->
                     <!-- form start -->
-                    <form id="formEmployee" action="{{route('admin.employee.add_confirm')}}" method="POST"
+                    <form id="formEmployee" action="{{ route('admin.employee.add_confirm') }}" method="POST"
                           enctype="multipart/form-data"
                           class="form-horizontal">
                         @csrf
@@ -31,7 +31,7 @@
                                         src="{{asset(!empty(session()->get('currentImgUrl')) ? session()->get('currentImgUrl') : 'backend/dist/img/import-img.png')}}"
                                         width="150" height="150" class="card-img-top" id="blah" alt="...">
 
-                                    <input type="file" name="avatar" value="{{old('avatar')}}" onchange="readURL(this);"
+                                    <input type="file" name="avatar" value="{{ old('avatar') }}" onchange="readURL(this);"
                                            class="form-control file-input-control"/>
                                     @error('avatar')
                                     <small class="form-text text-danger">{!! $message !!}</small>
@@ -46,7 +46,7 @@
                                     <select name="team_id" id="Team" class="form-control-sm form-control">
                                         @foreach($teams as $team)
                                             <option value=" {{$team->id}}"
-                                                {{old('team_id') == $team->id ? 'selected' : '' }}
+                                                {{ old('team_id') == $team->id ? 'selected' : '' }}
                                             >{{$team->name}}
                                             </option>
                                         @endforeach
@@ -61,7 +61,7 @@
                                     <label for="text-input" class=" form-control-label">First Name * </label>
                                 </div>
                                 <div class="col-4 col-md-4">
-                                    <input type="text" id="text-input" value="{{old('first_name')}}"
+                                    <input type="text" id="text-input" value="{{ old('first_name') }}"
                                            name="first_name" class="form-control">
                                     @error('first_name')
                                     <small class="form-text text-danger"> {{ $message }}</small>
@@ -73,7 +73,7 @@
                                     <label for="text-input" class=" form-control-label">Last Name * </label>
                                 </div>
                                 <div class="col-4 col-md-4">
-                                    <input type="text" id="text-input" value="{{old('last_name')}}"
+                                    <input type="text" id="text-input" value="{{ old('last_name') }}"
                                            name="last_name" class="form-control">
                                     @error('last_name')
                                     <small class="form-text text-danger"> {{ $message }}</small>
@@ -89,16 +89,16 @@
                                         <label for="male" class="form-check-label "
                                                style="padding-right: 5rem">
                                             <input type="radio" id="male" name="gender"
-                                                   value="{{config('constant.GENDER_MALE')}}"
+                                                   value="{{ config('constant.GENDER_MALE') }}"
                                                    class="form-check-input"
-                                                {{old('gender') == config('constant.GENDER_MALE') ? 'checked' : '' }}
+                                                {{ old('gender') == config('constant.GENDER_MALE') ? 'checked' : '' }}
                                             >Male
                                         </label>
                                         <label for="female" class="form-check-label">
                                             <input type="radio" id="female" name="gender"
                                                    value="{{config('constant.GENDER_FEMALE')}}"
                                                    class="form-check-input"
-                                                {{old('gender') == config('constant.GENDER_FEMALE') ? 'checked' : '' }}
+                                                {{ old('gender') == config('constant.GENDER_FEMALE') ? 'checked' : '' }}
                                             >Female
                                         </label>
                                     </div>
@@ -112,7 +112,7 @@
                                     <label for="text-input" class=" form-control-label">Birthday * </label>
                                 </div>
                                 <div class="col-4 col-md-4">
-                                    <input type="date" id="text-input" value="{{old('birthday')}}"
+                                    <input type="date" id="text-input" value="{{ old('birthday')}}"
                                            name="birthday" class="form-control">
                                     @error('birthday')
                                     <small class="form-text text-danger"> {{ $message }}</small>
@@ -136,7 +136,7 @@
                                     <label for="text-input" class="form-control-label">Salary * </label>
                                 </div>
                                 <div class="col-4 col-md-4">
-                                    <input type="text" id="text-input" value="{{old('salary')}}" name="salary"
+                                    <input type="text" id="text-input" value="{{ old('salary')}}" name="salary"
                                            class="form-control">
                                     @error('salary')
                                     <small class="form-text text-danger"> {{ $message }}</small>
@@ -183,11 +183,11 @@
                                     <select name="type_of_work" id="type_of_work"
                                             class="form-control-sm form-control">
                                         <option value="{{ config('constant.TYPE_OF_WORK_FULL_TIME') }}"
-                                            {{old('type_of_work') == config('constant.TYPE_OF_WORK_FULL_TIME') ? 'selected' : '' }}
+                                            {{ old('type_of_work') == config('constant.TYPE_OF_WORK_FULL_TIME') ? 'selected' : '' }}
                                         >Full Time
                                         </option>
                                         <option value="{{ config('constant.TYPE_OF_WORK_PART_TIME') }}"
-                                            {{old('type_of_work') == config('constant.TYPE_OF_WORK_FULL_TIME') ? 'selected' : '' }}
+                                            {{ old('type_of_work') == config('constant.TYPE_OF_WORK_FULL_TIME') ? 'selected' : '' }}
                                         >Part Time
                                         </option>
                                         <option value="{{ config('constant.TYPE_OF_WORK_PROBATIONARY_STAFF') }}"
@@ -195,7 +195,7 @@
                                         > Probationary Staff
                                         </option>
                                         <option value="{{ config('constant.TYPE_OF_WORK_INTERN') }}"
-                                            {{old('type_of_work') == config('constant.TYPE_OF_WORK_INTERN') ? 'selected' : '' }}
+                                            {{ old('type_of_work') == config('constant.TYPE_OF_WORK_INTERN') ? 'selected' : '' }}
                                         >Intern
                                         </option>
                                     </select>
@@ -215,14 +215,14 @@
                                             <input type="radio" id="working" name="status"
                                                    value="{{ config('constant.STATUS_ON_WORKING') }}"
                                                    class="form-check-input"
-                                                {{old('status') == config('constant.STATUS_ON_WORKING') ? 'checked' : '' }}
+                                                {{ old('status') == config('constant.STATUS_ON_WORKING') ? 'checked' : '' }}
                                             >On working
                                         </label>
                                         <label for="retired" class="form-check-label">
                                             <input type="radio" id="retired" name="status"
                                                    value="{{ config('constant.STATUS_RETIRED')}}"
                                                    class="form-check-input"
-                                                {{old('status') == config('constant.STATUS_RETIRED') ? 'checked' : '' }}
+                                                {{ old('status') == config('constant.STATUS_RETIRED') ? 'checked' : '' }}
                                             >Retired
                                         </label>
                                     </div>
@@ -234,7 +234,7 @@
                         </div>
                         <!-- /.box-body -->
                         <div class="box-footer ">
-                            <a href="{{route('admin.employee.reset_add_edit')}}" class="btn btn-default ">Reset</a>
+                            <a href="{{ route('admin.employee.reset_add_edit') }}" class="btn btn-default ">Reset</a>
                             <button type="submit" class="btn btn-primary " style="float: right;">Confirm</button>
                         </div>
                     </form>

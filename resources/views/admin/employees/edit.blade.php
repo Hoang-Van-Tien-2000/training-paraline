@@ -16,7 +16,7 @@
                 <div class="box box-primary">
                     <!-- /.box-header -->
                     <!-- form start -->
-                    <form action="{{route('admin.employee.edit_confirm', $employee->id)}}" method="POST"
+                    <form action="{{ route('admin.employee.edit_confirm', $employee->id) }}" method="POST"
                           enctype="multipart/form-data" class="form-horizontal">
                         @method('PUT')
                         @csrf
@@ -28,7 +28,7 @@
                                 </div>
                                 <div class="col col-md-3">
                                     <img class="thumbnail" height="150" width="150" id="blah"
-                                         src="{{ asset(!empty(session('currentImgUrl'))  ? session('currentImgUrl') : public_url(config('constant.APP_URL_IMAGE'). $employee->avatar))}}"
+                                         src="{{ asset(!empty(session('currentImgUrl'))  ? session('currentImgUrl') : public_url(config('constant.APP_URL_IMAGE'). $employee->avatar)) }}"
                                          alt="your image"/>
                                     <input type="file" name="avatar" onchange="readURL(this);"
                                            value="" class="form-control file-input-control"/>
@@ -62,7 +62,7 @@
                                 </div>
                                 <div class="col-4 col-md-4">
                                     <input type="text" id="text-input"
-                                           value="{{old('first_name', isset($employee) ? $employee->first_name : '' ) }}"
+                                           value="{{ old('first_name', isset($employee) ? $employee->first_name : '' ) }}"
                                            name="first_name" class="form-control">
                                     @error('first_name')
                                     <small class="form-text text-danger"> {{ $message }}</small>
@@ -75,7 +75,7 @@
                                 </div>
                                 <div class="col-4 col-md-4">
                                     <input type="text" id="text-input"
-                                           value="{{old('last_name', isset($employee) ? $employee->last_name : '' ) }}"
+                                           value="{{ old('last_name', isset($employee) ? $employee->last_name : '' ) }}"
                                            name="last_name" class="form-control">
                                     @error('last_name')
                                     <small class="form-text text-danger"> {{ $message }}</small>
@@ -91,7 +91,7 @@
                                         <label for="inline-radio1" class="form-check-label"
                                                style="padding-right: 5rem;">
                                             <input type="radio" id="inline-radio1" name="gender"
-                                                   value="{{ config('constant.GENDER_MALE')}}"
+                                                   value="{{ config('constant.GENDER_MALE') }}"
                                                    class="form-check-input"
                                                 {{ old('gender', isset($employee) ? $employee->gender : '' )  == config('constant.GENDER_MALE') ? 'checked' : '' }}>Male
                                         </label>

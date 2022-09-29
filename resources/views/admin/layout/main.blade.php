@@ -21,6 +21,8 @@
          folder instead of downloading all of them to reduce the load. -->
     <link rel="stylesheet" href="{{asset('backend/dist/css/skins/_all-skins.min.css')}} ">
 
+
+
     <!-- HTML5 Shim and Respond.js IE8 support of HTML5 elements and media queries -->
     <!-- WARNING: Respond.js doesn't work if you view the page via file:// -->
     <!--[if lt IE 9]>
@@ -45,15 +47,6 @@
             font-size: 13px;
             color: #9f191f;
         }
-
-
-        /*label input[type="text"], label input[type="file"] {*/
-        /*    font-style: italic;*/
-        /*    font-size: 13px;*/
-        /*    color: #9f191f;*/
-        /*}*/
-
-
 
         .btn-outline-info {
             color: #17a2b8;

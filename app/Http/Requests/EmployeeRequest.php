@@ -27,7 +27,7 @@ class EmployeeRequest extends FormRequest
     public function rules()
     {
         $rules = [
-            'avatar' => 'nullable|mimes:png,gif,jpeg|max:2048',
+            'avatar' => 'nullable|mimes:png,gif,jpeg|max:10000',
             'team_id' => 'required',
             'first_name' => 'required|max:129',
             'last_name' => 'required|max:129',
@@ -40,15 +40,13 @@ class EmployeeRequest extends FormRequest
             'status' => 'required'
         ];
 
-        if ($this->hasFile('avatar')
-            && (!$this->request->has('id'))
-            && !session()->has('addEmployee')) {
-            $rules['avatar'] = 'required|mimes:png,gif,jpeg|max:2048';
+        if (!$this->hasFile('avatar') && !session()->has('currentImgUrl')) {
+            $rules['avatar'] = 'required|mimes:png,gif,jpeg|max:10000';
         }
 
         if (in_array($this->method(), ['PUT', 'PATCH'])) {
             $rules['avatar'] = [
-                'mimes:png,gif,jpeg|max:2048',
+                'mimes:png,gif,jpeg|max:10000',
             ];
         }
 
@@ -68,11 +66,11 @@ class EmployeeRequest extends FormRequest
             $image->storeAs('public/temp/', $imageFileName);
             $imageUrl = 'storage/temp/' . $imageFileName;
 
-            session(['currentImgUrl'=> $imageUrl]);
+            session()->put('currentImgUrl', $imageUrl);
 
         } else {
-            $imageFileName = str_replace('storage/temp/', '', session('currentImgUrl1'));
-            $imageUrl = session('currentImgUrl');
+            $imageFileName = str_replace('storage/temp/', '', session()->get('currentImgUrl'));
+            $imageUrl = session()->get('currentImgUrl');
         }
 
 

@@ -25,10 +25,10 @@ class LoginRequest extends FormRequest
     {
         return [
             'email' => 'required|email',
-            'password' => 'required|min:8',
+            'password' => 'required',
         ];
     }
-    
+
     // public function messages()
     // {
     //     return [
@@ -37,5 +37,5 @@ class LoginRequest extends FormRequest
     //         'email.required' =>"(*) Email không được để trống ",
     //         'email.email' => "(*) Email không đúng định dạng",
     //     ];
-    // }    
+    // }
 }

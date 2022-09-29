@@ -23,6 +23,7 @@ class AuthController extends Controller
 
     public function postRegister(RegisterRequest $request)
     {
+        $request->flash();
         $user = $this->userRepository->register($request->all());
         auth()->login($user);
         return redirect()->to('/admin');
@@ -35,15 +36,18 @@ class AuthController extends Controller
 
     public function postLogin(LoginRequest $request)
     {
+        $request->flash();
         $params = $request->all();
         $data = [
             'email' => $params['email'],
             'password' => $params['password']
         ];
+
         if (Auth::attempt($data, $request->has('remember'))) {
             return redirect('/admin');
         }
-        return redirect()->back()->with('msg', config('messages.incorrect'));
+
+        return redirect()->back()->with('error', config('messages.login_failed'));
     }
 
     public function logout()

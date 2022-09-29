@@ -9,7 +9,7 @@
 
     <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css">
 
-    <link rel="stylesheet" href="{{asset('backend/form_login/css/style.css')}}">
+    <link rel="stylesheet" href="{{asset('backend/form_login4/css/style.css')}}">
 
 </head>
 <body>
@@ -18,7 +18,7 @@
         <div class="row justify-content-center">
             <div class="col-md-12 col-lg-10">
                 <div class="wrap d-md-flex">
-                    <div class="img" style="background-image: url( {{asset('admin/form_login/images/bg-1.jpg')}});">
+                    <div class="img" style="background-image: url( {{asset('backend/form_login4/images/bg-1.jpg')}});">
                     </div>
                     <div class="login-wrap p-4 p-md-5">
                         <div class="d-flex">
@@ -36,11 +36,11 @@
                                 </p>
                             </div>
                         </div>
-                        <form action="{{route('admin.postRegister')}}" class="signin-form" method="post">
+                        <form action="{{ route('admin.postRegister') }}" class="signin-form" method="post">
                             @csrf
                             <div class="form-group mb-3">
                                 <label class="label" for="name">Username</label>
-                                <input type="text" class="form-control" name="name" placeholder="Username" >
+                                <input type="text"  value="{{old('name')}}" id="name" class="form-control" name="name" placeholder="Username" >
                                 @error('name')
                                 <small class="form-text text-danger " style="font-style: italic;font-size: 15px;">
                                     {{$message}}
@@ -48,17 +48,18 @@
                                 @enderror
                             </div>
                             <div class="form-group mb-3">
-                                <label class="label" for="name">Email</label>
-                                <input type="text" class="form-control" name="email" placeholder="Email" >
+                                <label class="label" for="email">Email</label>
+                                <input type="text" value="{{old('email')}}" id="email" class="form-control" name="email" placeholder="Email" >
                                 @error('email')
                                 <small class="form-text text-danger " style="font-style: italic;font-size: 15px;">
                                     {{$message}}
                                 </small>
+
                                 @enderror
                             </div>
                             <div class="form-group mb-3">
                                 <label class="label" for="password">Password</label>
-                                <input type="password" name="password" class="form-control" placeholder="Password" >
+                                <input type="password"  id="password"  name="password" class="form-control" placeholder="Password" >
                                 @error('password')
                                 <small class="form-text text-danger " style="font-style: italic;font-size: 15px;">
                                     {{$message}}
@@ -66,8 +67,8 @@
                                 @enderror
                             </div>
                             <div class="form-group mb-3">
-                                <label class="label" for="password">Confirm password </label>
-                                <input type="password" name="password_confirmation" class="form-control" placeholder="Confirm password" >
+                                <label class="label" for="password_confirmation">Confirm password </label>
+                                <input type="password" id="password_confirmation" name="password_confirmation" class="form-control" placeholder="Confirm password" >
                                 @error('password_confirmation')
                                 <small class="form-text text-danger " style="font-style: italic;font-size: 15px;">
                                     {{$message}}

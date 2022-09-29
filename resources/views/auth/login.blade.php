@@ -9,7 +9,8 @@
 
     <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css">
 
-    <link rel="stylesheet" href="{{asset('backend/form_login/css/style.css')}}">
+    <link rel="stylesheet" href="{{asset('backend/form_login4/css/style.css')}}">
+
 
 </head>
 <body>
@@ -18,7 +19,7 @@
         <div class="row justify-content-center">
             <div class="col-md-12 col-lg-10">
                 <div class="wrap d-md-flex">
-                    <div class="img" style="background-image: url( {{asset('backend/form_login/images/bg-1.jpg')}});">
+                    <div class="img" style="background-image: url( {{asset('backend/form_login4/images/bg-1.jpg')}});">
                     </div>
                     <div class="login-wrap p-4 p-md-5">
                         <div class="d-flex">
@@ -35,12 +36,18 @@
                                             class="fa fa-twitter"></span></a>
                                 </p>
                             </div>
+
                         </div>
+                        @if (session('error'))
+                            <div class="alert alert-danger" role="alert">
+                                {{ session('error') }}
+                            </div>
+                        @endif
                         <form action="{{ route('admin.postLogin') }}" class="signin-form" method="post">
                             @csrf
                             <div class="form-group mb-3">
                                 <label class="label" for="email">Email</label>
-                                <input type="email" name="email" class="form-control" placeholder="Email" >
+                                <input type="text" id="email" value="{{old('email')}}" name="email" class="form-control" placeholder="Email" >
                                 @error('email')
                                 <small class="form-text text-danger " style="font-style: italic;font-size: 15px;">
                                     {{$message}}
@@ -78,7 +85,7 @@
                                 </div>
                             </div>
                         </form>
-                        <p class="text-center">Not a member? <a data-toggle="tab" href="{{route('admin.register')}}">Sign Up</a></p>
+                        <p class="text-center">Not a member? <a data-toggle="tab" href="{{ route('admin.register') }}">Sign Up</a></p>
                     </div>
                 </div>
             </div>
@@ -86,10 +93,10 @@
     </div>
 </section>
 
-<script src="{{asset('backend/fom_login/js/jquery.min.js')}}"></script>
-<script src="{{asset('backend/fom_login/js/popper.js')}}"></script>
-<script src="{{asset('backend/fom_login/js/bootstrap.min.js')}}"></script>
-<script src="{{asset('backend/fom_login/js/main.js')}}"></script>
+<script src="{{asset('/backend/fom_login4/js/jquery.min.js')}}"></script>
+<script src="{{asset('/backend/fom_login4/js/popper.js')}}"></script>
+<script src="{{asset('/backend/fom_login4/js/bootstrap.min.js')}}"></script>
+<script src="{{asset('/backend/fom_login4/js/main.js')}}"></script>
 
 </body>
 </html>

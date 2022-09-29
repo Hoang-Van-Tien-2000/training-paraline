@@ -31,18 +31,20 @@ class BaseRepository implements RepositoryInterface
     public function update($id, array $attributes)
     {
         $model = $this->getModel()->find($id);
-        if (empty($model)) {
-            return false;
+        if ($model) {
+            $attributes['upd_id'] = Auth::id();
+            $attributes['upd_datetime'] = date("Y-m-d H:i:s");
+            $model->update($attributes);
+            return $model;
         }
 
-        $attributes['upd_id'] = Auth::id();
-        $attributes['upd_datetime'] = date("Y-m-d H:i:s");
-        $model->update($attributes);
-        return $model;
+        return false;
+
     }
 
     public function delete($id)
     {
+
         $model = $this->getModel()->find($id)->toArray();
         if (empty($model)) {
             return false;

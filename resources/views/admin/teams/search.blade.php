@@ -40,11 +40,9 @@
                     <div class="box-body table-responsive no-padding">
                         <div class="dataTables_length " id="example1_length" style="margin: 10px;font-size: 14px;">
                             <table class="table table-hover" style="align-items: center">
-                                <tr>
-                                    <th>ID <i onclick="sortByField('id')" class="fa fa-sort"
-                                              aria-hidden="true" style="cursor: pointer;"></i></th>
-                                    <th>Name <i onclick="sortByField('name')" class="fa fa-sort"
-                                                aria-hidden="true" style="cursor: pointer;"></i></th>
+                                <tr style="cursor: pointer;">
+                                    <th onclick="sortByField('id')">ID <i class="fa fa-sort" aria-hidden="true"></i></th>
+                                    <th onclick="sortByField('name')">Name <i class="fa fa-sort" aria-hidden="true"></i></th>
                                     <th>Action</th>
                                 </tr>
                                 @if(count($teams)>0)

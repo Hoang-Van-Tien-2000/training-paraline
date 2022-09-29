@@ -48,7 +48,7 @@
                                         </button>
                                         <form
                                               action="{{ route('admin.team.edit_save', request()->id)}}"
-                                              method="POST">
+                                              method="POST" style="display: inline-block">
                                             @csrf
                                             <input type="hidden" class="form-control" name="name"
                                                    value="{{ session('editTeam')['name'] }}"

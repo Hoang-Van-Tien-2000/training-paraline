@@ -29,14 +29,14 @@ class TeamController extends Controller
     public function addConfirm(TeamRequest $request)
     {
         $request->flash();
-        session(['addTeam'=> $request->input()]);
+        session()->put('addTeam', $request->input());
 
         return view('admin.teams.create_confirm');
     }
 
     public function addConfirmSave(TeamRequest $request)
     {
-        $this->teamRepository->create(session('addTeam'));
+        $this->teamRepository->create(session()->get('addTeam'));
 
         return redirect()->route('admin.team.search')->with('message', config('messages.create_success'));
     }
@@ -58,6 +58,10 @@ class TeamController extends Controller
     public function edit($id)
     {
         $team = $this->teamRepository->getById($id);
+        if(!$team)
+        {
+            return redirect()->route('admin.team.search')->with('error', config('messages.update_not_list'));
+        }
 
         return view('admin.teams.edit', compact('team'));
     }
@@ -65,7 +69,7 @@ class TeamController extends Controller
     public function editConfirm(TeamRequest $request)
     {
         $request->flash();
-        session(['editTeam'=> $request->input()]);
+        session()->put('editTeam', $request->input());
 
         return view('admin.teams.edit_confirm');
     }
@@ -73,7 +77,7 @@ class TeamController extends Controller
     public function editConfirmSave($id, TeamRequest $request)
     {
         try {
-            $this->teamRepository->update($id, session('editTeam'));
+            $this->teamRepository->update($id, session()->get('editTeam'));
 
             return redirect()->route('admin.team.search')->with('message', config('messages.update_success'));
 

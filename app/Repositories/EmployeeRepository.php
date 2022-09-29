@@ -66,7 +66,10 @@ class EmployeeRepository extends BaseRepository
 
     public function update($id, $attributes)
     {
-        $attributes['avatar'] = session()->get('editEmployee')['file_name'];
+        if (session()->has('editEmployee')) {
+            $attributes['avatar'] = session()->get('editEmployee')['file_name'];
+        }
+
         $attributes['email'] = Auth::user()->email;
         $attributes['password'] = Auth::user()->password;
         session()->forget('editEmployee');

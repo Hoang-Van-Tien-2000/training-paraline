@@ -21,7 +21,7 @@
                             </div>
                             <div class="col-3 col-md-3">
                                 <img
-                                    src="{{asset(session('currentImgUrl'))}}"
+                                    src="{{ asset(session()->get('currentImgUrl')) }}"
                                     width="150" height="150" class="card-img-top" alt="...">
 
                             </div>
@@ -32,7 +32,7 @@
                             </div>
                             <div class="col-3 col-md-3">
                                 <span>
-                                     @if(request()->team_id)
+                                     @if(session()->get('addEmployee')['team_id'])
                                         {{$team->name}}
                                     @endif
                                 </span>
@@ -44,7 +44,7 @@
                             </div>
                             <div class="col-3 col-md-3">
                                     <span>
-                                        {{request()->first_name}}
+                                        {{ session()->get('addEmployee')['first_name'] }}
                                     </span>
                             </div>
                         </div>
@@ -54,7 +54,7 @@
                             </div>
                             <div class="col-3 col-md-3">
                                     <span>
-                                        {{request()->last_name}}
+                                        {{ session()->get('addEmployee')['last_name'] }}
                                     </span>
                             </div>
                         </div>
@@ -63,11 +63,11 @@
                                 <label for="gender"> Gender : </label>
                             </div>
                             <div class="col-3 col-md-3">
-                                @if(request()->gender == config('constant.GENDER_MALE'))
+                                @if(session()->get('addEmployee')['gender'] == config('constant.GENDER_MALE'))
                                     <label for="inline-radio1" class="form-check-label pr-5">
                                         <span> Male </span>
                                     </label>
-                                @elseif(request()->gender == config('constant.GENDER_FEMALE'))
+                                @elseif(session()->get('addEmployee')['gender'] == config('constant.GENDER_FEMALE'))
                                     <label for="inline-radio3" class="form-check-label">
                                         <span>Female </span>
                                     </label>
@@ -79,7 +79,7 @@
                                 <label for="birthday" class="py-4"> Birthday :</label>
                             </div>
                             <div class="col-3 col-md-3">
-                                <span> {{request()->birthday}} </span>
+                                <span> {{ session()->get('addEmployee')['birthday'] }} </span>
                             </div>
                         </div>
                         <div class="row form-group">
@@ -87,7 +87,7 @@
                                 <label for="address"> Address : </label>
                             </div>
                             <div class="col-3 col-md-3">
-                                <span> {{request()->address }} </span>
+                                <span> {{ request()->address }} </span>
                             </div>
                         </div>
                         <div class="row form-group">
@@ -95,7 +95,7 @@
                                 <label for="salary" class="py-4"> Salary : </label>
                             </div>
                             <div class="col-3 col-md-3">
-                                <span> {{number_format(request()->salary,0,'đ','.')}} </span>
+                                <span> {{ session()->get('addEmployee')['salary'] }}  VNĐ</span>
                             </div>
                         </div>
                         <div class="row form-group">
@@ -103,7 +103,7 @@
                                 <label for="position"> Position </label>
                             </div>
                             <div class="col-3 col-md-3">
-                                @switch(request()->position)
+                                @switch(session()->get('addEmployee')['position'])
                                     @case(config('constant.POSITION_MANAGER'))
                                     <span>Manager</span>
                                     @break
@@ -129,7 +129,7 @@
                                 <label for="type_of_word"> Type of work </label>
                             </div>
                             <div class="col-3 col-md-3">
-                                @switch(request()->type_of_work)
+                                @switch(session()->get('addEmployee')['type_of_work'])
                                     @case(config('constant.TYPE_OF_WORK_FULL_TIME'))
                                     <span>Full Time</span>
                                     @break
@@ -152,11 +152,11 @@
                                 <label for="status"> Status </label>
                             </div>
                             <div class="col-3 col-md-3">
-                                @if(request()->status == config('constant.STATUS_ON_WORKING') )
+                                @if(session()->get('addEmployee')['status'] == config('constant.STATUS_ON_WORKING') )
                                     <label for="inline-radio1" class="form-check-label pr-5">
                                         <span>On working </span>
                                     </label>
-                                @elseif(request()->status == config('constant.STATUS_RETIRED'))
+                                @elseif(session()->get('addEmployee')['status'] == config('constant.STATUS_RETIRED'))
                                     <label for="inline-radio3" class="form-check-label">
                                         <span>Retired </span>
                                     </label>
@@ -164,7 +164,7 @@
                                 @endif
                             </div>
                         </div>
-                        <a href="{{ route('admin.employee.add')}}" class="btn btn-light">Back</a>
+                        <a href="{{ route('admin.employee.add') }}" class="btn btn-light">Back</a>
                         <button type="button"
                                 class="btn btn-default __web-inspector-hide-shortcut__ btn btn-primary "
                                 style="float: right; color: white;" data-toggle="modal" data-target="#modal-sm">
@@ -183,8 +183,7 @@
                                         <button type="button" class="btn btn-default" data-dismiss="modal">Cancel
                                         </button>
                                         <form style="display: inline-block;"
-                                              action="{{route('admin.employee.add_save')}}" method="post">
-                                            {{method_field('put')}}
+                                              action="{{ route('admin.employee.add_save') }}" method="post">
                                             @csrf
                                             <button type="submit" class="btn btn-primary">OK</button>
                                         </form>
